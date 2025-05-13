@@ -23,6 +23,7 @@ public class Utilisateur {
    private Date dateInscription;
 
 
+   // === Getters et Setters ===
 
    /**
     * @return Long return the idU

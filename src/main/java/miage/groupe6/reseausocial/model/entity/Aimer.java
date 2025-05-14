@@ -3,6 +3,11 @@ package miage.groupe6.reseausocial.model.entity;
 import jakarta.persistence.*;
 import java.util.Date;
 
+/**
+ * Entité représentant une action "J'aime" (like) d'un utilisateur sur un post.
+ * Cette entité utilise une clé composite {@link AimerId} pour représenter la relation
+ * entre l'utilisateur et la publication aimée, et stocke également la date du like.
+ */
 @Entity
 @Table(name = "aimer")
 public class Aimer {
@@ -23,17 +28,42 @@ public class Aimer {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateLike;
 
+
+
+    // === Constructors ===
+
+    /**
+     * Constructeur par défaut requis par JPA.
+     */
+    public Aimer() {}
+
+    /**
+     * Constructeur permettant d'initialiser un like entre un utilisateur et un post.
+     *
+     * @param utilisateur l'utilisateur qui a aimé
+     * @param post le post concerné
+     * @param dateLike la date à laquelle l'action "j'aime" a été effectuée
+     */
+    public Aimer(Utilisateur utilisateur, Post post, Date dateLike) {
+        this.id = new AimerId(utilisateur.getIdU(), post.getIdP());
+        this.utilisateur = utilisateur;
+        this.post = post;
+        this.dateLike = dateLike;
+    }
+
+
+
     // === Getters et Setters ===
 
     /**
-     * @return AimerId retourne l'identifiant composite (utilisateur + publication)
+     * @return AimerId retourne l'identifiant composite (utilisateur + post)
      */
     public AimerId getId() {
         return id;
     }
 
     /**
-     * @param id identifiant composite à définir (utilisateur + publication)
+     * @param id identifiant composite à définir (utilisateur + post)
      */
     public void setId(AimerId id) {
         this.id = id;
@@ -63,7 +93,7 @@ public class Aimer {
     /**
      * @param post le post à associer à ce like
      */
-    public void setPublication(Post post) {
+    public void setPost(Post post) {
         this.post = post;
     }
 

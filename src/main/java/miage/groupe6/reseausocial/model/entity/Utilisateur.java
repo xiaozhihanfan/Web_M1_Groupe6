@@ -1,12 +1,8 @@
 package miage.groupe6.reseausocial.model.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
@@ -14,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.util.Date;
 import java.util.HashSet;
+
 import java.util.Set;
 
 @Entity
@@ -32,25 +29,27 @@ public class Utilisateur {
     private String avatarU;
     private Date dateInscription;
 
-    @ManyToMany
-    @JoinTable(name = "aimer", joinColumns = @JoinColumn(name = "idU"), inverseJoinColumns = @JoinColumn(name = "idP"))
-    private Set<Post> postAime = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
+    private Set<Aimer> postAime = new HashSet<>();
 
     //L'utilisateur demande à devenir ami
-    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
-    private Set<EtreAmis> amisDemandes = new HashSet<>();
+    @OneToMany(mappedBy = "idUtilisateurDemande", cascade = CascadeType.ALL)
+    private Set<RelationAmis> amisDemandes = new HashSet<>();
 
     //L'utilisateur reçoit une demande d'ami
-    @OneToMany(mappedBy = "ami", cascade = CascadeType.ALL)
-    private Set<EtreAmis> amisRecus = new HashSet<>();
+    @OneToMany(mappedBy = "idUtilisateurRecu", cascade = CascadeType.ALL)
+    private Set<RelationAmis> amisRecus = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "interesser", joinColumns = @JoinColumn(name = "idU"), inverseJoinColumns = @JoinColumn(name = "idE"))
-    private Set<Evenement> evenementsInteresse = new HashSet<>();
+    // @ManyToMany
+    // @JoinTable(name = "interesser", joinColumns = @JoinColumn(name = "idU"), inverseJoinColumns = @JoinColumn(name = "idE"))
+    // private Set<Evenement> evenementsInteresse = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "inscrire", joinColumns = @JoinColumn(name = "idU"), inverseJoinColumns = @JoinColumn(name = "idE"))
-    private Set<Evenement> evenementsInscrit = new HashSet<>();
+    // @ManyToMany
+    // @JoinTable(name = "inscrire", joinColumns = @JoinColumn(name = "idU"), inverseJoinColumns = @JoinColumn(name = "idE"))
+    // private Set<Evenement> evenementsInscrit = new HashSet<>();
+
 
 
     
@@ -170,71 +169,78 @@ public class Utilisateur {
     /**
      * @return Set<Post> return the postAime
      */
-    public Set<Post> getPostAime() {
+
+    public Set<Aimer> getPostAime() {
         return postAime;
     }
 
     /**
      * @param postAime the postAime to set
      */
-    public void setPostAime(Set<Post> postAime) {
+
+    public void setPostAime(Set<Aimer> postAime) {
         this.postAime = postAime;
     }
 
     /**
      * @return Set<EtreAmis> return the amisDemandes
      */
-    public Set<EtreAmis> getAmisDemandes() {
+
+    public Set<RelationAmis> getAmisDemandes() {
         return amisDemandes;
     }
 
     /**
      * @param amisDemandes the amisDemandes to set
      */
-    public void setAmisDemandes(Set<EtreAmis> amisDemandes) {
+
+    public void setAmisDemandes(Set<RelationAmis> amisDemandes) {
         this.amisDemandes = amisDemandes;
     }
 
     /**
      * @return Set<EtreAmis> return the amisRecus
      */
-    public Set<EtreAmis> getAmisRecus() {
+
+    public Set<RelationAmis> getAmisRecus() {
         return amisRecus;
     }
 
     /**
      * @param amisRecus the amisRecus to set
      */
-    public void setAmisRecus(Set<EtreAmis> amisRecus) {
+
+    public void setAmisRecus(Set<RelationAmis> amisRecus) {
         this.amisRecus = amisRecus;
     }
 
-    /**
-     * @return Set<Evenement> return the evenementsInteresse
-     */
-    public Set<Evenement> getEvenementsInteresse() {
-        return evenementsInteresse;
-    }
+    // /**
+    //  * @return Set<Evenement> return the evenementsInteresse
+    //  */
+    // public Set<Evenement> getEvenementsInteresse() {
+    //     return evenementsInteresse;
+    // }
 
-    /**
-     * @param evenementsInteresse the evenementsInteresse to set
-     */
-    public void setEvenementsInteresse(Set<Evenement> evenementsInteresse) {
-        this.evenementsInteresse = evenementsInteresse;
-    }
+    // /**
+    //  * @param evenementsInteresse the evenementsInteresse to set
+    //  */
+    // public void setEvenementsInteresse(Set<Evenement> evenementsInteresse) {
+    //     this.evenementsInteresse = evenementsInteresse;
+    // }
 
-    /**
-     * @return Set<Evenement> return the evenementsInscrit
-     */
-    public Set<Evenement> getEvenementsInscrit() {
-        return evenementsInscrit;
-    }
+    // /**
+    //  * @return Set<Evenement> return the evenementsInscrit
+    //  */
+    // public Set<Evenement> getEvenementsInscrit() {
+    //     return evenementsInscrit;
+    // }
 
-    /**
-     * @param evenementsInscrit the evenementsInscrit to set
-     */
-    public void setEvenementsInscrit(Set<Evenement> evenementsInscrit) {
-        this.evenementsInscrit = evenementsInscrit;
-    }
+    // /**
+    //  * @param evenementsInscrit the evenementsInscrit to set
+    //  */
+    // public void setEvenementsInscrit(Set<Evenement> evenementsInscrit) {
+    //     this.evenementsInscrit = evenementsInscrit;
+    // }
 
 }
+

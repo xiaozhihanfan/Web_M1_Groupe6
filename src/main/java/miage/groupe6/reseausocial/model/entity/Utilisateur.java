@@ -1,6 +1,7 @@
 package miage.groupe6.reseausocial.model.entity;
 
 
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,22 +32,24 @@ public class Utilisateur {
 
 
 
-    // @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
-    // private Set<Aimer> postAime = new HashSet<>();
 
-    // //L'utilisateur demande à devenir ami
-    // @OneToMany(mappedBy = "idUtilisateurDemande", cascade = CascadeType.ALL)
-    // private Set<RelationAmis> amisDemandes = new HashSet<>();
+    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
+    private Set<Aimer> postAime = new HashSet<>();
 
-    // //L'utilisateur reçoit une demande d'ami
-    // @OneToMany(mappedBy = "idUtilisateurRecu", cascade = CascadeType.ALL)
-    // private Set<RelationAmis> amisRecus = new HashSet<>();
+    //L'utilisateur demande à devenir ami
+    @OneToMany(mappedBy = "idUtilisateurDemande", cascade = CascadeType.ALL)
+    private Set<RelationAmis> amisDemandes = new HashSet<>();
+
+    //L'utilisateur reçoit une demande d'ami
+    @OneToMany(mappedBy = "idUtilisateurRecu", cascade = CascadeType.ALL)
+    private Set<RelationAmis> amisRecus = new HashSet<>();
 
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)    
     private Set<Evenement> evenementsInteresse = new HashSet<>();
 
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private Set<Evenement> evenementsInscrit = new HashSet<>();
+
 
     /**
      * @return Long return the idU
@@ -160,53 +163,54 @@ public class Utilisateur {
         this.dateInscription = dateInscription;
     }
 
-    // /**
-    //  * @return Set<Post> return the postAime
-    //  */
 
-    // public Set<Aimer> getPostAime() {
-    //     return postAime;
-    // }
+    /**
+     * @return Set<Post> return the postAime
+     */
 
-    // /**
-    //  * @param postAime the postAime to set
-    //  */
+    public Set<Aimer> getPostAime() {
+        return postAime;
+    }
 
-    // public void setPostAime(Set<Aimer> postAime) {
-    //     this.postAime = postAime;
-    // }
+    /**
+     * @param postAime the postAime to set
+     */
 
-    // /**
-    //  * @return Set<EtreAmis> return the amisDemandes
-    //  */
+    public void setPostAime(Set<Aimer> postAime) {
+        this.postAime = postAime;
+    }
 
-    // public Set<RelationAmis> getAmisDemandes() {
-    //     return amisDemandes;
-    // }
+    /**
+     * @return Set<EtreAmis> return the amisDemandes
+     */
 
-    // /**
-    //  * @param amisDemandes the amisDemandes to set
-    //  */
+    public Set<RelationAmis> getAmisDemandes() {
+        return amisDemandes;
+    }
 
-    // public void setAmisDemandes(Set<RelationAmis> amisDemandes) {
-    //     this.amisDemandes = amisDemandes;
-    // }
+    /**
+     * @param amisDemandes the amisDemandes to set
+     */
 
-    // /**
-    //  * @return Set<EtreAmis> return the amisRecus
-    //  */
+    public void setAmisDemandes(Set<RelationAmis> amisDemandes) {
+        this.amisDemandes = amisDemandes;
+    }
 
-    // public Set<RelationAmis> getAmisRecus() {
-    //     return amisRecus;
-    // }
+    /**
+     * @return Set<EtreAmis> return the amisRecus
+     */
 
-    // /**
-    //  * @param amisRecus the amisRecus to set
-    //  */
+    public Set<RelationAmis> getAmisRecus() {
+        return amisRecus;
+    }
 
-    // public void setAmisRecus(Set<RelationAmis> amisRecus) {
-    //     this.amisRecus = amisRecus;
-    // }
+    /**
+     * @param amisRecus the amisRecus to set
+     */
+
+    public void setAmisRecus(Set<RelationAmis> amisRecus) {
+        this.amisRecus = amisRecus;
+    }
 
     public Set<Evenement> getEvenementsInteresse() {
         return evenementsInteresse;
@@ -224,7 +228,6 @@ public class Utilisateur {
         this.evenementsInscrit = evenementsInscrit;
     }
 
-    
-
+   
 }
 

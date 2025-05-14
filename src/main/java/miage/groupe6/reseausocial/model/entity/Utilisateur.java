@@ -1,6 +1,8 @@
 package miage.groupe6.reseausocial.model.entity;
 
+
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
@@ -28,6 +30,7 @@ public class Utilisateur {
     private Date dateInscription;
 
 
+
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private Set<Aimer> postAime = new HashSet<>();
 
@@ -46,6 +49,7 @@ public class Utilisateur {
     // @ManyToMany
     // @JoinTable(name = "inscrire", joinColumns = @JoinColumn(name = "idU"), inverseJoinColumns = @JoinColumn(name = "idE"))
     // private Set<Evenement> evenementsInscrit = new HashSet<>();
+
 
 
     
@@ -165,6 +169,7 @@ public class Utilisateur {
     /**
      * @return Set<Post> return the postAime
      */
+
     public Set<Aimer> getPostAime() {
         return postAime;
     }
@@ -172,6 +177,7 @@ public class Utilisateur {
     /**
      * @param postAime the postAime to set
      */
+
     public void setPostAime(Set<Aimer> postAime) {
         this.postAime = postAime;
     }
@@ -179,6 +185,7 @@ public class Utilisateur {
     /**
      * @return Set<EtreAmis> return the amisDemandes
      */
+
     public Set<RelationAmis> getAmisDemandes() {
         return amisDemandes;
     }
@@ -186,6 +193,7 @@ public class Utilisateur {
     /**
      * @param amisDemandes the amisDemandes to set
      */
+
     public void setAmisDemandes(Set<RelationAmis> amisDemandes) {
         this.amisDemandes = amisDemandes;
     }
@@ -193,6 +201,7 @@ public class Utilisateur {
     /**
      * @return Set<EtreAmis> return the amisRecus
      */
+
     public Set<RelationAmis> getAmisRecus() {
         return amisRecus;
     }
@@ -200,6 +209,7 @@ public class Utilisateur {
     /**
      * @param amisRecus the amisRecus to set
      */
+
     public void setAmisRecus(Set<RelationAmis> amisRecus) {
         this.amisRecus = amisRecus;
     }
@@ -233,3 +243,4 @@ public class Utilisateur {
     // }
 
 }
+

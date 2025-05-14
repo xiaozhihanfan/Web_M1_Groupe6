@@ -1,8 +1,11 @@
 package miage.groupe6.reseausocial.model.entity;
 
 import java.time.LocalDateTime;
+
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
@@ -13,8 +16,8 @@ public class GroupeMembre {
     @EmbeddedId
     private GroupeMembreId id = new GroupeMembreId();
 
-    //membre ou admin
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private MembreRole role;
 
     private LocalDateTime dateAdhesion;
 
@@ -36,11 +39,11 @@ public class GroupeMembre {
         this.id = id;
     }
 
-    public String getRole() {
+    public MembreRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(MembreRole role) {
         this.role = role;
     }
 

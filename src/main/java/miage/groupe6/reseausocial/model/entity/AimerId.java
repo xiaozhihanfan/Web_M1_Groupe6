@@ -2,7 +2,6 @@ package miage.groupe6.reseausocial.model.entity;
 
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Classe représentant une clé primaire composite pour l'entité {@code Aimer},

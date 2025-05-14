@@ -1,6 +1,8 @@
 package miage.groupe6.reseausocial.model.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -19,7 +22,7 @@ import jakarta.persistence.TemporalType;
  * une date de début et de fin, ainsi qu'un utilisateur créateur.
  */
 @Entity
-@Table(name = "Evenement")
+@Table(name = "evenement")
 public class Evenement {
     
     /**
@@ -61,6 +64,18 @@ public class Evenement {
     @JoinColumn(name = "idU")
     private Utilisateur utilisateur;    // Créateur de l'événement
 
+    /**
+     * Ensemble des inscriptions des utilisateurs à cet événement.
+     */
+    @OneToMany(mappedBy = "evenement")
+    private Set<Inscrire> inscriptions = new HashSet<>();
+
+    /**
+     * Ensemble des utilisateurs intéressés par cet événement.
+     */
+    @OneToMany(mappedBy = "evenement")
+    private Set<Interesser> interets = new HashSet<>();
+    
     /**
      * Constructeur par défaut.
      */
@@ -191,14 +206,44 @@ public class Evenement {
         return utilisateur;
     }
 
-     /**
-     * Définit l'utilisateur créateur de l'événement.
-     * @param utilisateur utilisateur
-     */
+    /**
+    * Définit l'utilisateur créateur de l'événement.
+    * @param utilisateur utilisateur
+    */
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
     }
 
-    
+    /**
+     * Retourne l'ensemble des inscriptions à l'événement.
+     * @return ensemble des inscriptions
+     */
+    public Set<Inscrire> getInscriptions() {
+        return inscriptions;
+    }
+
+    /**
+     * Définit l'ensemble des inscriptions à l'événement.
+     * @param inscriptions ensemble des inscriptions
+     */
+    public void setInscriptions(Set<Inscrire> inscriptions) {
+        this.inscriptions = inscriptions;
+    }
+
+    /**
+     * Retourne l'ensemble des intérêts pour l'événement.
+     * @return ensemble des intérêts
+     */
+    public Set<Interesser> getInterets() {
+        return interets;
+    }
+
+    /**
+     * Définit l'ensemble des intérêts pour l'événement.
+     * @param interets ensemble des intérêts
+     */
+    public void setInterets(Set<Interesser> interets) {
+        this.interets = interets;
+    } 
 
 }

@@ -20,17 +20,17 @@ public class RelationAmis {
      * Utilisateur qui envoie la demande d'amitié.
      */
     @ManyToOne
-    @MapsId("utilisateurDemandeurId")
-    @JoinColumn(name = "utilisateur_demandeur_id")
-    private Utilisateur utilisateurDemandeur;
+    @MapsId("idUtilisateurDemande")
+    @JoinColumn(name = "id_utilisateur_demande")
+    private Utilisateur idUtilisateurDemande;
 
     /**
      * Utilisateur qui reçoit la demande d'amitié.
      */
     @ManyToOne
-    @MapsId("utilisateurCibleId")
-    @JoinColumn(name = "utilisateur_cible_id")
-    private Utilisateur utilisateurCible;
+    @MapsId("idUtilisateurRecu")
+    @JoinColumn(name = "id_utilisateur_recu")
+    private Utilisateur idUtilisateurRecu;
 
     /**
      * Date de création ou de traitement de la relation d'amitié.
@@ -61,10 +61,10 @@ public class RelationAmis {
      * @param date la date de la relation
      * @param statut le statut de la demande
      */
-    public RelationAmis(Utilisateur demandeur, Utilisateur cible, Date date, StatutRelation statut) {
-        this.id = new RelationAmisId(demandeur.getIdU(), cible.getIdU());
-        this.utilisateurDemandeur = demandeur;
-        this.utilisateurCible = cible;
+    public RelationAmis(Utilisateur idUtilisateurDemande, Utilisateur idUtilisateurRecu, Date date, StatutRelation statut) {
+        this.id = new RelationAmisId(idUtilisateurDemande.getIdU(), idUtilisateurRecu.getIdU());
+        this.idUtilisateurDemande = idUtilisateurDemande;
+        this.idUtilisateurRecu = idUtilisateurRecu;
         this.dateRelationAmis = date;
         this.statut = statut;
     }
@@ -89,29 +89,29 @@ public class RelationAmis {
     /**
      * @return Utilisateur retourne l'utilisateur qui a envoyé la demande d'amitié
      */
-    public Utilisateur getUtilisateurDemandeur() {
-        return utilisateurDemandeur;
+    public Utilisateur getIdUtilisateurDemande() {
+        return idUtilisateurDemande;
     }
 
     /**
-     * @param utilisateurDemandeur définit l'utilisateur qui a envoyé la demande d'amitié
+     * @param idUtilisateurDemande définit l'utilisateur qui a envoyé la demande d'amitié
      */
-    public void setUtilisateurDemandeur(Utilisateur utilisateurDemandeur) {
-        this.utilisateurDemandeur = utilisateurDemandeur;
+    public void setIdUtilisateurDemande(Utilisateur idUtilisateurDemande) {
+        this.idUtilisateurDemande = idUtilisateurDemande;
     }
 
     /**
      * @return Utilisateur retourne l'utilisateur cible (destinataire de la demande)
      */
     public Utilisateur getUtilisateurCible() {
-        return utilisateurCible;
+        return idUtilisateurRecu;
     }
 
     /**
-     * @param utilisateurCible définit l'utilisateur qui reçoit la demande d'amitié
+     * @param idUtilisateurRecu définit l'utilisateur qui reçoit la demande d'amitié
      */
-    public void setUtilisateurCible(Utilisateur utilisateurCible) {
-        this.utilisateurCible = utilisateurCible;
+    public void setIdUtilisateurRecu(Utilisateur idUtilisateurRecu) {
+        this.idUtilisateurRecu = idUtilisateurRecu;
     }
 
     /**

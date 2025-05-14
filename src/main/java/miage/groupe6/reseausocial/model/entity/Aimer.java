@@ -25,6 +25,7 @@ public class Aimer {
     @JoinColumn(name = "idP")
     private Post post;
 
+    // 记录点赞时间，可能用得上可能用不上，看进度
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateLike;
 

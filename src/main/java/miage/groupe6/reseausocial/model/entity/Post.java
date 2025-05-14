@@ -2,6 +2,8 @@ package miage.groupe6.reseausocial.model.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Représente une post dans le réseau social.
@@ -29,6 +31,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "idU")
     private Utilisateur auteur;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<Aimer> utilisateurs = new HashSet<>();
 
 
 

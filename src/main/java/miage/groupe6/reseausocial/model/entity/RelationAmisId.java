@@ -2,7 +2,7 @@ package miage.groupe6.reseausocial.model.entity;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+
 
 /**
  * Clé primaire composite pour l'entité {@link RelationAmis}.
@@ -10,17 +10,14 @@ import java.util.Objects;
  * la relation entre le demandeur et le destinataire de la demande d'amitié.
  */
 @Embeddable
+
 public class RelationAmisId implements Serializable {
 
-    /**
-     * ID de l'utilisateur qui envoie la demande d'amitié.
-     */
-    private Long utilisateurDemandeurId;
+    @Column(name = "id_utilisateur_demande")
+    private Long idUtilisateurDemande;
 
-    /**
-     * ID de l'utilisateur qui reçoit la demande d'amitié.
-     */
-    private Long utilisateurCibleId;
+    @Column(name = "id_utilisateur_recu")
+    private Long idUtilisateurRecu;
 
 
 
@@ -28,9 +25,9 @@ public class RelationAmisId implements Serializable {
     // ==== Constructors ====
     public RelationAmisId() {}
 
-    public RelationAmisId(Long utilisateurDemandeurId, Long utilisateurCibleId) {
-        this.utilisateurDemandeurId = utilisateurDemandeurId;
-        this.utilisateurCibleId = utilisateurCibleId;
+    public RelationAmisId(Long idUtilisateurDemande, Long idUtilisateurRecu) {
+        this.idUtilisateurDemande = idUtilisateurDemande;
+        this.idUtilisateurRecu = idUtilisateurRecu;
     }
 
 
@@ -40,29 +37,29 @@ public class RelationAmisId implements Serializable {
     /**
      * @return Long retourne l'identifiant de l'utilisateur qui a envoyé la demande d'amitié
      */
-    public Long getUtilisateurDemandeurId() {
-        return utilisateurDemandeurId;
+    public Long getIdUtilisateurDemande() {
+        return idUtilisateurDemande;
     }
 
     /**
      * @param utilisateurDemandeurId définit l'identifiant de l'utilisateur demandeur dans la relation
      */
-    public void setUtilisateurDemandeurId(Long utilisateurDemandeurId) {
-        this.utilisateurDemandeurId = utilisateurDemandeurId;
+    public void setIdUtilisateurDemande(Long idUtilisateurDemande) {
+        this.idUtilisateurDemande = idUtilisateurDemande;
     }
 
     /**
      * @return Long retourne l'identifiant de l'utilisateur qui a reçu la demande d'amitié
      */
-    public Long getUtilisateurCibleId() {
-        return utilisateurCibleId;
+    public Long getIdUtilisateurRecu() {
+        return idUtilisateurRecu;
     }
 
     /**
-     * @param utilisateurCibleId définit l'identifiant de l'utilisateur cible dans la relation
+     * @param idUtilisateurRecu définit l'identifiant de l'utilisateur cible dans la relation
      */
-    public void setUtilisateurCibleId(Long utilisateurCibleId) {
-        this.utilisateurCibleId = utilisateurCibleId;
+    public void setIdUtilisateurRecu(Long idUtilisateurRecu) {
+        this.idUtilisateurRecu = idUtilisateurRecu;
     }
 
 
@@ -79,8 +76,8 @@ public class RelationAmisId implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((utilisateurDemandeurId == null) ? 0 : utilisateurDemandeurId.hashCode());
-        result = prime * result + ((utilisateurCibleId == null) ? 0 : utilisateurCibleId.hashCode());
+        result = prime * result + ((idUtilisateurDemande == null) ? 0 : idUtilisateurDemande.hashCode());
+        result = prime * result + ((idUtilisateurRecu == null) ? 0 : idUtilisateurRecu.hashCode());
         return result;
     }
 
@@ -100,15 +97,15 @@ public class RelationAmisId implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         RelationAmisId other = (RelationAmisId) obj;
-        if (utilisateurDemandeurId == null) {
-            if (other.utilisateurDemandeurId != null)
+        if (idUtilisateurDemande == null) {
+            if (other.idUtilisateurDemande != null)
                 return false;
-        } else if (!utilisateurDemandeurId.equals(other.utilisateurDemandeurId))
+        } else if (!idUtilisateurDemande.equals(other.idUtilisateurDemande))
             return false;
-        if (utilisateurCibleId == null) {
-            if (other.utilisateurCibleId != null)
+        if (idUtilisateurRecu == null) {
+            if (other.idUtilisateurRecu != null)
                 return false;
-        } else if (!utilisateurCibleId.equals(other.utilisateurCibleId))
+        } else if (!idUtilisateurRecu.equals(other.idUtilisateurRecu))
             return false;
         return true;
     }

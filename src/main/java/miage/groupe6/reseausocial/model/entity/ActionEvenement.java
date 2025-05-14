@@ -2,28 +2,21 @@ package miage.groupe6.reseausocial.model.entity;
 
 import java.util.Date;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 
 /**
  * Représente l'inscription d'un utilisateur à un événement.
  * Cette entité est une table de jointure entre Utilisateur et Evenement.
  */
 @Entity
-@Table(name = "s_inscrire")
-public class Inscrire {
+@Table(name = "action_evenement")
+public class ActionEvenement {
     
     /**
      * Clé primaire composite composée de idU (Utilisateur) et idE (Evenement).
      */
     @EmbeddedId
-    private InscrireId id = new InscrireId();
+    private ActionEvenementId id = new ActionEvenementId();
 
     /**
      * Utilisateur inscrit à l'événement.
@@ -47,10 +40,23 @@ public class Inscrire {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateInscription;
 
+
+    /**
+     * Statut actuel de la post (like, unlike, republier).
+     */
+    @Enumerated(EnumType.STRING)
+    private StatutActionEvenement statut;
+
+
+
+
+
+
+
     /**
      * Constructeur par défaut.
      */
-    public Inscrire() {
+    public ActionEvenement() {
 
     }
 
@@ -61,18 +67,18 @@ public class Inscrire {
      * @param evenement       événement inscrit
      * @param utilisateur     utilisateur inscrit
      */
-    public Inscrire(Date dateInscription, Evenement evenement, Utilisateur utilisateur) {
+    public ActionEvenement(Date dateInscription, Evenement evenement, Utilisateur utilisateur) {
         this.dateInscription = dateInscription;
         this.evenement = evenement;
         this.utilisateur = utilisateur;
-        this.id = new InscrireId(utilisateur.getIdU(), evenement.getIdE());
+        this.id = new ActionEvenementId(utilisateur.getIdU(), evenement.getIdE());
     }
 
     /**
      * Retourne la clé composite d'inscription.
      * @return id
      */
-    public InscrireId getId() {
+    public ActionEvenementId getId() {
         return id;
     }
 
@@ -80,7 +86,7 @@ public class Inscrire {
      * Définit la clé composite d'inscription.
      * @param id clé composite
      */
-    public void setId(InscrireId id) {
+    public void setId(ActionEvenementId id) {
         this.id = id;
     }
 

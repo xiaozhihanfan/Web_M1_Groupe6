@@ -5,15 +5,15 @@ import java.util.Date;
 
 /**
  * Entité représentant une action "J'aime" (like) d'un utilisateur sur un post.
- * Cette entité utilise une clé composite {@link AimerId} pour représenter la relation
+ * Cette entité utilise une clé composite {@link ActionPostId} pour représenter la relation
  * entre l'utilisateur et la publication aimée, et stocke également la date du like.
  */
 @Entity
-@Table(name = "aimer")
-public class Aimer {
+@Table(name = "action_post")
+public class ActionPost {
 
     @EmbeddedId
-    private AimerId id;
+    private ActionPostId id;
 
     @ManyToOne
     @MapsId("idU")
@@ -27,8 +27,13 @@ public class Aimer {
 
     // 记录点赞时间，可能用得上可能用不上，看进度
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateLike;
+    private Date dateActionPost;
 
+    /**
+     * Statut actuel de la post (like, unlike, republier).
+     */
+    @Enumerated(EnumType.STRING)
+    private StatutActionPost statut;
 
 
     // === Constructors ===
@@ -36,20 +41,20 @@ public class Aimer {
     /**
      * Constructeur par défaut requis par JPA.
      */
-    public Aimer() {}
+    public ActionPost() {}
 
     /**
      * Constructeur permettant d'initialiser un like entre un utilisateur et un post.
      *
      * @param utilisateur l'utilisateur qui a aimé
      * @param post le post concerné
-     * @param dateLike la date à laquelle l'action "j'aime" a été effectuée
+     * @param dateActionPost la date à laquelle l'action "j'aime" a été effectuée
      */
-    public Aimer(Utilisateur utilisateur, Post post, Date dateLike) {
-        this.id = new AimerId(utilisateur.getIdU(), post.getIdP());
+    public ActionPost(Utilisateur utilisateur, Post post, Date dateActionPost) {
+        this.id = new ActionPostId(utilisateur.getIdU(), post.getIdP());
         this.utilisateur = utilisateur;
         this.post = post;
-        this.dateLike = dateLike;
+        this.dateActionPost = dateActionPost;
     }
 
 
@@ -57,16 +62,16 @@ public class Aimer {
     // === Getters et Setters ===
 
     /**
-     * @return AimerId retourne l'identifiant composite (utilisateur + post)
+     * @return ActionPostId retourne l'identifiant composite (utilisateur + post)
      */
-    public AimerId getId() {
+    public ActionPostId getId() {
         return id;
     }
 
     /**
      * @param id identifiant composite à définir (utilisateur + post)
      */
-    public void setId(AimerId id) {
+    public void setId(ActionPostId id) {
         this.id = id;
     }
 
@@ -101,15 +106,15 @@ public class Aimer {
     /**
      * @return Date retourne la date à laquelle le like a été effectué
      */
-    public Date getDateLike() {
-        return dateLike;
+    public Date getdateActionPost() {
+        return dateActionPost;
     }
 
     /**
-     * @param dateLike la date à laquelle l'utilisateur a aimé le post
+     * @param dateActionPost la date à laquelle l'utilisateur a aimé le post
      */
-    public void setDateLike(Date dateLike) {
-        this.dateLike = dateLike;
+    public void setdateActionPost(Date dateActionPost) {
+        this.dateActionPost = dateActionPost;
     }
 
 }

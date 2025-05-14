@@ -32,8 +32,9 @@ public class Post {
     @JoinColumn(name = "idU")
     private Utilisateur auteur;
 
+    // Like/Unlike/Republier
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private Set<Aimer> utilisateurs = new HashSet<>();
+    private Set<ActionPost> utilisateurs = new HashSet<>();
 
 
 

@@ -68,13 +68,13 @@ public class Evenement {
      * Ensemble des inscriptions des utilisateurs à cet événement.
      */
     @OneToMany(mappedBy = "evenement")
-    private Set<Inscrire> inscriptions = new HashSet<>();
+    private Set<Inscrire> evenementInscriptions = new HashSet<>();
 
     /**
      * Ensemble des utilisateurs intéressés par cet événement.
      */
     @OneToMany(mappedBy = "evenement")
-    private Set<Interesser> interets = new HashSet<>();
+    private Set<Interesser> evenementInterets = new HashSet<>();
     
     /**
      * Constructeur par défaut.
@@ -218,32 +218,32 @@ public class Evenement {
      * Retourne l'ensemble des inscriptions à l'événement.
      * @return ensemble des inscriptions
      */
-    public Set<Inscrire> getInscriptions() {
-        return inscriptions;
+    public Set<Inscrire> getEvenementInscriptions() {
+        return evenementInscriptions;
     }
 
     /**
      * Définit l'ensemble des inscriptions à l'événement.
      * @param inscriptions ensemble des inscriptions
      */
-    public void setInscriptions(Set<Inscrire> inscriptions) {
-        this.inscriptions = inscriptions;
+    public void setEvenementInscriptions(Set<Inscrire> evenementInscriptions) {
+        this.evenementInscriptions = evenementInscriptions;
     }
 
     /**
      * Retourne l'ensemble des intérêts pour l'événement.
      * @return ensemble des intérêts
      */
-    public Set<Interesser> getInterets() {
-        return interets;
+    public Set<Interesser> getEvenementInterets() {
+        return evenementInterets;
     }
 
     /**
      * Définit l'ensemble des intérêts pour l'événement.
      * @param interets ensemble des intérêts
      */
-    public void setInterets(Set<Interesser> interets) {
-        this.interets = interets;
+    public void setEvenementInterets(Set<Interesser> evenementInterets) {
+        this.evenementInterets = evenementInterets;
     } 
 
 }

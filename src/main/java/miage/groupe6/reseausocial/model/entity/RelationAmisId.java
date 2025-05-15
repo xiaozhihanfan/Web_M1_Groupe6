@@ -1,7 +1,9 @@
 package miage.groupe6.reseausocial.model.entity;
 
-import jakarta.persistence.*;
 import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 
 /**
@@ -13,9 +15,15 @@ import java.io.Serializable;
 
 public class RelationAmisId implements Serializable {
 
+    /**
+     * Identifiant de l'utilisateur qui a envoyé la demande d'amitié.
+     */
     @Column(name = "id_utilisateur_demande")
     private Long idUtilisateurDemande;
 
+    /**
+     * Identifiant de l'utilisateur qui a reçu la demande d'amitié.
+     */
     @Column(name = "id_utilisateur_recu")
     private Long idUtilisateurRecu;
 
@@ -23,8 +31,17 @@ public class RelationAmisId implements Serializable {
 
 
     // ==== Constructors ====
+    /**
+     * Constructeur par défaut requis par JPA.
+     */
     public RelationAmisId() {}
 
+    /**
+     * Constructeur avec paramètres.
+     *
+     * @param idUtilisateurDemande identifiant de l'utilisateur demandeur
+     * @param idUtilisateurRecu identifiant de l'utilisateur receveur
+     */
     public RelationAmisId(Long idUtilisateurDemande, Long idUtilisateurRecu) {
         this.idUtilisateurDemande = idUtilisateurDemande;
         this.idUtilisateurRecu = idUtilisateurRecu;

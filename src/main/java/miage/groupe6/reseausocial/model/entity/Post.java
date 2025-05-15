@@ -36,101 +36,88 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private Set<ActionPost> utilisateurs = new HashSet<>();
 
+    // un post a des commentaires
+    @OneToMany(mappedBy = "idC", cascade = CascadeType.ALL)
+    private Set<Commentaire> commentaires = new HashSet<>();
 
 
-    // ==== Constructors ====
+    // ===== Constructors ====
 
-    /**
-     * Constructeur par défaut requis par JPA.
-     */
     public Post() {}
 
-    /**
-     * Constructeur permettant de créer un post avec ses principales informations.
-     *
-     * @param contenuP le contenu textuel de la post
-     * @param imageP le chemin ou l'URL de l'image liée à la post
-     * @param dateP la date et l'heure de post
-     * @param auteur l'utilisateur auteur de la post
-     */
-    public Post(String contenuP, String imageP, Date dateP, Utilisateur auteur) {
+    public Post(Long idP, String contenuP, String imageP, Date dateP, Utilisateur auteur, Set<ActionPost> utilisateurs,
+            Set<Commentaire> commentaires) {
+        this.idP = idP;
         this.contenuP = contenuP;
         this.imageP = imageP;
         this.dateP = dateP;
         this.auteur = auteur;
+        this.utilisateurs = utilisateurs;
+        this.commentaires = commentaires;
     }
 
 
 
-    // === Getters et Setters ===
-    /**
-     * @return Long return the idP (identifiant de la post)
-     */
+
+
+    
     public Long getIdP() {
         return idP;
     }
 
-    /**
-     * @param idP the idP to set (identifiant de la post)
-     */
     public void setIdP(Long idP) {
         this.idP = idP;
     }
 
-    /**
-     * @return String return the contenuP (contenu textuel de la post)
-     */
     public String getContenuP() {
         return contenuP;
     }
 
-    /**
-     * @param contenuP the contenuP to set (contenu textuel de la post)
-     */
     public void setContenuP(String contenuP) {
         this.contenuP = contenuP;
     }
 
-    /**
-     * @return String return the imageP (chemin ou URL de l'image liée à la post)
-     */
     public String getImageP() {
         return imageP;
     }
 
-    /**
-     * @param imageP the imageP to set (chemin ou URL de l'image liée à la post)
-     */
     public void setImageP(String imageP) {
         this.imageP = imageP;
     }
 
-    /**
-     * @return Date return the dateP (date et heure de post)
-     */
     public Date getDateP() {
         return dateP;
     }
 
-    /**
-     * @param dateP the dateP to set (date et heure de post)
-     */
     public void setDateP(Date dateP) {
         this.dateP = dateP;
     }
 
-    /**
-     * @return Utilisateur return the utilisateur (auteur de la post)
-     */
-    public Utilisateur getUtilisateur() {
+    public Utilisateur getAuteur() {
         return auteur;
     }
 
-    /**
-     * @param utilisateur the utilisateur to set (auteur de la post)
-     */
-    public void setUtilisateur(Utilisateur auteur) {
+    public void setAuteur(Utilisateur auteur) {
         this.auteur = auteur;
     }
+
+    public Set<ActionPost> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public void setUtilisateurs(Set<ActionPost> utilisateurs) {
+        this.utilisateurs = utilisateurs;
+    }
+
+    public Set<Commentaire> getCommentaires() {
+        return commentaires;
+    }
+
+    public void setCommentaires(Set<Commentaire> commentaires) {
+        this.commentaires = commentaires;
+    }
+
+    
+    
 
 }

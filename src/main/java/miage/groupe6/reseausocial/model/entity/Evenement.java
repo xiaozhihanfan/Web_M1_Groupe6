@@ -15,37 +15,23 @@ import jakarta.persistence.*;
 @Table(name = "evenement")
 public class Evenement {
     
-    /**
-     * Identifiant unique de l'événement.
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idE;
 
-    /**
-     * Titre de l'événement.
-     * Lieu où se déroule l'événement.
-     */
     private String titre;
     private String lieu;
 
-    /**
-     * Description détaillée de l'événement (max 500 caractères).
-     */
     @Column(length = 500)
     private String descriptionE;
 
-    /**
-     * Date et heure de début de l'événement.
-     */
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateDebut;
 
-    /**
-     * Date et heure de fin de l'événement.
-     */
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateFin;
+
+
 
     /**
      * Utilisateur ayant créé l'événement.
@@ -57,162 +43,109 @@ public class Evenement {
     /**
      * Ensemble des actionEvenement des utilisateurs à cet événement.
      */
-    @OneToMany(mappedBy = "evenement")
+    @OneToMany(mappedBy = "evenement", cascade = CascadeType.ALL)
     private Set<ActionEvenement> actionEvenement = new HashSet<>();
+
+    @OneToMany(mappedBy = "idGroupe", cascade = CascadeType.ALL)
+    private Set<Groupe> groupes = new HashSet<>();
+    
+
+
 
     
     /**
      * Constructeur par défaut.
      */
-    public Evenement() {
+    public Evenement() {}
 
-    }
-
-    /**
-     * Constructeur avec paramètres.
-     *
-     * @param dateDebut     Date de début
-     * @param dateFin       Date de fin
-     * @param descriptionE  Description de l'événement
-     * @param lieu          Lieu de l'événement
-     * @param titre         Titre de l'événement
-     * @param utilisateur   Utilisateur créateur
-     */
-    public Evenement(Date dateDebut, Date dateFin, String descriptionE, String lieu, String titre, Utilisateur utilisateur) {
+    public Evenement(Long idE, String titre, String lieu, String descriptionE, Date dateDebut, Date dateFin,
+            Utilisateur utilisateur, Set<ActionEvenement> actionEvenement, Set<Groupe> groupes) {
+        this.idE = idE;
+        this.titre = titre;
+        this.lieu = lieu;
+        this.descriptionE = descriptionE;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        this.descriptionE = descriptionE;
-        this.lieu = lieu;
-        this.titre = titre;
         this.utilisateur = utilisateur;
+        this.actionEvenement = actionEvenement;
+        this.groupes = groupes;
     }
 
-    /**
-     * Retourne l'identifiant unique de l'événement.
-     * @return idE identifiant
-     */
+
+
+    
+
     public Long getIdE() {
         return idE;
     }
 
-    /**
-     * Définit l'identifiant unique de l'événement.
-     * @param idE identifiant
-     */
     public void setIdE(Long idE) {
         this.idE = idE;
     }
 
-    /**
-     * Retourne le titre de l'événement.
-     * @return titre
-     */
     public String getTitre() {
         return titre;
     }
 
-    /**
-     * Définit le titre de l'événement.
-     * @param titre titre
-     */
     public void setTitre(String titre) {
         this.titre = titre;
     }
 
-    /**
-     * Retourne le lieu de l'événement.
-     * @return lieu
-     */
     public String getLieu() {
         return lieu;
     }
 
-    /**
-     * Définit le lieu de l'événement.
-     * @param lieu lieu
-     */
     public void setLieu(String lieu) {
         this.lieu = lieu;
     }
 
-    /**
-     * Retourne la description de l'événement.
-     * @return descriptionE
-     */
     public String getDescriptionE() {
         return descriptionE;
     }
 
-    /**
-     * Définit la description de l'événement.
-     * @param descriptionE description
-     */
     public void setDescriptionE(String descriptionE) {
         this.descriptionE = descriptionE;
     }
 
-    /**
-     * Retourne la date de début de l'événement.
-     * @return dateDebut
-     */
     public Date getDateDebut() {
         return dateDebut;
     }
 
-    /**
-     * Définit la date de début de l'événement.
-     * @param dateDebut date de début
-     */
     public void setDateDebut(Date dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    /**
-     * Retourne la date de fin de l'événement.
-     * @return dateFin
-     */
     public Date getDateFin() {
         return dateFin;
     }
 
-    /**
-     * Définit la date de fin de l'événement.
-     * @param dateFin date de fin
-     */
     public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
     }
 
-    /**
-     * Retourne l'utilisateur créateur de l'événement.
-     * @return utilisateur
-     */
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
 
-    /**
-    * Définit l'utilisateur créateur de l'événement.
-    * @param utilisateur utilisateur
-    */
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
     }
 
-    /**
-     * Retourne l'ensemble des actions à l'événement.
-     * @return ensemble des actionEvenement
-     */
     public Set<ActionEvenement> getActionEvenement() {
         return actionEvenement;
     }
 
-    /**
-     * Définit l'ensemble des actuons à l'événement.
-     * @param actionEvenement ensemble des actionEvenement
-     */
     public void setActionEvenement(Set<ActionEvenement> actionEvenement) {
         this.actionEvenement = actionEvenement;
     }
+
+    public Set<Groupe> getGroupes() {
+        return groupes;
+    }
+
+    public void setGroupes(Set<Groupe> groupes) {
+        this.groupes = groupes;
+    }
+
 
 }

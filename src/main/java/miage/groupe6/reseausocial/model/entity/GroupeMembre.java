@@ -48,6 +48,21 @@ public class GroupeMembre {
     @JoinColumn(name = "idUtilisateur")
     private Utilisateur utilisateur;
 
+
+
+    
+
+    public GroupeMembre() {}
+
+    public GroupeMembre(MembreRole role, LocalDateTime dateAdhesion, Groupe groupe,
+            Utilisateur utilisateur) {
+        this.id = new GroupeMembreId(utilisateur.getIdU(), groupe.getIdGroupe());
+        this.role = role;
+        this.dateAdhesion = dateAdhesion;
+        this.groupe = groupe;
+        this.utilisateur = utilisateur;
+    }
+
     public GroupeMembreId getId() {
         return id;
     }

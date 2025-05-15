@@ -1,7 +1,8 @@
-package miage.groupe6.reseausocial.model.jpa;
+package miage.groupe6.reseausocial.model.jpa.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import miage.groupe6.reseausocial.model.entity.Commentaire;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Repository JPA pour l'entité {@link Commentaire}.

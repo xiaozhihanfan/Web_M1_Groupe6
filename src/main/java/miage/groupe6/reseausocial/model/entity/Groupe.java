@@ -49,47 +49,96 @@ public class Groupe {
     @OneToMany(mappedBy = "groupe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<GroupeMembre> membres = new HashSet<>();
 
+    /**
+     * Messages envoyés dans ce groupe par les utilisateurs.
+     * Ne contient que les messages de groupe.
+     */
+    @OneToMany(mappedBy = "groupe")
+    private Set<Message> messagesGroupe = new HashSet<>();
+
+
+    /**
+     * @return Long return the idGroupe
+     */
     public Long getIdGroupe() {
         return idGroupe;
     }
 
+    /**
+     * @param idGroupe the idGroupe to set
+     */
     public void setIdGroupe(Long idGroupe) {
         this.idGroupe = idGroupe;
     }
 
+    /**
+     * @return String return the nomGroupe
+     */
     public String getNomGroupe() {
         return nomGroupe;
     }
 
+    /**
+     * @param nomGroupe the nomGroupe to set
+     */
     public void setNomGroupe(String nomGroupe) {
         this.nomGroupe = nomGroupe;
     }
 
+    /**
+     * @return String return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @param description the description to set
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * @return Utilisateur return the createur
+     */
     public Utilisateur getCreateur() {
         return createur;
     }
 
+    /**
+     * @param createur the createur to set
+     */
     public void setCreateur(Utilisateur createur) {
         this.createur = createur;
     }
 
+    /**
+     * @return Set<GroupeMembre> return the membres
+     */
     public Set<GroupeMembre> getMembres() {
         return membres;
     }
 
+    /**
+     * @param membres the membres to set
+     */
     public void setMembres(Set<GroupeMembre> membres) {
         this.membres = membres;
     }
 
-    
+    /**
+     * @return Set<Message> return the messagesGroupe
+     */
+    public Set<Message> getMessagesGroupe() {
+        return messagesGroupe;
+    }
 
+    /**
+     * @param messagesGroupe the messagesGroupe to set
+     */
+    public void setMessagesGroupe(Set<Message> messagesGroupe) {
+        this.messagesGroupe = messagesGroupe;
+    }
 
 }

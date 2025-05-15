@@ -61,6 +61,15 @@ public class Utilisateur {
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)    
     private Set<Evenement> actionEvenements = new HashSet<>();
 
+    /** Liste des messages envoyés par cet utilisateur, que ce soit en privé ou dans un groupe. */
+    @OneToMany(mappedBy = "envoyeur")
+    private Set<Message> messagesEnvoyes = new HashSet<>();
+
+    /** Liste des messages privés reçus par cet utilisateur. */
+    @OneToMany(mappedBy = "recepteur")
+    private Set<Message> messagesRecus = new HashSet<>();
+
+
 
 
     // ==== Getter and Setter
@@ -239,6 +248,36 @@ public class Utilisateur {
         this.actionEvenements = actionEvenements;
     }
 
+    
    
+
+    /**
+     * @return Set<Message> return the messagesEnvoyes
+     */
+    public Set<Message> getMessagesEnvoyes() {
+        return messagesEnvoyes;
+    }
+
+    /**
+     * @param messagesEnvoyes the messagesEnvoyes to set
+     */
+    public void setMessagesEnvoyes(Set<Message> messagesEnvoyes) {
+        this.messagesEnvoyes = messagesEnvoyes;
+    }
+
+    /**
+     * @return Set<Message> return the messagesRecus
+     */
+    public Set<Message> getMessagesRecus() {
+        return messagesRecus;
+    }
+
+    /**
+     * @param messagesRecus the messagesRecus to set
+     */
+    public void setMessagesRecus(Set<Message> messagesRecus) {
+        this.messagesRecus = messagesRecus;
+    }
+
 }
 

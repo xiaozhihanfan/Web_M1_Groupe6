@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
@@ -15,23 +16,38 @@ import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
  * 
  * Auteur : Mengyi YANG
  */
+
+@Service
 public class UtilisateurService {
 
     @Autowired
     private UtilisateurRepository ur;
 
     /**
-     * Inscription d'un nouvel utilisateur.
-     * @param utilisateur Utilisateur à enregistrer
-     * @return true si inscription réussie, false si e-mail déjà utilisé
+     * Gère l'inscription d'un utilisateur.
+     * 
+     * @param email
+     * @param password
+     * @param confirmPassword
+     * @return un message indiquant le résultat de l'inscription
+     * 
      */
-    public boolean creerCompt(Utilisateur utilisateur) {
-        if (ur.findByEmail(utilisateur.getEmailU()).isPresent()) {
-            return false;
+    public String verifierSignUp(String email, String password, String confirmPassword) {
+        Optional<Utilisateur> utilisateurOpt =  ur.findByEmailU(email);
+        if (utilisateurOpt.isPresent()) {
+            return "Cet email existe déjà ! ";
+        } 
+
+        if (!password.equals(confirmPassword)) {
+            return "Les deux mots de passe ne sont pas identiques !";
         }
-        utilisateur.setDateInscription(new Date());
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmailU(email);
+        utilisateur.setMpU(password);
         ur.save(utilisateur);
-        return true;
+
+        return "succès";
     }
 
     /**
@@ -40,8 +56,8 @@ public class UtilisateurService {
      * @param mp mot de passe saisi
      * @return Utilisateur si authentification réussie, sinon null
      */
-    public boolean verifierConnexion(String email, String mp) {
-        Optional<Utilisateur> utilisateurO = ur.findByEmail(email);
+    public boolean verifierSignIn(String email, String mp) {
+        Optional<Utilisateur> utilisateurO = ur.findByEmailU(email);
 
         if(utilisateurO.isPresent()){
             Utilisateur utilisateur = utilisateurO.get();

@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 /**
  * Contrôleur Spring pour la gestion des utilisateurs.
@@ -27,52 +30,56 @@ public class UtilisateurController {
     /**
      * Affiche le formulaire d'inscription.
      */
-    @GetMapping("/login")
-	public String login(Model model) {
-		// model.addAttribute("utilisateur", new Utilisateur());
+    @GetMapping("/signin")
+	public String signIn() {
 		return "sign-in";
 	}
 
+ 
+    @PostMapping("/verifierSignIn")
+    public String verifierSignIn(@RequestParam String email, @RequestParam String password, Model model) {
+        if (us.verifierSignIn(email, password)) {
+            return "index-classic";
+        }
+
+        String erreur = "L'adresse e-mail ou le mot de passe est incorrect ! ";
+		model.addAttribute("erreur", erreur);
+		return "sign-in";
+    }
+    
+
+    /**
+     * Affiche la page d'inscription.
+     *
+     * @param model le modèle utilisé pour passer des attributs à la vue
+     * @return le nom de la vue "sign-up" à afficher
+     */
+    @GetMapping("/signup")
+	public String signUp(Model model) {
+        return "sign-up";
+    }
+    
+
     /**
      * Traite la soumission du formulaire d'inscription.
-     * Si l'email existe déjà, renvoie une erreur.
+     *
+     * @param email            l'adresse email saisie par l'utilisateur
+     * @param password         le mot de passe saisi
+     * @param confirmPassword  la confirmation du mot de passe
+     * @param model            le modèle pour ajouter des attributs à la vue
+     * @return la vue "sign-in" si l'inscription a réussi, sinon "sign-up" avec un message d'erreur
      */
-    @PostMapping("/insert")
-	public String insertUtilisateur(@ModelAttribute Utilisateur utilisateur, Model model) {	
-		if(!us.creerCompt(utilisateur)) {
-			String erreur = "Cette email existe déjà ! ";
-			model.addAttribute("erreur", erreur);
-            return "formCreerCompt";
-		}
-		else {
-			return "CreerComptConfirmation";
-		}
-    }
-
-    /**
-     * Affiche le formulaire de connexion.
-     */
-    // @GetMapping("/login")
-    // public String pageLogin(Model model) {
-    //     model.addAttribute("utilisateur", new Utilisateur());
-    //     return "login";
-    // }
-
-    @PostMapping("/entrer")
-    public String entrerAccueil(@ModelAttribute Utilisateur utilisateur, Model model){
-        String email = utilisateur.getEmailU();
-        String mp = utilisateur.getMpU();
-        if(us.verifierConnexion(email, mp)){
-            return "accueil";            
+    @PostMapping("/verifierSignUp")
+    public String verifierSignUp(@RequestParam String email, @RequestParam String password, @RequestParam String confirmPassword, Model model) {
+        String res = us.verifierSignUp(email, password, confirmPassword);
+        if (res.equals("succès")) {
+            return "sign-in";
         }
-        else{
-            String erreur = "L'adresse e-mail ou le mot de passe est incorrect ! ";
-			model.addAttribute("erreur", erreur);
-            return "login";
-        }
+        model.addAttribute("erreur", res);
+        return "sign-up";
         
-
     }
+
 
 
 }

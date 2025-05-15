@@ -25,15 +25,27 @@ import jakarta.persistence.TemporalType;
 @Table(name = "message")
 public class Message {
 
+    /**
+     * Identifiant unique du message.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMessage;
 
+    /**
+     * Contenu textuel du message.
+     */
     private String text;
 
+    /**
+     * Date et heure d’envoi du message.
+     */
     @Temporal(TemporalType.TIMESTAMP)
     private Date temps;
 
+    /**
+     * Utilisateur ayant envoyé le message.
+     */
     @ManyToOne
     @JoinColumn(name = "idUtilisateurEnvoyeur", nullable = false)
     private Utilisateur envoyeur;
@@ -52,6 +64,34 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "idGroupeRecepteur")
     private Groupe groupe;
+
+    // ===== Constructeurs =====
+
+    /**
+     * Constructeur par défaut requis par JPA.
+     */
+    public Message() {
+
+    }
+
+    /**
+     * Constructeur complet.
+     *
+     * @param envoyeur utilisateur envoyeur
+     * @param groupe groupe destinataire (si message de groupe)
+     * @param idMessage identifiant du message
+     * @param recepteur utilisateur destinataire (si message privé)
+     * @param temps date d’envoi
+     * @param text contenu textuel
+     */
+    public Message(Utilisateur envoyeur, Groupe groupe, Long idMessage, Utilisateur recepteur, Date temps, String text) {
+        this.envoyeur = envoyeur;
+        this.groupe = groupe;
+        this.idMessage = idMessage;
+        this.recepteur = recepteur;
+        this.temps = temps;
+        this.text = text;
+    }
 
 
 

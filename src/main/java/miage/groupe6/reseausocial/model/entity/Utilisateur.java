@@ -13,6 +13,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.Date;
+import java.util.HashSet;
+
+import java.util.Set;
+/**
+ * Représente un utilisateur du réseau social.
+ * 
+ * Un utilisateur possède des informations personnelles telles que son nom, prénom, email, mot de passe, description, avatar, 
+ * et la date de son inscription. Il peut aimer des publications, envoyer et recevoir des demandes d’amis.
+ * 
+ * Auteur : Mengyi YANG
+ */
 
 @Entity
 @Table(name = "utilisateur")
@@ -32,21 +44,20 @@ public class Utilisateur {
 
 
 
-    //Utilisateur like/unlike/republier un post
+    /** Ensemble des publications aimées par l'utilisateur. */
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private Set<ActionPost> actionPosts = new HashSet<>();
 
 
-    //L'utilisateur demande à devenir ami
+    /** Demandes d’amis envoyées par l'utilisateur. */
     @OneToMany(mappedBy = "idUtilisateurDemande", cascade = CascadeType.ALL)
     private Set<RelationAmis> amisDemandes = new HashSet<>();
 
-    //L'utilisateur reçoit une demande d'ami
+    /** Demandes d’amis reçues par l'utilisateur. */
     @OneToMany(mappedBy = "idUtilisateurRecu", cascade = CascadeType.ALL)
     private Set<RelationAmis> amisRecus = new HashSet<>();
 
-    
-    //Utilisateur s'inscrit/intéresse à un évenement
+    /** Événements auxquels l'utilisateur s'est déclaré intéressé ou inscrit. */
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)    
     private Set<Evenement> actionEvenements = new HashSet<>();
 

@@ -34,21 +34,35 @@ public class Groupe {
 
     private String description;
 
-    /** 
-     * Utilisateur ayant créé le groupe.
-     * Un utilisateur peut créer plusieurs groupes.
-     */
+
     @ManyToOne
     @JoinColumn(name = "idUtilisateurCreateur")
     private Utilisateur createur;
+
+    @ManyToOne
+    @JoinColumn(name = "groupeEvenement")
+    private Evenement evenement;
     
-    /**
-     * Ensemble des membres du groupe.
-     * Un groupe peut avoir plusieurs membres.
-     */
     @OneToMany(mappedBy = "groupe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<GroupeMembre> membres = new HashSet<>();
 
+
+
+    public Groupe() {}
+    
+    public Groupe(Long idGroupe, String nomGroupe, String description, Utilisateur createur, Evenement evenement,
+            Set<GroupeMembre> membres) {
+        this.idGroupe = idGroupe;
+        this.nomGroupe = nomGroupe;
+        this.description = description;
+        this.createur = createur;
+        this.evenement = evenement;
+        this.membres = membres;
+    }
+
+
+
+    
     public Long getIdGroupe() {
         return idGroupe;
     }

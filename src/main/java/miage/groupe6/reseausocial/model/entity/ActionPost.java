@@ -17,6 +17,14 @@ public class ActionPost {
     @EmbeddedId
     private ActionPostId id;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateActionPost;
+
+    @Enumerated(EnumType.STRING)
+    private StatutActionPost statut;
+
+
+
     @ManyToOne
     @MapsId("idU")
     @JoinColumn(name = "idU")
@@ -27,110 +35,61 @@ public class ActionPost {
     @JoinColumn(name = "idP")
     private Post post;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateActionPost;
 
-    /**
-     * Statut actuel de la post (like, unlike, republier).
-     */
-    @Enumerated(EnumType.STRING)
-    private StatutActionPost statut;
-
-
-    // === Constructors ===
-
-    /**
-     * Constructeur par défaut requis par JPA.
-     */
-    public ActionPost() {}
     
-    /**
-     * Constructeur permettant d’instancier une action utilisateur sur une publication.
-     *
-     * @param utilisateur l’utilisateur qui a réalisé l’action
-     * @param post la publication concernée
-     * @param dateActionPost la date de l’action
-     */
-    public ActionPost(Utilisateur utilisateur, Post post, Date dateActionPost) {
+
+    public ActionPost() {}
+
+    public ActionPost(Date dateActionPost, StatutActionPost statut, Utilisateur utilisateur,
+            Post post) {
         this.id = new ActionPostId(utilisateur.getIdU(), post.getIdP());
+        this.dateActionPost = dateActionPost;
+        this.statut = statut;
         this.utilisateur = utilisateur;
         this.post = post;
-        this.dateActionPost = dateActionPost;
     }
 
 
 
-    // === Getters et Setters ===
 
-    /**
-     * @return ActionPostId retourne l'identifiant composite (utilisateur + post)
-     */
     public ActionPostId getId() {
         return id;
     }
 
-    /**
-     * @param id identifiant composite à définir (utilisateur + post)
-     */
     public void setId(ActionPostId id) {
         this.id = id;
     }
 
-    /**
-     * @return Utilisateur retourne l'utilisateur qui a fait une action le post
-     */
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    /**
-     * @param utilisateur l'utilisateur à associer à cette action
-     */
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    /**
-     * @return Post retourne le post qui a été fait cette action
-     */
-    public Post getPost() {
-        return post;
-    }
-
-    /**
-     * @param post le post à associer à cette action
-     */
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    /**
-     * @return Date retourne la date à laquelle le like/unlike/republier a été effectué
-     */
     public Date getDateActionPost() {
         return dateActionPost;
     }
 
-    /**
-     * @param dateActionPost définit la date de l’action (like/unlike/republier)
-     */
     public void setDateActionPost(Date dateActionPost) {
         this.dateActionPost = dateActionPost;
     }
 
-
-
-    /**
-     * @return le type d’action effectuée (LIKE, UNLIKE, REPUBLIER)
-     */
     public StatutActionPost getStatut() {
         return statut;
     }
 
-    /**
-     * @param statut définit le type d’action effectuée
-     */
     public void setStatut(StatutActionPost statut) {
         this.statut = statut;
     }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
 }

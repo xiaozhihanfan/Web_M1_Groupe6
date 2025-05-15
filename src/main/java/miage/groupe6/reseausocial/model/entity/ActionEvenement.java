@@ -19,22 +19,6 @@ public class ActionEvenement {
     private ActionEvenementId id = new ActionEvenementId();
 
     /**
-     * Utilisateur s'inscrit/s'intéresse à l'événement.
-     */
-    @ManyToOne
-    @MapsId("idU")
-    @JoinColumn(name = "idU")
-    private Utilisateur utilisateur;
-
-    /**
-     * Événement auquel l'utilisateur est inscrit/intéressé.
-     */
-    @ManyToOne
-    @MapsId("idE")
-    @JoinColumn(name = "idE")
-    private Evenement evenement;
-
-    /**
      * Date et heure.
      */
     @Temporal(TemporalType.TIMESTAMP)
@@ -51,6 +35,28 @@ public class ActionEvenement {
 
 
 
+    /**
+     * Utilisateur s'inscrit/s'intéresse à l'événement.
+     */
+    @ManyToOne
+    @MapsId("idU")
+    @JoinColumn(name = "idU")
+    private Utilisateur utilisateur;
+
+    /**
+     * Événement auquel l'utilisateur est inscrit/intéressé.
+     */
+    @ManyToOne
+    @MapsId("idE")
+    @JoinColumn(name = "idE")
+    private Evenement evenement;
+
+
+
+
+
+
+
     // ==== Constructors ====
 
     /**
@@ -58,104 +64,57 @@ public class ActionEvenement {
      */
     public ActionEvenement() {}
 
-    /**
-     * Constructeur avec paramètres.
-     *
-     * @param dateActionEvenemnt date de cette action
-     * @param evenement       événement
-     * @param utilisateur     utilisateur
-     */
-    public ActionEvenement(Date dateActionEvenemnt, Evenement evenement, Utilisateur utilisateur) {
-        this.dateActionEvenemnt = dateActionEvenemnt;
-        this.evenement = evenement;
-        this.utilisateur = utilisateur;
+    public ActionEvenement(Date dateActionEvenemnt, StatutActionEvenement statut, Utilisateur utilisateur, Evenement evenement) {
         this.id = new ActionEvenementId(utilisateur.getIdU(), evenement.getIdE());
+        this.dateActionEvenemnt = dateActionEvenemnt;
+        this.statut = statut;
+        this.utilisateur = utilisateur;
+        this.evenement = evenement;
     }
 
-    /**
-     * Retourne la clé composite de cette action.
-     * @return id
-     */
+
+
+
+    
     public ActionEvenementId getId() {
         return id;
     }
 
-    /**
-     * Définit la clé composite de cette action.
-     * @param id clé composite
-     */
     public void setId(ActionEvenementId id) {
         this.id = id;
     }
 
-    /**
-     * Retourne l'utilisateur fait action.
-     * @return utilisateur
-     */
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    /**
-     * Définit l'utilisateur fait action.
-     * @param utilisateur utilisateur
-     */
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    /**
-     * Retourne l'événement concerné par l'action.
-     * @return événement
-     */
-    public Evenement getEvenement() {
-        return evenement;
-    }
-
-    /**
-     * Définit l'événement concerné par l'action.
-     * @param evenement événement
-     */
-    public void setEvenement(Evenement evenement) {
-        this.evenement = evenement;
-    }
-
-
-    
-    /**
-     * Retourne la date de cette action.
-     * @return dateActionEvenemnt
-     */
     public Date getDateActionEvenemnt() {
         return dateActionEvenemnt;
     }
 
-     /**
-     * Définit la date de cette action.
-     * @param dateActionEvenemnt date de cette action
-     */
     public void setDateActionEvenemnt(Date dateActionEvenemnt) {
         this.dateActionEvenemnt = dateActionEvenemnt;
     }
 
-
-
-    /**
-     * @return le type d’action effectuée (INSCRIRE, INTERESSER)
-     */
     public StatutActionEvenement getStatut() {
         return statut;
     }
 
-    /**
-     * @param statut définit le type d’action effectuée
-     */
     public void setStatut(StatutActionEvenement statut) {
         this.statut = statut;
     }
 
-    
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
 
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Evenement getEvenement() {
+        return evenement;
+    }
+
+    public void setEvenement(Evenement evenement) {
+        this.evenement = evenement;
+    }
 
 
 

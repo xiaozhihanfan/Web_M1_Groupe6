@@ -17,22 +17,6 @@ public class RelationAmis {
     private RelationAmisId id;
 
     /**
-     * Utilisateur qui envoie la demande d'amitié.
-     */
-    @ManyToOne
-    @MapsId("idUtilisateurDemande")
-    @JoinColumn(name = "id_utilisateur_demande")
-    private Utilisateur idUtilisateurDemande;
-
-    /**
-     * Utilisateur qui reçoit la demande d'amitié.
-     */
-    @ManyToOne
-    @MapsId("idUtilisateurRecu")
-    @JoinColumn(name = "id_utilisateur_recu")
-    private Utilisateur idUtilisateurRecu;
-
-    /**
      * Date de création ou de traitement de la relation d'amitié.
      */
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,6 +27,28 @@ public class RelationAmis {
      */
     @Enumerated(EnumType.STRING)
     private StatutRelation statut;
+
+
+
+
+
+
+    /**
+     * Utilisateur qui envoie la demande d'amitié.
+     */
+    @ManyToOne
+    @MapsId("idUtilisateurDemande")
+    @JoinColumn(name = "id_utilisateur_demande")
+    private Utilisateur utilisateurDemande;
+
+    /**
+     * Utilisateur qui reçoit la demande d'amitié.
+     */
+    @ManyToOne
+    @MapsId("idUtilisateurRecu")
+    @JoinColumn(name = "id_utilisateur_recu")
+    private Utilisateur utilisateurRecu;
+
 
 
 
@@ -61,10 +67,10 @@ public class RelationAmis {
      * @param date la date de la relation
      * @param statut le statut de la demande
      */
-    public RelationAmis(Utilisateur idUtilisateurDemande, Utilisateur idUtilisateurRecu, Date date, StatutRelation statut) {
-        this.id = new RelationAmisId(idUtilisateurDemande.getIdU(), idUtilisateurRecu.getIdU());
-        this.idUtilisateurDemande = idUtilisateurDemande;
-        this.idUtilisateurRecu = idUtilisateurRecu;
+    public RelationAmis(Utilisateur utilisateurDemande, Utilisateur utilisateurRecu, Date date, StatutRelation statut) {
+        this.id = new RelationAmisId(utilisateurDemande.getIdU(), utilisateurRecu.getIdU());
+        this.utilisateurDemande = utilisateurDemande;
+        this.utilisateurRecu = utilisateurRecu;
         this.dateRelationAmis = date;
         this.statut = statut;
     }
@@ -89,29 +95,29 @@ public class RelationAmis {
     /**
      * @return Utilisateur retourne l'utilisateur qui a envoyé la demande d'amitié
      */
-    public Utilisateur getIdUtilisateurDemande() {
-        return idUtilisateurDemande;
+    public Utilisateur getUtilisateurDemande() {
+        return utilisateurDemande;
     }
 
     /**
-     * @param idUtilisateurDemande définit l'utilisateur qui a envoyé la demande d'amitié
+     * @param utilisateurDemande définit l'utilisateur qui a envoyé la demande d'amitié
      */
-    public void setIdUtilisateurDemande(Utilisateur idUtilisateurDemande) {
-        this.idUtilisateurDemande = idUtilisateurDemande;
+    public void setUtilisateurDemande(Utilisateur utilisateurDemande) {
+        this.utilisateurDemande = utilisateurDemande;
     }
 
     /**
      * @return Utilisateur retourne l'utilisateur cible (destinataire de la demande)
      */
     public Utilisateur getUtilisateurCible() {
-        return idUtilisateurRecu;
+        return utilisateurRecu;
     }
 
     /**
-     * @param idUtilisateurRecu définit l'utilisateur qui reçoit la demande d'amitié
+     * @param utilisateurRecu définit l'utilisateur qui reçoit la demande d'amitié
      */
-    public void setIdUtilisateurRecu(Utilisateur idUtilisateurRecu) {
-        this.idUtilisateurRecu = idUtilisateurRecu;
+    public void setUtilisateurRecu(Utilisateur utilisateurRecu) {
+        this.utilisateurRecu = utilisateurRecu;
     }
 
     /**

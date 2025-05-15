@@ -52,7 +52,7 @@ public class Groupe {
      * Événement associé à ce groupe (facultatif).
      */
     @ManyToOne
-    @JoinColumn(name = "groupeEvenement")
+    @JoinColumn(name = "idGroupeEvenement")
     private Evenement evenement;
     
     /**

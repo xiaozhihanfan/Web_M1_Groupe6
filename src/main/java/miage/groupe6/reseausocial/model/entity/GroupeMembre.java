@@ -49,7 +49,7 @@ public class GroupeMembre {
      */
     @ManyToOne
     @MapsId("idGroupe")
-    @JoinColumn(name = "idGroupe")
+    @JoinColumn(name = "id_groupe")
     private Groupe groupe;
 
     /** 
@@ -57,7 +57,7 @@ public class GroupeMembre {
      */
     @ManyToOne
     @MapsId("idUtilisateur")
-    @JoinColumn(name = "idUtilisateur")
+    @JoinColumn(name = "id_utilisateur")
     private Utilisateur utilisateur;
 
     // ===== Constructeurs =====

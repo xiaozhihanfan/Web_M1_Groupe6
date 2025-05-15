@@ -1,7 +1,8 @@
 package miage.groupe6.reseausocial.model.entity;
 
-import jakarta.persistence.Embeddable;
 import java.io.Serializable;
+
+import jakarta.persistence.Embeddable;
 
 /**
  * Classe représentant une clé primaire composite pour l'entité {@code ActionPost},
@@ -12,6 +13,10 @@ import java.io.Serializable;
 @Embeddable
 public class ActionPostId implements Serializable {
 
+    /**
+     * Identifiant de l'utilisateur.
+     * Identifiant de la publication.
+     */
     private Long idU;
     private Long idP;
 

@@ -26,15 +26,6 @@ import java.util.Set;
  * Auteur : Mengyi YANG
  */
 
-/**
- * Représente un utilisateur du réseau social.
- * 
- * Un utilisateur possède des informations personnelles telles que son nom, prénom, email, mot de passe, description, avatar, 
- * et la date de son inscription. Il peut aimer des publications, envoyer et recevoir des demandes d’amis.
- * 
- * Auteur : Mengyi YANG
- */
-
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {

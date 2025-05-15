@@ -1,8 +1,4 @@
-﻿/**
- * Modifié par : Mengyi YANG
- */
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Social - Network, Community and Event Theme</title>
@@ -79,6 +75,8 @@
             </div>
             <!-- Button -->
             <div class="d-grid"><button type="submit" class="btn btn-lg btn-primary">Login</button></div>
+            <!-- Message d'erreur -->
+            <div th:if="${erreur}" class="text-danger text-center mt-2" th:text="${erreur}"></div>
             <!-- Copyright -->
             <p class="mb-0 mt-3">©2025 Groupe 6</p>
           </form>
@@ -98,13 +96,13 @@
 JS libraries, plugins and custom scripts -->
 
 <!-- Bootstrap JS -->
-<script :src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
 
 <!-- Vendors -->
-<script src="@{/assets/vendor/pswmeter/pswmeter.min.js}"></script>
+<script th:src="@{/assets/vendor/pswmeter/pswmeter.min.js}"></script>
 
 <!-- Template Functions -->
-<script src="@{/assets/js/functions.js}"></script>
+<script th:src="@{/assets/js/functions.js}"></script>
   
 </body>
 </html>

@@ -7,12 +7,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  * Représente un utilisateur du réseau social.
@@ -39,7 +42,7 @@ public class Utilisateur {
     private String mpU;
     private String descriptionU;
     private String avatarU;
-    private Date dateInscription;
+    private String dateInscription;
 
     /** Publications créées par l'utilisateur. */
     @OneToMany(mappedBy = "idP", cascade = CascadeType.ALL)
@@ -103,7 +106,7 @@ public class Utilisateur {
      * @param nomU nom
      * @param prenomU prénom
      */
-    public Utilisateur(String avatarU, Date dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU) {
+    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU) {
         this.avatarU = avatarU;
         this.dateInscription = dateInscription;
         this.descriptionU = descriptionU;
@@ -224,7 +227,7 @@ public class Utilisateur {
     /**
      * @return la date d'inscription de l'utilisateur
      */
-    public Date getDateInscription() {
+    public String getDateInscription() {
         return dateInscription;
     }
 
@@ -232,7 +235,7 @@ public class Utilisateur {
      * Définit la date d'inscription de l'utilisateur.
      * @param dateInscription date
      */
-    public void setDateInscription(Date dateInscription) {
+    public void setDateInscription(String dateInscription) {
         this.dateInscription = dateInscription;
     }
 

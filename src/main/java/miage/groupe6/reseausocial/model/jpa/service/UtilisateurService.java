@@ -1,6 +1,6 @@
 package miage.groupe6.reseausocial.model.jpa.service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,10 @@ public class UtilisateurService {
         }
 
         Utilisateur utilisateur = new Utilisateur();
+        String dateInscription = LocalDate.now().toString();
         utilisateur.setEmailU(email);
         utilisateur.setMpU(password);
+        utilisateur.setDateInscription(dateInscription);
         ur.save(utilisateur);
 
         return "succès";

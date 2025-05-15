@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * Classe représentant une clé primaire composite pour l'entité {@code ActionPost},
- * composée des identifiants de l'utilisateur et de la publication aimée.
+ * composée des identifiants de l'utilisateur et de la publication liked/unliked/republié.
  * 
  * Utilisée avec {@code @EmbeddedId} dans JPA.
  */

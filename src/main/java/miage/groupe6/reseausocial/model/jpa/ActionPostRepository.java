@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Repository JPA pour l'entité {@link ActionPost}.
  * Gère les opérations de persistance concernant les relations de type "like"
- * entre les utilisateurs et les publications.
+ * entre les utilisateurs et les posts.
  * <p>
  * Utilise {@link ActionPostId} comme clé primaire composite.
  */

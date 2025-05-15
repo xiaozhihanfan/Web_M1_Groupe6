@@ -19,7 +19,7 @@ public class ActionEvenement {
     private ActionEvenementId id = new ActionEvenementId();
 
     /**
-     * Utilisateur inscrit à l'événement.
+     * Utilisateur s'inscrit/s'intéresse à l'événement.
      */
     @ManyToOne
     @MapsId("idU")
@@ -27,7 +27,7 @@ public class ActionEvenement {
     private Utilisateur utilisateur;
 
     /**
-     * Événement auquel l'utilisateur est inscrit.
+     * Événement auquel l'utilisateur est inscrit/intéressé.
      */
     @ManyToOne
     @MapsId("idE")
@@ -35,14 +35,14 @@ public class ActionEvenement {
     private Evenement evenement;
 
     /**
-     * Date et heure d'inscription.
+     * Date et heure.
      */
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateInscription;
+    private Date dateActionEvenemnt;
 
 
     /**
-     * Statut actuel de la post (like, unlike, republier).
+     * Statut actuel de la évement (s'inscrire, s'intéresser).
      */
     @Enumerated(EnumType.STRING)
     private StatutActionEvenement statut;
@@ -51,31 +51,29 @@ public class ActionEvenement {
 
 
 
-
+    // ==== Constructors ====
 
     /**
      * Constructeur par défaut.
      */
-    public ActionEvenement() {
-
-    }
+    public ActionEvenement() {}
 
     /**
      * Constructeur avec paramètres.
      *
-     * @param dateInscription date d'inscription
-     * @param evenement       événement inscrit
-     * @param utilisateur     utilisateur inscrit
+     * @param dateActionEvenemnt date de cette action
+     * @param evenement       événement
+     * @param utilisateur     utilisateur
      */
-    public ActionEvenement(Date dateInscription, Evenement evenement, Utilisateur utilisateur) {
-        this.dateInscription = dateInscription;
+    public ActionEvenement(Date dateActionEvenemnt, Evenement evenement, Utilisateur utilisateur) {
+        this.dateActionEvenemnt = dateActionEvenemnt;
         this.evenement = evenement;
         this.utilisateur = utilisateur;
         this.id = new ActionEvenementId(utilisateur.getIdU(), evenement.getIdE());
     }
 
     /**
-     * Retourne la clé composite d'inscription.
+     * Retourne la clé composite de cette action.
      * @return id
      */
     public ActionEvenementId getId() {
@@ -83,7 +81,7 @@ public class ActionEvenement {
     }
 
     /**
-     * Définit la clé composite d'inscription.
+     * Définit la clé composite de cette action.
      * @param id clé composite
      */
     public void setId(ActionEvenementId id) {
@@ -91,7 +89,7 @@ public class ActionEvenement {
     }
 
     /**
-     * Retourne l'utilisateur inscrit.
+     * Retourne l'utilisateur fait action.
      * @return utilisateur
      */
     public Utilisateur getUtilisateur() {
@@ -99,7 +97,7 @@ public class ActionEvenement {
     }
 
     /**
-     * Définit l'utilisateur inscrit.
+     * Définit l'utilisateur fait action.
      * @param utilisateur utilisateur
      */
     public void setUtilisateur(Utilisateur utilisateur) {
@@ -107,7 +105,7 @@ public class ActionEvenement {
     }
 
     /**
-     * Retourne l'événement concerné par l'inscription.
+     * Retourne l'événement concerné par l'action.
      * @return événement
      */
     public Evenement getEvenement() {
@@ -115,30 +113,48 @@ public class ActionEvenement {
     }
 
     /**
-     * Définit l'événement concerné par l'inscription.
+     * Définit l'événement concerné par l'action.
      * @param evenement événement
      */
     public void setEvenement(Evenement evenement) {
         this.evenement = evenement;
     }
 
+
+    
     /**
-     * Retourne la date d'inscription.
-     * @return dateInscription
+     * Retourne la date de cette action.
+     * @return dateActionEvenemnt
      */
-    public Date getDateInscription() {
-        return dateInscription;
+    public Date getDateActionEvenemnt() {
+        return dateActionEvenemnt;
     }
 
      /**
-     * Définit la date d'inscription.
-     * @param dateInscription date d'inscription
+     * Définit la date de cette action.
+     * @param dateActionEvenemnt date de cette action
      */
-    public void setDateInscription(Date dateInscription) {
-        this.dateInscription = dateInscription;
+    public void setDateActionEvenemnt(Date dateActionEvenemnt) {
+        this.dateActionEvenemnt = dateActionEvenemnt;
     }
 
 
+
+    /**
+     * @return le type d’action effectuée (INSCRIRE, INTERESSER)
+     */
+    public StatutActionEvenement getStatut() {
+        return statut;
+    }
+
+    /**
+     * @param statut définit le type d’action effectuée
+     */
+    public void setStatut(StatutActionEvenement statut) {
+        this.statut = statut;
+    }
+
+    
 
 
 

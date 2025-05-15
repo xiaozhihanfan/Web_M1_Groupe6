@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 /**
- * Entité représentant une action "J'aime" (like) d'un utilisateur sur un post.
- * Cette entité utilise une clé composite {@link ActionPostId} pour représenter la relation
- * entre l'utilisateur et la publication aimée, et stocke également la date du like.
+ * Entité représentant une action d’un utilisateur sur une publication {@link Post}.
+ * <p>
+ * Cette action peut être un "like", un "unlike", ou une "republier".
+ * L'entité utilise une clé composite {@link ActionPostId} combinant l'utilisateur et la publication.
+ * Elle enregistre également la date de l’action et le type d’action via l’énumération {@link StatutActionPost}.
  */
 @Entity
 @Table(name = "action_post")
@@ -25,7 +27,6 @@ public class ActionPost {
     @JoinColumn(name = "idP")
     private Post post;
 
-    // 记录点赞时间，可能用得上可能用不上，看进度
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateActionPost;
 
@@ -42,13 +43,13 @@ public class ActionPost {
      * Constructeur par défaut requis par JPA.
      */
     public ActionPost() {}
-
+    
     /**
-     * Constructeur permettant d'initialiser un like entre un utilisateur et un post.
+     * Constructeur permettant d’instancier une action utilisateur sur une publication.
      *
-     * @param utilisateur l'utilisateur qui a aimé
-     * @param post le post concerné
-     * @param dateActionPost la date à laquelle l'action "j'aime" a été effectuée
+     * @param utilisateur l’utilisateur qui a réalisé l’action
+     * @param post la publication concernée
+     * @param dateActionPost la date de l’action
      */
     public ActionPost(Utilisateur utilisateur, Post post, Date dateActionPost) {
         this.id = new ActionPostId(utilisateur.getIdU(), post.getIdP());
@@ -76,45 +77,60 @@ public class ActionPost {
     }
 
     /**
-     * @return Utilisateur retourne l'utilisateur qui a aimé le post
+     * @return Utilisateur retourne l'utilisateur qui a fait une action le post
      */
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
 
     /**
-     * @param utilisateur l'utilisateur à associer à ce like
+     * @param utilisateur l'utilisateur à associer à cette action
      */
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
     }
 
     /**
-     * @return Post retourne le post qui a été aimé
+     * @return Post retourne le post qui a été fait cette action
      */
     public Post getPost() {
         return post;
     }
 
     /**
-     * @param post le post à associer à ce like
+     * @param post le post à associer à cette action
      */
     public void setPost(Post post) {
         this.post = post;
     }
 
     /**
-     * @return Date retourne la date à laquelle le like a été effectué
+     * @return Date retourne la date à laquelle le like/unlike/republier a été effectué
      */
-    public Date getdateActionPost() {
+    public Date getDateActionPost() {
         return dateActionPost;
     }
 
     /**
-     * @param dateActionPost la date à laquelle l'utilisateur a aimé le post
+     * @param dateActionPost définit la date de l’action (like/unlike/republier)
      */
-    public void setdateActionPost(Date dateActionPost) {
+    public void setDateActionPost(Date dateActionPost) {
         this.dateActionPost = dateActionPost;
     }
 
+
+
+    /**
+     * @return le type d’action effectuée (LIKE, UNLIKE, REPUBLIER)
+     */
+    public StatutActionPost getStatut() {
+        return statut;
+    }
+
+    /**
+     * @param statut définit le type d’action effectuée
+     */
+    public void setStatut(StatutActionPost statut) {
+        this.statut = statut;
+    }
 }

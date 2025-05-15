@@ -131,18 +131,19 @@ public class Groupe {
         this.membres = membres;
     }
 
+
     /**
-     * @return Set<Message> return the messagesGroupe
+     * @return Evenement return the evenement
      */
-    public Set<Message> getMessagesGroupe() {
-        return messagesGroupe;
+    public Evenement getEvenement() {
+        return evenement;
     }
 
     /**
-     * @param messagesGroupe the messagesGroupe to set
+     * @param evenement the evenement to set
      */
-    public void setMessagesGroupe(Set<Message> messagesGroupe) {
-        this.messagesGroupe = messagesGroupe;
+    public void setEvenement(Evenement evenement) {
+        this.evenement = evenement;
     }
 
 }

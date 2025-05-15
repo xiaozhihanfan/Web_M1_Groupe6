@@ -13,6 +13,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * Représente un groupe dans le réseau social.
+ * 
+ * Chaque groupe est créé par un utilisateur et peut contenir plusieurs membres.
+ * Il contient des informations de base telles que le nom, la description et le créateur du groupe.
+ * 
+ * Auteur : Mengyi YANG
+ */
+
 @Entity
 @Table(name = "groupe")
 public class Groupe {
@@ -25,12 +34,18 @@ public class Groupe {
 
     private String description;
 
-    //Un utilisateur peut créer plusieurs groupes
+    /** 
+     * Utilisateur ayant créé le groupe.
+     * Un utilisateur peut créer plusieurs groupes.
+     */
     @ManyToOne
     @JoinColumn(name = "idUtilisateurCreateur")
     private Utilisateur createur;
     
-    //Un groupe peut avoir plusieurs membres
+    /**
+     * Ensemble des membres du groupe.
+     * Un groupe peut avoir plusieurs membres.
+     */
     @OneToMany(mappedBy = "groupe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<GroupeMembre> membres = new HashSet<>();
 

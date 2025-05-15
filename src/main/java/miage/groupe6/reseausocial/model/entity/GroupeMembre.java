@@ -10,9 +10,24 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 
+
+/**
+ * Représente l'association entre un {@link Utilisateur} et un {@link Groupe} 
+ * dans le cadre d'une relation de type "membre de groupe" dans le réseau social.
+ * 
+ * Cette entité utilise une clé composite {@link GroupeMembreId} qui contient 
+ * les identifiants du groupe et de l'utilisateur.
+ * 
+ * Elle stocke également des informations contextuelles comme le rôle du membre
+ * et la date d'adhésion.
+ * 
+ * @author Mengyi YANG
+ */
+
 @Entity
 public class GroupeMembre {
 
+    /** Clé composite représentant l'association groupe-utilisateur. */
     @EmbeddedId
     private GroupeMembreId id = new GroupeMembreId();
 
@@ -21,11 +36,13 @@ public class GroupeMembre {
 
     private LocalDateTime dateAdhesion;
 
+    /** Groupe auquel appartient le membre. */
     @ManyToOne
     @MapsId("idGroupe")
     @JoinColumn(name = "idGroupe")
     private Groupe groupe;
 
+    /** Utilisateur membre du groupe. */
     @ManyToOne
     @MapsId("idUtilisateur")
     @JoinColumn(name = "idUtilisateur")

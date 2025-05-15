@@ -5,6 +5,19 @@ import java.util.Objects;
 
 import jakarta.persistence.Embeddable;
 
+/**
+ * Clé primaire composée pour l'entité {@link GroupeMembre}.
+ * 
+ * Cette classe représente la combinaison de deux identifiants : 
+ * l'identifiant du groupe et celui de l'utilisateur. 
+ * Elle est utilisée pour modéliser la relation "membre de groupe".
+ * 
+ * Elle doit être marquée comme {@code Serializable} et redéfinir correctement 
+ * les méthodes {@code equals} et {@code hashCode} pour fonctionner avec JPA.
+ * 
+ * Auteur : Mengyi YANG
+ */
+
 @Embeddable
 public class GroupeMembreId implements Serializable{
 

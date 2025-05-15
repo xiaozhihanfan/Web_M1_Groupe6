@@ -1,17 +1,30 @@
 package miage.groupe6.reseausocial.model.entity;
 
 
-import jakarta.persistence.*;
 
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.Date;
 import java.util.HashSet;
 
 import java.util.Set;
+/**
+ * Représente un utilisateur du réseau social.
+ * 
+ * Un utilisateur possède des informations personnelles telles que son nom, prénom, email, mot de passe, description, avatar, 
+ * et la date de son inscription. Il peut aimer des publications, envoyer et recevoir des demandes d’amis.
+ * 
+ * Auteur : Mengyi YANG
+ */
 
 /**
  * Représente un utilisateur du réseau social.
@@ -42,7 +55,8 @@ public class Utilisateur {
 
     /** Ensemble des publications aimées par l'utilisateur. */
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
-    private Set<Aimer> postAime = new HashSet<>();
+    private Set<ActionPost> actionPosts = new HashSet<>();
+
 
     /** Demandes d’amis envoyées par l'utilisateur. */
     @OneToMany(mappedBy = "idUtilisateurDemande", cascade = CascadeType.ALL)
@@ -53,13 +67,12 @@ public class Utilisateur {
     private Set<RelationAmis> amisRecus = new HashSet<>();
 
     /** Événements auxquels l'utilisateur s'est déclaré intéressé ou inscrit. */
-    @ManyToMany
-    // @JoinTable(name = "interesser", joinColumns = @JoinColumn(name = "idU"), inverseJoinColumns = @JoinColumn(name = "idE"))
-    // private Set<Evenement> evenementsInteresse = new HashSet<>();
+    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)    
+    private Set<Evenement> actionEvenements = new HashSet<>();
 
 
 
-    
+    // ==== Getter and Setter
 
     /**
      * @return Long return the idU
@@ -166,6 +179,8 @@ public class Utilisateur {
         return dateInscription;
     }
 
+
+
     /**
      * @param dateInscription the dateInscription to set
      */
@@ -174,25 +189,24 @@ public class Utilisateur {
     }
 
     /**
-     * @return Set<Post> return the postAime
+     * @return Set<Post> return the ActionPosts
      */
+    public Set<ActionPost> getActionPosts() {
+        return actionPosts;
+    }
 
-    public Set<Aimer> getPostAime() {
-        return postAime;
+
+
+    /**
+     * @param ActionPosts the ActionPosts to set
+     */
+    public void setActionPosts(Set<ActionPost> actionPosts) {
+        this.actionPosts = actionPosts;
     }
 
     /**
-     * @param postAime the postAime to set
+     * @return Set<RelationAmis> return the amisDemandes
      */
-
-    public void setPostAime(Set<Aimer> postAime) {
-        this.postAime = postAime;
-    }
-
-    /**
-     * @return Set<EtreAmis> return the amisDemandes
-     */
-
     public Set<RelationAmis> getAmisDemandes() {
         return amisDemandes;
     }
@@ -200,15 +214,13 @@ public class Utilisateur {
     /**
      * @param amisDemandes the amisDemandes to set
      */
-
     public void setAmisDemandes(Set<RelationAmis> amisDemandes) {
         this.amisDemandes = amisDemandes;
     }
 
     /**
-     * @return Set<EtreAmis> return the amisRecus
+     * @return Set<RelationAmis> return the amisRecus
      */
-
     public Set<RelationAmis> getAmisRecus() {
         return amisRecus;
     }
@@ -216,38 +228,26 @@ public class Utilisateur {
     /**
      * @param amisRecus the amisRecus to set
      */
-
     public void setAmisRecus(Set<RelationAmis> amisRecus) {
         this.amisRecus = amisRecus;
     }
 
-    // /**
-    //  * @return Set<Evenement> return the evenementsInteresse
-    //  */
-    // public Set<Evenement> getEvenementsInteresse() {
-    //     return evenementsInteresse;
-    // }
 
-    // /**
-    //  * @param evenementsInteresse the evenementsInteresse to set
-    //  */
-    // public void setEvenementsInteresse(Set<Evenement> evenementsInteresse) {
-    //     this.evenementsInteresse = evenementsInteresse;
-    // }
 
-    // /**
-    //  * @return Set<Evenement> return the evenementsInscrit
-    //  */
-    // public Set<Evenement> getEvenementsInscrit() {
-    //     return evenementsInscrit;
-    // }
+    /**
+     * @return Set<Evenement> return the ActionEvenements
+     */
+    public Set<Evenement> getActionEvenements() {
+        return actionEvenements;
+    }
 
-    // /**
-    //  * @param evenementsInscrit the evenementsInscrit to set
-    //  */
-    // public void setEvenementsInscrit(Set<Evenement> evenementsInscrit) {
-    //     this.evenementsInscrit = evenementsInscrit;
-    // }
+    /**
+     * @param actionEvenements the actionEvenements to set
+     */
+    public void setActionEvenements(Set<Evenement> actionEvenements) {
+        this.actionEvenements = actionEvenements;
+    }
 
+   
 }
 

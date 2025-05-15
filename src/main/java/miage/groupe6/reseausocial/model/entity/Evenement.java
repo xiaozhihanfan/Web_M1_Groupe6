@@ -4,17 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 
 /**
  * Représente un événement créé par un utilisateur.
@@ -65,16 +55,11 @@ public class Evenement {
     private Utilisateur utilisateur;    // Créateur de l'événement
 
     /**
-     * Ensemble des inscriptions des utilisateurs à cet événement.
+     * Ensemble des actionEvenement des utilisateurs à cet événement.
      */
     @OneToMany(mappedBy = "evenement")
-    private Set<Inscrire> evenementInscriptions = new HashSet<>();
+    private Set<ActionEvenement> actionEvenement = new HashSet<>();
 
-    /**
-     * Ensemble des utilisateurs intéressés par cet événement.
-     */
-    @OneToMany(mappedBy = "evenement")
-    private Set<Interesser> evenementInterets = new HashSet<>();
     
     /**
      * Constructeur par défaut.
@@ -215,35 +200,19 @@ public class Evenement {
     }
 
     /**
-     * Retourne l'ensemble des inscriptions à l'événement.
-     * @return ensemble des inscriptions
+     * Retourne l'ensemble des actions à l'événement.
+     * @return ensemble des actionEvenement
      */
-    public Set<Inscrire> getEvenementInscriptions() {
-        return evenementInscriptions;
+    public Set<ActionEvenement> getActionEvenement() {
+        return actionEvenement;
     }
 
     /**
-     * Définit l'ensemble des inscriptions à l'événement.
-     * @param inscriptions ensemble des inscriptions
+     * Définit l'ensemble des actuons à l'événement.
+     * @param actionEvenement ensemble des actionEvenement
      */
-    public void setEvenementInscriptions(Set<Inscrire> evenementInscriptions) {
-        this.evenementInscriptions = evenementInscriptions;
+    public void setActionEvenement(Set<ActionEvenement> actionEvenement) {
+        this.actionEvenement = actionEvenement;
     }
-
-    /**
-     * Retourne l'ensemble des intérêts pour l'événement.
-     * @return ensemble des intérêts
-     */
-    public Set<Interesser> getEvenementInterets() {
-        return evenementInterets;
-    }
-
-    /**
-     * Définit l'ensemble des intérêts pour l'événement.
-     * @param interets ensemble des intérêts
-     */
-    public void setEvenementInterets(Set<Interesser> evenementInterets) {
-        this.evenementInterets = evenementInterets;
-    } 
 
 }

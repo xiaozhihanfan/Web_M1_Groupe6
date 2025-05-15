@@ -2,7 +2,6 @@ package miage.groupe6.reseausocial.model.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Entité représentant un commentaire publié par un utilisateur sur un post.

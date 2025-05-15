@@ -32,9 +32,10 @@ public class Utilisateur {
 
 
 
-
+    //Utilisateur like/unlike/republier un post
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
-    private Set<Aimer> postAime = new HashSet<>();
+    private Set<ActionPost> actionPosts = new HashSet<>();
+
 
     //L'utilisateur demande à devenir ami
     @OneToMany(mappedBy = "idUtilisateurDemande", cascade = CascadeType.ALL)
@@ -44,12 +45,14 @@ public class Utilisateur {
     @OneToMany(mappedBy = "idUtilisateurRecu", cascade = CascadeType.ALL)
     private Set<RelationAmis> amisRecus = new HashSet<>();
 
+    
+    //Utilisateur s'inscrit/intéresse à un évenement
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)    
-    private Set<Evenement> evenementsInteresse = new HashSet<>();
+    private Set<Evenement> actionEvenements = new HashSet<>();
 
-    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
-    private Set<Evenement> evenementsInscrit = new HashSet<>();
 
+
+    // ==== Getter and Setter
 
     /**
      * @return Long return the idU
@@ -156,6 +159,8 @@ public class Utilisateur {
         return dateInscription;
     }
 
+
+
     /**
      * @param dateInscription the dateInscription to set
      */
@@ -163,27 +168,25 @@ public class Utilisateur {
         this.dateInscription = dateInscription;
     }
 
+    /**
+     * @return Set<Post> return the ActionPosts
+     */
+    public Set<ActionPost> getActionPosts() {
+        return actionPosts;
+    }
+
+
 
     /**
-     * @return Set<Post> return the postAime
+     * @param ActionPosts the ActionPosts to set
      */
-
-    public Set<Aimer> getPostAime() {
-        return postAime;
+    public void setActionPosts(Set<ActionPost> actionPosts) {
+        this.actionPosts = actionPosts;
     }
 
     /**
-     * @param postAime the postAime to set
+     * @return Set<RelationAmis> return the amisDemandes
      */
-
-    public void setPostAime(Set<Aimer> postAime) {
-        this.postAime = postAime;
-    }
-
-    /**
-     * @return Set<EtreAmis> return the amisDemandes
-     */
-
     public Set<RelationAmis> getAmisDemandes() {
         return amisDemandes;
     }
@@ -191,15 +194,13 @@ public class Utilisateur {
     /**
      * @param amisDemandes the amisDemandes to set
      */
-
     public void setAmisDemandes(Set<RelationAmis> amisDemandes) {
         this.amisDemandes = amisDemandes;
     }
 
     /**
-     * @return Set<EtreAmis> return the amisRecus
+     * @return Set<RelationAmis> return the amisRecus
      */
-
     public Set<RelationAmis> getAmisRecus() {
         return amisRecus;
     }
@@ -207,25 +208,24 @@ public class Utilisateur {
     /**
      * @param amisRecus the amisRecus to set
      */
-
     public void setAmisRecus(Set<RelationAmis> amisRecus) {
         this.amisRecus = amisRecus;
     }
 
-    public Set<Evenement> getEvenementsInteresse() {
-        return evenementsInteresse;
+
+
+    /**
+     * @return Set<Evenement> return the ActionEvenements
+     */
+    public Set<Evenement> getActionEvenements() {
+        return actionEvenements;
     }
 
-    public void setEvenementsInteresse(Set<Evenement> evenementsInteresse) {
-        this.evenementsInteresse = evenementsInteresse;
-    }
-
-    public Set<Evenement> getEvenementsInscrit() {
-        return evenementsInscrit;
-    }
-
-    public void setEvenementsInscrit(Set<Evenement> evenementsInscrit) {
-        this.evenementsInscrit = evenementsInscrit;
+    /**
+     * @param actionEvenements the actionEvenements to set
+     */
+    public void setActionEvenements(Set<Evenement> actionEvenements) {
+        this.actionEvenements = actionEvenements;
     }
 
    

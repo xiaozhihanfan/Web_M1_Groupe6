@@ -2,19 +2,20 @@ package miage.groupe6.reseausocial.model.entity;
 
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
- * Classe représentant une clé primaire composite pour l'entité {@code Aimer},
- * composée des identifiants de l'utilisateur et de la publication aimée.
+ * Classe représentant une clé primaire composite pour l'entité {@code ActionPost},
+ * composée des identifiants de l'utilisateur et de la publication liked/unliked/republié.
  * 
  * Utilisée avec {@code @EmbeddedId} dans JPA.
  */
 @Embeddable
-public class AimerId implements Serializable {
+public class ActionPostId implements Serializable {
 
     private Long idU;
     private Long idP;
+
+
 
 
     // === Constructors ===
@@ -22,7 +23,7 @@ public class AimerId implements Serializable {
     /**
      * Constructeur sans argument requis par JPA.
      */
-    public AimerId() {}
+    public ActionPostId() {}
 
     /**
      * Constructeur permettant de définir la clé composite avec l'ID utilisateur et l'ID publication.
@@ -30,12 +31,14 @@ public class AimerId implements Serializable {
      * @param idU l'identifiant de l'utilisateur
      * @param idP l'identifiant de la publication
      */
-    public AimerId(Long idU, Long idP) {
+    public ActionPostId(Long idU, Long idP) {
         this.idU = idU;
         this.idP = idP;
     }
 
 
+
+    
     // === Getters et Setters ===
 
     /**
@@ -85,7 +88,7 @@ public class AimerId implements Serializable {
     }
 
     /**
-     * Vérifie si deux objets {@code AimerId} sont équivalents sur le plan logique.
+     * Vérifie si deux objets {@code ActionPostId} sont équivalents sur le plan logique.
      * Cela repose sur l'égalité des deux champs : {@code idU} et {@code idP}.
      *
      * @param obj l'objet à comparer avec {@code this}
@@ -99,7 +102,7 @@ public class AimerId implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AimerId other = (AimerId) obj;
+        ActionPostId other = (ActionPostId) obj;
         if (idU == null) {
             if (other.idU != null)
                 return false;

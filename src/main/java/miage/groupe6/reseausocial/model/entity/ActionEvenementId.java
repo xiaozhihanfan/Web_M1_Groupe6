@@ -6,11 +6,11 @@ import java.util.Objects;
 import jakarta.persistence.Embeddable;
 
 /**
- * Représente la clé primaire composite pour l'entité Inscrire.
+ * Représente la clé primaire composite pour l'entité ActionEvenement.
  * Composée des identifiants de l'utilisateur (idU) et de l'événement (idE).
  */
 @Embeddable
-public class InscrireId implements Serializable {
+public class ActionEvenementId implements Serializable {
     
     /**
      * Identifiant de l'utilisateur.
@@ -22,7 +22,7 @@ public class InscrireId implements Serializable {
     /**
      * Constructeur par défaut.
      */
-    public InscrireId() {
+    public ActionEvenementId() {
     }
 
     /**
@@ -31,7 +31,7 @@ public class InscrireId implements Serializable {
      * @param idE identifiant de l'événement
      * @param idU identifiant de l'utilisateur
      */
-    public InscrireId(Long idE, Long idU) {
+    public ActionEvenementId(Long idE, Long idU) {
         this.idE = idE;
         this.idU = idU;
     }
@@ -81,7 +81,7 @@ public class InscrireId implements Serializable {
     }
 
     /**
-     * Vérifie l'égalité entre deux objets InscrireId.
+     * Vérifie l'égalité entre deux objets ActionEvenementId.
      * @param obj autre objet à comparer
      * @return true si égal, false sinon
      */
@@ -96,7 +96,7 @@ public class InscrireId implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final InscrireId other = (InscrireId) obj;
+        final ActionEvenementId other = (ActionEvenementId) obj;
         if (!Objects.equals(this.idU, other.idU)) {
             return false;
         }

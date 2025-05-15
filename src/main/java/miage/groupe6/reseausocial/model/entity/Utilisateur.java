@@ -50,11 +50,11 @@ public class Utilisateur {
 
 
     /** Demandes d’amis envoyées par l'utilisateur. */
-    @OneToMany(mappedBy = "idUtilisateurDemande", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "utilisateurDemande", cascade = CascadeType.ALL)
     private Set<RelationAmis> amisDemandes = new HashSet<>();
 
     /** Demandes d’amis reçues par l'utilisateur. */
-    @OneToMany(mappedBy = "idUtilisateurRecu", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "utilisateurRecu", cascade = CascadeType.ALL)
     private Set<RelationAmis> amisRecus = new HashSet<>();
 
     /** Événements auxquels l'utilisateur s'est déclaré intéressé ou inscrit. */

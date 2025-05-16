@@ -1,6 +1,7 @@
 package miage.groupe6.reseausocial.model.jpa.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
  * Contient la logique liée à l'inscription et à la connexion.
  * Ce service agit comme une couche intermédiaire entre le contrôleur et la couche repository.
  * 
- * Auteur : Mengyi YANG
+ * Auteur : Mengyi YANG, Zheng Shiwei, Xue Kunying
  */
 
 @Service
@@ -77,5 +78,17 @@ public class UtilisateurService {
             }
         }
         return null;
-}
+    }
+
+    public Optional<Utilisateur> getUtilisateurById(Long id) {
+        return ur.findById(id);
+    }
+
+    public List<Utilisateur> rechercherParNomOuPrenom(String query) {
+        return ur.findByNomUContainingIgnoreCaseOrPrenomUContainingIgnoreCase(query, query);
+    }
+
+    public Utilisateur rechercherParEmail(String emailU) {
+        return ur.findByEmailU(emailU).orElse(null);
+    }
 }

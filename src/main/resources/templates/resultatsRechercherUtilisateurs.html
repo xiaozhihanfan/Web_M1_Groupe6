@@ -147,7 +147,7 @@ Header START -->
 <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="postMenu">Account </a>
 <ul aria-labelledby="postMenu" class="dropdown-menu">
 <li> <a class="dropdown-item" data-th-href="@{/create-page.html}" href="create-page.html" th:href="@{/create-page.html}">Create a page</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/settings.html}" href="settings.html" th:href="@{/settings.html}">Settings</a> </li>
+<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a> </li>
 <li> <a class="dropdown-item" data-th-href="@{/notifications.html}" href="notifications.html" th:href="@{/notifications.html}">Notifications</a> </li>
 <li> <a class="dropdown-item" data-th-href="@{/help.html}" href="help.html" th:href="@{/help.html}">Help center</a> </li>
 <li> <a class="dropdown-item" data-th-href="@{/help-details.html}" href="help-details.html" th:href="@{/help-details.html}">Help details</a> </li>
@@ -184,7 +184,7 @@ Header START -->
 </a>
 </li>
 <li class="nav-item ms-2">
-<a class="nav-link icon-md btn btn-light p-0" data-th-href="@{/settings.html}" href="settings.html" th:href="@{/settings.html}">
+<a class="nav-link icon-md btn btn-light p-0" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">
 <i class="bi bi-gear-fill fs-6"> </i>
 </a>
 </li>
@@ -289,7 +289,7 @@ Header START -->
 <a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" data-th-href="@{/my-profile.html}" href="my-profile.html" th:href="@{/my-profile.html}">View profile</a>
 </li>
 <!-- Links -->
-<li><a class="dropdown-item" data-th-href="@{/settings.html}" href="settings.html" th:href="@{/settings.html}"><i class="bi bi-gear fa-fw me-2"></i>Settings &amp; Privacy</a></li>
+<li><a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"><i class="bi bi-gear fa-fw me-2"></i>Settings &amp; Privacy</a></li>
 <li>
 <a class="dropdown-item" href="http://www.bootstrapmb.com">
 <i class="fa-fw bi bi-life-preserver me-2"></i>Support
@@ -409,7 +409,7 @@ Header END -->
     <a class="nav-link" data-th-href="@{/notifications.html}" href="notifications.html" th:href="@{/notifications.html}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/notification-outlined-filled.svg}" src="assets/images/icon/notification-outlined-filled.svg" th:src="@{/assets/images/icon/notification-outlined-filled.svg}"/><span>Notifications </span></a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" data-th-href="@{/settings.html}" href="settings.html" th:href="@{/settings.html}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/cog-outline-filled.svg}" src="assets/images/icon/cog-outline-filled.svg" th:src="@{/assets/images/icon/cog-outline-filled.svg}"/><span>Settings </span></a>
+    <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/cog-outline-filled.svg}" src="assets/images/icon/cog-outline-filled.svg" th:src="@{/assets/images/icon/cog-outline-filled.svg}"/><span>Settings </span></a>
     </li>
     </ul>
     <!-- Side Nav END -->
@@ -427,7 +427,7 @@ Header END -->
     <a class="nav-link" data-th-href="@{/my-profile-about.html}" href="my-profile-about.html" th:href="@{/my-profile-about.html}">About</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" data-th-href="@{/settings.html}" href="settings.html" th:href="@{/settings.html}">Settings</a>
+    <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" href="http://www.bootstrapmb.comlogin">Support </a>

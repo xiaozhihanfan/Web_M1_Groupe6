@@ -1,4 +1,4 @@
-package miage.groupe6.reseausocial;
+package miage.groupe6.reseausocial.controller;
 
 import miage.groupe6.reseausocial.controller.SettingsController;
 import miage.groupe6.reseausocial.controller.UtilisateurController;

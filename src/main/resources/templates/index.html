@@ -357,7 +357,7 @@ Header END -->
 <div class="text-center">
 <!-- Avatar -->
 <div class="avatar avatar-lg mt-n5 mb-3">
-<a href="#!"><img alt="" class="avatar-img rounded border border-white border-3" th:src="@{${utilisateur.avatarU}}"/></a>
+<a href="#!"><img alt="" class="avatar-img rounded border border-white border-3" th:src="${utilisateur.avatarU}"/></a>
 </div>
 <!-- Info -->
 <h5 class="mb-0"> <a href="#!" th:text="${utilisateur.prenomU} + ' ' + ${utilisateur.nomU}"></a> </h5>
@@ -366,21 +366,21 @@ Header END -->
 <div class="hstack gap-2 gap-xl-3 justify-content-center">
 <!-- User stat item -->
 <div>
-<h6 class="mb-0">256</h6>
+<h6 class="mb-0" th:text="${nbPost}"></h6>
 <small>Post</small>
 </div>
 <!-- Divider -->
 <div class="vr"></div>
 <!-- User stat item -->
 <div>
-<h6 class="mb-0">2.5K</h6>
+<h6 class="mb-0" th:text="${nbFollowers}"></h6>
 <small>Followers</small>
 </div>
 <!-- Divider -->
 <div class="vr"></div>
 <!-- User stat item -->
 <div>
-<h6 class="mb-0">365</h6>
+<h6 class="mb-0" th:text="${nbFollowing}"></h6>
 <small>Following</small>
 </div>
 </div>

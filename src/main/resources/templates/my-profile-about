@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Profil - Réseau Social</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/vendor/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <!-- Theme CSS -->
+    <link id="style-switch" rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+<header class="navbar-light fixed-top header-static bg-mode">
+    <!-- ... votre barre de navigation ici ... -->
+</header>
+
+<main class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Profil section -->
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img th:src="${autre.avatarU}" alt="avatar" class="rounded-circle" width="200">
+                        <h2 class="my-3">
+                            <span th:text="${autre.prenomU} + ' ' + ${autre.nomU}">Prénom Nom</span>
+                        </h2>
+                        <p class="text-muted" th:text="'@' + ${autre.userName}">@username</p>
+                    </div>
+                </div>
+
+                <!-- "About" Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">About</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2">
+                                <i class="bi bi-calendar-date fa-fw pe-1"></i>
+                                Naissance: <strong th:text="${#dates.format(autre.birthday, 'dd MMMM yyyy')}">01 janvier 1970</strong>
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-envelope fa-fw pe-1"></i>
+                                Email: <strong th:text="${autre.emailU}">email@example.com</strong>
+                            </li>
+                            <!-- Ajoutez d'autres informations si nécessaire -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Autres sections (Posts, Evénements, etc.) -->
+            </div>
+
+            <!-- Sidebar (connexion, contact, etc.) -->
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Quick Info</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2">
+                                <i class="bi bi-people fa-fw pe-1"></i>
+                                Connexions: <strong th:text="${autre.connectionsCount}">0</strong>
+                            </li>
+                            <!-- Autres stats ou liens -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-mode py-3">
+    <div class="container text-center">
+        <p class="mb-0">&copy; 2025 Réseau Social</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Template Functions -->
+<script src="/assets/js/functions.js"></script>
+</body>
+</html>

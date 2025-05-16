@@ -58,15 +58,21 @@ public class UtilisateurService {
      * @param mp mot de passe saisi
      * @return Utilisateur si authentification réussie, sinon null
      */
-    public boolean verifierSignIn(String email, String mp) {
-        Optional<Utilisateur> utilisateurO = ur.findByEmailU(email);
-
-        if(utilisateurO.isPresent()){
-            Utilisateur utilisateur = utilisateurO.get();
-            if(utilisateur.getMpU().equals(mp)){
-                return true;
+    public Utilisateur verifierSignIn(String email, String mp) {
+        Optional<Utilisateur> utilisateurOpt = ur.findByEmailU(email);
+        if (utilisateurOpt.isPresent()) {
+            Utilisateur utilisateur = utilisateurOpt.get();
+            if (utilisateur.getMpU().equals(mp)) {
+                if (utilisateur.getNomU() == null && utilisateur.getPrenomU() == null) {
+                    utilisateur.setPrenomU("modier votre");
+                    utilisateur.setNomU("profil");
+                }
+                if(utilisateur.getDescriptionU() == null){
+                    utilisateur.setDescriptionU("Voici la description par défaut...");
+                }
+                return utilisateur;
             }
         }
-        return false;
-    }
+        return null;
+}
 }

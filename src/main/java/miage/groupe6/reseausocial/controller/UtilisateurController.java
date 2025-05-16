@@ -1,5 +1,7 @@
 package miage.groupe6.reseausocial.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,10 +27,14 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Controller
 @RequestMapping("/utilisateurs")
+@SessionAttributes("utilisateur")
 public class UtilisateurController {
 
     @Autowired
     private UtilisateurService us;
+
+    @Autowired
+    private UtilisateurRepository ur;
 
     /**
      * Affiche le formulaire d'inscription.
@@ -37,9 +46,11 @@ public class UtilisateurController {
 
  
     @PostMapping("/verifierSignIn")
-    public String verifierSignIn(@RequestParam String email, @RequestParam String password, Model model) {
-        if (us.verifierSignIn(email, password)) {
-            return "index-classic";
+    public String verifierSignIn(@RequestParam String email, @RequestParam String password, Model model, HttpSession session) {
+        Utilisateur utilisateur = us.verifierSignIn(email, password);
+        if (utilisateur != null) {
+            model.addAttribute("utilisateur", utilisateur);
+            return "redirect:/";
         }
 
         String erreur = "L'adresse e-mail ou le mot de passe est incorrect ! ";
@@ -76,10 +87,10 @@ public class UtilisateurController {
             return "sign-in";
         }
         model.addAttribute("erreur", res);
-        return "sign-up";
-        
+        return "sign-up";  
     }
 
+    
 
 
 }

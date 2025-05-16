@@ -70,6 +70,9 @@ public class UtilisateurService {
                 if(utilisateur.getDescriptionU() == null){
                     utilisateur.setDescriptionU("Voici la description par défaut...");
                 }
+                if (utilisateur.getAvatarU() == null) {
+                    utilisateur.setAvatarU("/assets/images/avatar/placeholder.jpg");
+                }
                 return utilisateur;
             }
         }

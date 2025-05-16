@@ -2,6 +2,9 @@ package miage.groupe6.reseausocial.model.entity;
 
 
 
+
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +42,9 @@ public class Utilisateur {
     private String descriptionU;
     private String avatarU;
     private String dateInscription;
+    private LocalDate birthday;
+    private String telephone;
+    private String userName;
 
     /** Publications créées par l'utilisateur. */
     @OneToMany(mappedBy = "idP", cascade = CascadeType.ALL)
@@ -101,8 +107,11 @@ public class Utilisateur {
      * @param mpU mot de passe
      * @param nomU nom
      * @param prenomU prénom
+     * @param birthday date de naissance
+     * @param telephone numéro tel
+     * @param userName nom de Reseau Social
      */
-    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU) {
+    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU, LocalDate birthday, String telephone, String userName) {
         this.avatarU = avatarU;
         this.dateInscription = dateInscription;
         this.descriptionU = descriptionU;
@@ -111,6 +120,9 @@ public class Utilisateur {
         this.mpU = mpU;
         this.nomU = nomU;
         this.prenomU = prenomU;
+        this.birthday = birthday;
+        this.telephone = telephone;
+        this.userName = userName;
     }
 
     // ==== Getters & Setters ====
@@ -398,6 +410,31 @@ public class Utilisateur {
      */
     public void setAmisRecus(Set<RelationAmis> amisRecus) {
         this.amisRecus = amisRecus;
+    }
+
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 }

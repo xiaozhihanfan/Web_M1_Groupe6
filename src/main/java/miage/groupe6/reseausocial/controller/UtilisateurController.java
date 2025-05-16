@@ -1,9 +1,14 @@
 package miage.groupe6.reseausocial.controller;
 
+
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +25,6 @@ import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
  * Contrôleur Spring pour la gestion des utilisateurs.
  * Il gère l'inscription, la connexion et l'affichage des pages correspondantes.
  * 
- * Auteur : Mengyi YANG
  */
 @Controller
 @RequestMapping("/utilisateurs")
@@ -114,7 +118,55 @@ public class UtilisateurController {
         return "sign-up";  
     }
 
-    
+    // ========================= US1.3: Recherche ========================= //
+
+    @GetMapping("/rechercher")
+    public String afficherFormulaireRechercher(Model model, HttpSession session) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateur == null) return "redirect:/utilisateurs/signin";
+        model.addAttribute("utilisateur", utilisateur);
+        return "rechercherUtilisateurs";
+    }
+
+    @GetMapping("/resultats")
+    public String rechercherUtilisateurs(@RequestParam("query") String query, Model model, HttpSession session) {
+        Utilisateur utilisateurSession = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateurSession == null) return "redirect:/utilisateurs/signin";
+
+        List<Utilisateur> utilisateurs;
+
+        if (query.contains("@")) {
+            Utilisateur u = us.rechercherParEmail(query);
+            utilisateurs = u != null ? new java.util.ArrayList<>(List.of(u)) : new java.util.ArrayList<>();
+        } else {
+            utilisateurs = us.rechercherParNomOuPrenom(query);
+        }
+
+        
+        utilisateurs.removeIf(u -> u.getIdU().equals(utilisateurSession.getIdU()));
+
+        model.addAttribute("utilisateur", utilisateurSession);
+        model.addAttribute("query", query);
+        model.addAttribute("utilisateurs", utilisateurs);
+        return "resultatsRechercherUtilisateurs";
+    }
+
+    // ========================= regarder les utilisatuers rechercheés ========================= //
+
+    @GetMapping("/{id}")
+    public String afficherProfilUtilisateur(@PathVariable Long id, Model model, HttpSession session) {
+        Optional<Utilisateur> utilisateur = us.getUtilisateurById(id);
+        Utilisateur utilisateurSession = (Utilisateur) session.getAttribute("utilisateur");
+
+        if (utilisateur.isPresent()) {
+            model.addAttribute("utilisateur", utilisateurSession);
+            model.addAttribute("autre", utilisateur.get());
+            return "profilUtilisateur";
+        } else {
+            model.addAttribute("erreur", "Utilisateur introuvable.");
+            return "erreur-404";
+        }
+    }
 
 
 }

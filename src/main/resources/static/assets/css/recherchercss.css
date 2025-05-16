@@ -1,0 +1,163 @@
+/* recherche.css — Dédié aux styles de pages de recherche des utilisateurs */
+
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1200px;
+    gap: 30px;
+}
+
+
+.sidebar {
+    width: 20%;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar .profile-summary img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.sidebar .sidebar-menu a {
+    display: block;
+    margin: 10px 0;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.sidebar .sidebar-menu a:hover {
+    color: #007bff;
+}
+
+/* 中间主内容 */
+.main-content {
+    width: 60%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.main-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.user-list {
+    list-style: none;
+    padding: 0;
+}
+
+.user-card {
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: background-color 0.3s;
+}
+
+.user-card:hover {
+    background-color: #f0f4f8;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.user-info div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.right-panel {
+    width: 20%;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.right-panel ul {
+    list-style: none;
+    padding: 0;
+}
+
+.right-panel li {
+    margin: 10px 0;
+}
+
+.right-panel a {
+    color: #333;
+    text-decoration: none;
+}
+
+.right-panel a:hover {
+    color: #007bff;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.search-bar input[type="text"] {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    width: 250px;
+}
+
+.search-bar button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 6px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-info img.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #999;
+    font-size: 14px;
+}

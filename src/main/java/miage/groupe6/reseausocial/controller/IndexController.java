@@ -14,7 +14,7 @@ public class IndexController {
     public String index(HttpSession session, Model model) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         if (utilisateur == null) {
-            return "redirct://utilisateurs/signin";   
+            return "redirect:/utilisateurs/signin";   
         }
         model.addAttribute("utilisateur", utilisateur);
         return "index";

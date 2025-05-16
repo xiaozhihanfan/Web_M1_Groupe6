@@ -23,6 +23,9 @@ public class UtilisateurService {
     @Autowired
     private UtilisateurRepository ur;
 
+    @Autowired
+    private PostService ps;
+
     /**
      * Gère l'inscription d'un utilisateur.
      * 

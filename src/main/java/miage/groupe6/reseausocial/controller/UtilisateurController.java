@@ -60,6 +60,8 @@ public class UtilisateurController {
 
 
 
+    
+
 
     @GetMapping("/{id}/modifier-mdp")
     public String afficherPageModificationMotDePasse(@PathVariable Long id, Model model) {
@@ -68,7 +70,7 @@ public class UtilisateurController {
 
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("passwordForm", new PasswordChangeForm());
-        return "settingMdp";
+        return "settingsMdp";
     }
 
 

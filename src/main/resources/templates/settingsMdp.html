@@ -431,7 +431,7 @@ Header END -->
             </ul>
             <!-- Helper link END -->
             <!-- Copyright -->
-            <p class="small text-center mt-1">©2022 <a class="text-body"  href="http://www.bootstrapmb.com/"> Webestica </a></p>
+            <p class="small text-center mt-1">©2025 Groupe 6 <a class="text-body"  href="http://www.bootstrapmb.com/"> Webestica </a></p>
           
           </div>
         </nav>
@@ -443,81 +443,12 @@ Header END -->
           <!-- Setting Tab content START -->
           <div class="tab-content py-0 mb-0">
 
+            
             <!-- Account setting tab START -->
             <div class="tab-pane show active fade" id="nav-setting-tab-1">
               <!-- Account settings START -->
               <div class="card mb-4">
                 
-                <!-- Title START -->
-                <div class="card-header border-0 pb-0">
-                  <h1 class="h5 card-title">Account Settings</h1>
-                </div>
-                <!-- Card header START -->
-                <!-- Card body START -->
-                <div class="card-body">
-                  <!-- Form settings START -->
-                  <form th:action="@{/utilisateurs/{id}/modifier(id=${utilisateur.idU})}" th:object="${utilisateur}" method="post" class="row g-3">
-                    <!-- nomU -->
-                    <div class="col-sm-6">
-                        <label class="form-label">Nom</label>
-                        <input type="text" class="form-control" th:field="*{nomU}" />
-                    </div>
-                
-                    <!-- prenomU -->
-                    <div class="col-sm-6">
-                        <label class="form-label">Prénom</label>
-                        <input type="text" class="form-control" th:field="*{prenomU}" />
-                    </div>
-                
-                    <!-- emailU -->
-                    <div class="col-sm-6">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" th:field="*{emailU}" />
-                    </div>
-                
-                    <!-- userName -->
-                    <div class="col-sm-6">
-                        <label class="form-label">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" th:field="*{userName}" />
-                    </div>
-                
-                    <!-- birthday -->
-                    <div class="col-sm-6">
-                        <label class="form-label">Date de naissance</label>
-                        <input type="date" class="form-control" th:field="*{birthday}" />
-                    </div>
-                
-                    <!-- telephone -->
-                    <div class="col-sm-6">
-                        <label class="form-label">Téléphone</label>
-                        <input type="text" class="form-control" th:field="*{telephone}" />
-                    </div>
-                
-                    <!-- avatarU -->
-                    <div class="col-sm-6">
-                        <label class="form-label">URL Avatar</label>
-                        <input type="text" class="form-control" th:field="*{avatarU}" />
-                    </div>
-                
-                    <!-- descriptionU -->
-                    <div class="col-12">
-                        <label class="form-label">Description</label>
-                        <textarea class="form-control" rows="3" th:field="*{descriptionU}"></textarea>
-                    </div>
-                
-                    <!-- Submit -->
-                    <div class="col-12 text-end">
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    </div>
-                  </form>
-  
-                  <!-- Settings END -->
-                </div>
-              <!-- Card body END -->
-              </div>
-              <!-- Account settings END -->
-
-
 
               <!-- Change your password START -->
               <div class="card">
@@ -530,8 +461,8 @@ Header END -->
                 <div class="card-body">
                   
                   <!-- Settings START -->
-                  <form th:action="@{/utilisateurs/{id}/modifier-motdepasse(id=${utilisateur.idU})}" 
-                        th:object="${passwordForm}" method="post" class="row g-3 mt-4">
+                  <form th:action="@{/utilisateurs/{id}/modifier-mdp(id=${utilisateur.idU})}" 
+                  th:object="${passwordForm}" method="post" class="row g-3 mt-4">
 
                       <!-- Current password -->
                       <div class="col-12">

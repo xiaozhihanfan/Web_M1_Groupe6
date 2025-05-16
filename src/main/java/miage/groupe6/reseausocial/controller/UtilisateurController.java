@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
  * Contrôleur Spring pour la gestion des utilisateurs.
  * Il gère l'inscription, la connexion et l'affichage des pages correspondantes.
  * 
- * Auteur : Mengyi YANG
  */
 @Controller
 @RequestMapping("/utilisateurs")

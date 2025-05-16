@@ -10,7 +10,7 @@ import miage.groupe6.reseausocial.model.entity.Utilisateur;
 @Controller
 public class IndexController {
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String index(HttpSession session, Model model) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         if (utilisateur == null) {

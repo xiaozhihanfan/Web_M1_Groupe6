@@ -355,7 +355,7 @@ Header END -->
 <div class="text-center">
 <!-- Avatar -->
 <div class="avatar avatar-lg mt-n5 mb-3">
-<a href="#!"><img alt="" class="avatar-img rounded border border-white border-3" data-th-src="@{/assets/images/avatar/07.jpg}" src="assets/images/avatar/07.jpg" th:src="@{/assets/images/avatar/07.jpg}"/></a>
+<a href="#!"><img alt="" class="avatar-img rounded border border-white border-3" th:src="@{${utilisateur.avatarU}}"/></a>
 </div>
 <!-- Info -->
 <h5 class="mb-0"> <a href="#!" th:text="${utilisateur.prenomU} + ' ' + ${utilisateur.nomU}"></a> </h5>

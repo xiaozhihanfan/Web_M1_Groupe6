@@ -37,8 +37,8 @@ Header START -->
 		<div class="container">
 			<!-- Logo START -->
 			<a class="navbar-brand" href="index.html">
-        <img class="light-mode-item navbar-brand-item" src="assets/images/logo.svg" alt="logo">
-				<img class="dark-mode-item navbar-brand-item" src="assets/images/logo.svg" alt="logo">
+        <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
 			</a>
 			<!-- Logo END -->
 
@@ -205,7 +205,7 @@ Header START -->
                   <li>
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/01.jpg}" alt="">
                       </div>
                       <div class="ms-sm-3">
                         <div class=" d-flex">
@@ -223,7 +223,7 @@ Header START -->
                   <li>
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/02.jpg}" alt="">
                       </div>
                       <div class="ms-sm-3 d-flex">
                         <div>
@@ -252,7 +252,7 @@ Header START -->
                   <li>
                     <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/logo/12.svg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/logo/12.svg}" alt="">
                       </div>
                       <div class="ms-sm-3 d-flex">
                         <p class="small mb-2"><b>Bootstrap in the news:</b> The search giant’s parent company, Alphabet, just joined an exclusive club of tech stocks.</p>
@@ -272,7 +272,7 @@ Header START -->
 
         <li class="nav-item ms-2 dropdown">
 					<a class="nav-link btn icon-md p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-2" src="assets/images/avatar/07.jpg" alt="">
+						<img class="avatar-img rounded-2" th:src="@{/assets/images/avatar/07.jpg}" alt="">
 					</a>
           <ul class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3" aria-labelledby="profileDropdown">
             <!-- Profile info -->
@@ -280,7 +280,7 @@ Header START -->
               <div class="d-flex align-items-center position-relative">
                 <!-- Avatar -->
                 <div class="avatar me-3">
-                  <img class="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar">
+                  <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/07.jpg}" alt="avatar">
                 </div>
                 <div>
                   <a class="h6 stretched-link" href="#">Lori Ferguson</a>
@@ -509,7 +509,7 @@ Header END -->
                   <!-- Interests item START -->
                   <div class="d-flex align-items-center position-relative">
                       <div class="avatar">
-                        <img class="avatar-img" src="assets/images/logo/04.svg" alt="">
+                        <img class="avatar-img" th:src="@{/assets/images/logo/04.svg}" alt="">
                       </div>
                       <div class="ms-2">
                         <h6 class="mb-0"> <a class="stretched-link" href="#"> Oracle </a></h6>
@@ -522,7 +522,7 @@ Header END -->
                   <!-- Interests item START -->
                   <div class="d-flex align-items-center position-relative">
                       <div class="avatar">
-                        <img class="avatar-img" src="assets/images/logo/13.svg" alt="">
+                        <img class="avatar-img" th:src="@{/assets/images/logo/13.svg}" alt="">
                       </div>
                       <div class="ms-2">
                         <h6 class="mb-0"> <a class="stretched-link" href="#"> Apple </a></h6>
@@ -535,7 +535,7 @@ Header END -->
                   <!-- Interests item START -->
                   <div class="d-flex align-items-center position-relative">
                       <div class="avatar">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/placeholder.jpg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/placeholder.jpg}" alt="">
                       </div>
                       <div class="ms-2">
                         <h6 class="mb-0"> <a class="stretched-link" href="#"> Elon musk </a></h6>
@@ -548,7 +548,7 @@ Header END -->
                   <!-- Interests item START -->
                   <div class="d-flex align-items-center position-relative">
                       <div class="avatar">
-                        <img class="avatar-img" src="assets/images/events/04.jpg" alt="">
+                        <img class="avatar-img" th:src="@{/assets/images/events/04.jpg}" alt="">
                       </div>
                       <div class="ms-2">
                         <h6 class="mb-0"> <a class="stretched-link" href="#"> The X Factor </a></h6>
@@ -561,7 +561,7 @@ Header END -->
                   <!-- Interests item START -->
                   <div class="d-flex align-items-center position-relative">
                       <div class="avatar">
-                        <img class="avatar-img rounded-circle" src="assets/images/logo/12.svg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/logo/12.svg}" alt="">
                       </div>
                       <div class="ms-2">
                         <h6 class="mb-0"> <a class="stretched-link" href="#"> Getbootstrap </a></h6>
@@ -631,7 +631,7 @@ Header END -->
                   <div class="d-flex">
                     <!-- Avatar -->
                     <div class="avatar me-3">
-                      <a href="#!"> <img class="avatar-img rounded-circle" src="assets/images/logo/08.svg" alt=""> </a>
+                      <a href="#!"> <img class="avatar-img rounded-circle" th:src="@{/assets/images/logo/08.svg}" alt=""> </a>
                     </div>
                     <!-- Info -->
                     <div>
@@ -645,7 +645,7 @@ Header END -->
                   <div class="d-flex">
                     <!-- Avatar -->
                     <div class="avatar me-3">
-                      <a href="#!"> <img class="avatar-img rounded-circle" src="assets/images/logo/09.svg" alt=""> </a>
+                      <a href="#!"> <img class="avatar-img rounded-circle" th:src="@{/assets/images/logo/09.svg}" alt=""> </a>
                     </div>
                     <!-- Info -->
                     <div>
@@ -659,7 +659,7 @@ Header END -->
                   <div class="d-flex">
                     <!-- Avatar -->
                     <div class="avatar me-3">
-                      <a href="#!"> <img class="avatar-img rounded-circle" src="assets/images/logo/10.svg" alt=""> </a>
+                      <a href="#!"> <img class="avatar-img rounded-circle" th:src="@{/assets/images/logo/10.svg}" alt=""> </a>
                     </div>
                     <!-- Info -->
                     <div>
@@ -689,32 +689,32 @@ Header END -->
                   <div class="row g-2">
                     <!-- Photos item -->
                     <div class="col-6">
-                      <a href="assets/images/albums/01.jpg" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" src="assets/images/albums/01.jpg" alt="">
+                      <a th:href="@{/assets/images/albums/01.jpg}" data-gallery="image-popup" data-glightbox="">
+                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/01.jpg}" alt="">
                       </a>
                     </div>
                     <!-- Photos item -->
                     <div class="col-6">
-                      <a href="assets/images/albums/02.jpg" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" src="assets/images/albums/02.jpg" alt="">
+                      <a th:href="@{/assets/images/albums/02.jpg}" data-gallery="image-popup" data-glightbox="">
+                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/02.jpg}" alt="">
                       </a>
                     </div>
                     <!-- Photos item -->
                     <div class="col-4">
-                      <a href="assets/images/albums/03.jpg" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" src="assets/images/albums/03.jpg" alt="">
+                      <a th:href="@{/assets/images/albums/03.jpg}" data-gallery="image-popup" data-glightbox="">
+                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/03.jpg}" alt="">
                       </a>
                     </div>
                     <!-- Photos item -->
                     <div class="col-4">
-                      <a href="assets/images/albums/04.jpg" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" src="assets/images/albums/04.jpg" alt="">
+                      <a th:href="@{/assets/images/albums/04.jpg}" data-gallery="image-popup" data-glightbox="">
+                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/04.jpg}" alt="">
                       </a>
                     </div>
                     <!-- Photos item -->
                     <div class="col-4">
-                      <a href="assets/images/albums/05.jpg" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" src="assets/images/albums/05.jpg" alt="">
+                      <a th:href="@{/assets/images/albums/05.jpg}" data-gallery="image-popup" data-glightbox="">
+                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/05.jpg}" alt="">
                       </a>
                       <!-- glightbox Albums left bar END  -->
                     </div>
@@ -744,7 +744,7 @@ Header END -->
                         <!-- Card body -->
                         <div class="card-body p-2 pb-0">
                           <div class="avatar avatar-story avatar-xl">
-                            <a href="#!"><img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt=""></a>
+                            <a href="#!"><img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/02.jpg}" alt=""></a>
                           </div>
                           <h6 class="card-title mb-1 mt-3"> <a href="#!"> Amanda Reed </a></h6>
                           <p class="mb-0 small lh-sm">16 mutual connections</p>
@@ -764,7 +764,7 @@ Header END -->
                         <!-- Card body -->
                         <div class="card-body p-2 pb-0">
                           <div class="avatar avatar-xl">
-                            <a href="#!"><img class="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt=""></a>
+                            <a href="#!"><img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/03.jpg}" alt=""></a>
                           </div>
                           <h6 class="card-title mb-1 mt-3"> <a href="#!"> Samuel Bishop </a></h6>
                           <p class="mb-0 small lh-sm">22 mutual connections</p>
@@ -784,7 +784,7 @@ Header END -->
                         <!-- Card body -->
                         <div class="card-body p-2 pb-0">
                           <div class="avatar avatar-xl">
-                            <a href="#!"><img class="avatar-img rounded-circle" src="assets/images/avatar/04.jpg" alt=""></a>
+                            <a href="#!"><img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/04.jpg}" alt=""></a>
                           </div>
                           <h6 class="card-title mb-1 mt-3"> <a href="#"> Bryan Knight </a></h6>
                           <p class="mb-0 small lh-sm">1 mutual connection</p>
@@ -804,7 +804,7 @@ Header END -->
                         <!-- Card body -->
                         <div class="card-body p-2 pb-0">
                           <div class="avatar avatar-xl">
-                            <a href="#!"><img class="avatar-img rounded-circle" src="assets/images/avatar/05.jpg" alt=""></a>
+                            <a href="#!"><img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/05.jpg}" alt=""></a>
                           </div>
                           <h6 class="card-title mb-1 mt-3"> <a href="#!"> Amanda Reed </a></h6>
                           <p class="mb-0 small lh-sm">15 mutual connections</p>

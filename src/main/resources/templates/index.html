@@ -269,7 +269,7 @@ Header START -->
 <!-- Notification dropdown END -->
 <li class="nav-item ms-2 dropdown">
 <a aria-expanded="false" class="nav-link btn icon-md p-0" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" href="#" id="profileDropdown" role="button">
-<img alt="" class="avatar-img rounded-2" data-th-src="@{/assets/images/avatar/07.jpg}" src="assets/images/avatar/07.jpg" th:src="@{/assets/images/avatar/07.jpg}"/>
+<img th:src="@{${utilisateur.avatar}}" alt="avatar" class="avatar-img rounded-circle" />
 </a>
 <ul aria-labelledby="profileDropdown" class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3">
 <!-- Profile info -->
@@ -540,9 +540,11 @@ Header END -->
 <div class="card card-body">
 <div class="d-flex mb-3">
 <!-- Avatar -->
-<div class="avatar avatar-xs me-2">
-<a href="#"> <img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/03.jpg}" src="assets/images/avatar/03.jpg" th:src="@{/assets/images/avatar/03.jpg}"/> </a>
-</div>
+  <div class="avatar avatar-xs me-2">
+    <a href="#"> 
+      <img th:src="@{${utilisateur.avatar}}" alt="avatar" class="avatar-img rounded-circle" />
+    </a>
+  </div>
 <!-- Post input -->
 <form class="w-100" method="post" th:action="@{/posts/creerPost}" enctype="multipart/form-data">
 <textarea class="form-control pe-4 border-0" data-autoresize="" placeholder="Share your thoughts..." rows="2" name="contenuP"></textarea>

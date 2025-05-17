@@ -53,4 +53,13 @@ public class PostService {
     public List<Post> findAllOrderedByDate() {
         return pr.findAllByOrderByDateP();
     }
+
+
+    /**
+     * Récupère tous les posts de l’utilisateur passé en paramètre,
+     * triés par date de publication décroissante (plus récents d’abord).
+     */
+    public List<Post> findByAuteurOrderByDateDesc(Utilisateur auteur) {
+        return pr.findByAuteurOrderByDatePDesc(auteur);
+    }
 }

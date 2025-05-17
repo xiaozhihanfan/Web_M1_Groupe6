@@ -36,292 +36,305 @@
   </script>
 </link></link></link></link></head>
 <body>
+
+
 <!-- =======================
 Header START -->
 <header class="navbar-light fixed-top header-static bg-mode">
-<!-- Logo Nav START -->
-<nav class="navbar navbar-expand-lg">
-<div class="container">
-<!-- Logo START -->
-<a class="navbar-brand" data-th-href="@{/index.html}" href="index.html" th:href="@{/index.html}">
-<img alt="logo" class="light-mode-item navbar-brand-item" data-th-src="@{/assets/images/logo.svg}" src="assets/images/logo.svg" th:src="@{/assets/images/logo.svg}"/>
-<img alt="logo" class="dark-mode-item navbar-brand-item" data-th-src="@{/assets/images/logo.svg}" src="assets/images/logo.svg" th:src="@{/assets/images/logo.svg}"/>
-</a>
-<!-- Logo END -->
-<!-- Responsive navbar toggler -->
-<button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler ms-auto icon-md btn btn-light p-0" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
-<span class="navbar-toggler-animation">
-<span></span>
-<span></span>
-<span></span>
-</span>
-</button>
-<!-- Main navbar START -->
-<div class="collapse navbar-collapse" id="navbarCollapse">
-<!-- Nav Search START -->
-<div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
-<div class="nav-item w-100">
-<form class="rounded position-relative" method="get" action="/utilisateurs/resultats">
-  <input name="query" aria-label="Search" class="form-control ps-5 bg-light" placeholder="Search..." type="search"/>
-  <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit">
-    <i class="bi bi-search fs-5"> </i>
-  </button>
-</form>
-</div>
-</div>
-<!-- Nav Search END -->
-<ul class="navbar-nav navbar-nav-scroll ms-auto">
-<!-- Nav item 1 Demos -->
-<li class="nav-item dropdown">
-<a aria-expanded="false" aria-haspopup="true" class="nav-link active dropdown-toggle" data-bs-toggle="dropdown" href="#" id="homeMenu">Demo</a>
-<ul aria-labelledby="homeMenu" class="dropdown-menu">
-<li> <a class="dropdown-item active" data-th-href="@{/index.html}" href="index.html" th:href="@{/index.html}">Home default</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/index-classic.html}" href="index-classic.html" th:href="@{/index-classic.html}">Home classic</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/index-post.html}" href="index-post.html" th:href="@{/index-post.html}">Home post</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/index-video.html}" href="index-video.html" th:href="@{/index-video.html}">Home video</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/index-event.html}" href="index-event.html" th:href="@{/index-event.html}">Home event</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/landing.html}" href="landing.html" th:href="@{/landing.html}">Landing page</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/app-download.html}" href="app-download.html" th:href="@{/app-download.html}">App download</a></li>
-<li class="dropdown-divider"></li>
-<li>
-<a class="dropdown-item" href="">
-<i class="text-success fa-fw bi bi-cloud-download-fill me-2"></i>Buy Social!
-								</a>
-</li>
-</ul>
-</li>
-<!-- Nav item 2 Pages -->
-<li class="nav-item dropdown">
-<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="pagesMenu">Pages</a>
-<ul aria-labelledby="pagesMenu" class="dropdown-menu">
-<li> <a class="dropdown-item" data-th-href="@{/albums.html}" href="albums.html" th:href="@{/albums.html}">Albums</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/celebration.html}" href="celebration.html" th:href="@{/celebration.html}">Celebration</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/messaging.html}" href="messaging.html" th:href="@{/messaging.html}">Messaging</a></li>
-<!-- Dropdown submenu -->
-<li class="dropdown-submenu dropend">
-<a class="dropdown-item dropdown-toggle" href="#!">Profile</a>
-<ul class="dropdown-menu" data-bs-popper="none">
-<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Post</a> </li>
-<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}">Profil</a> </li>
-<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}">Amis</a> </li>
-<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-group(id=${utilisateur.idU})}">Groupe</a> </li>
-<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-event(id=${utilisateur.idU})}">Events</a> </li>
-</ul>
-</li>
-<li> <a class="dropdown-item" data-th-href="@{/events.html}" href="events.html" th:href="@{/events.html}">Events</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/events-2.html}" href="events-2.html" th:href="@{/events-2.html}">Events 2</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/event-details.html}" href="event-details.html" th:href="@{/event-details.html}">Event details</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/event-details-2.html}" href="event-details-2.html" th:href="@{/event-details-2.html}">Event details 2</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/groups.html}" href="groups.html" th:href="@{/groups.html}">Groups</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/group-details.html}" href="group-details.html" th:href="@{/group-details.html}">Group details</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/post-videos.html}" href="post-videos.html" th:href="@{/post-videos.html}">Post videos</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/post-video-details.html}" href="post-video-details.html" th:href="@{/post-video-details.html}">Post video details</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/post-details.html}" href="post-details.html" th:href="@{/post-details.html}">Post details</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/video-details.html}" href="video-details.html" th:href="@{/video-details.html}">Video details</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/blog.html}" href="blog.html" th:href="@{/blog.html}">Blog</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/blog-details.html}" href="blog-details.html" th:href="@{/blog-details.html}">Blog details</a></li>
-<!-- Dropdown submenu levels -->
-<li class="dropdown-divider"></li>
-<li class="dropdown-submenu dropend">
-<a class="dropdown-item dropdown-toggle" href="#">Dropdown levels</a>
-<ul class="dropdown-menu dropdown-menu-end" data-bs-popper="none">
-<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
-<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
-<!-- dropdown submenu open left -->
-<li class="dropdown-submenu dropstart">
-<a class="dropdown-item dropdown-toggle" href="#">Dropdown (start)</a>
-<ul class="dropdown-menu dropdown-menu-end" data-bs-popper="none">
-<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
-<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
-</ul>
-</li>
-<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
-</ul>
-</li>
-</ul>
-</li>
-<!-- Nav item 3 Post -->
-<li class="nav-item dropdown">
-<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="postMenu">Account </a>
-<ul aria-labelledby="postMenu" class="dropdown-menu">
-<li> <a class="dropdown-item" data-th-href="@{/create-page.html}" href="create-page.html" th:href="@{/create-page.html}">Create a page</a></li>
-<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/notifications.html}" href="notifications.html" th:href="@{/notifications.html}">Notifications</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/help.html}" href="help.html" th:href="@{/help.html}">Help center</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/help-details.html}" href="help-details.html" th:href="@{/help-details.html}">Help details</a> </li>
-<!-- dropdown submenu open left -->
-<li class="dropdown-submenu dropstart">
-<a class="dropdown-item dropdown-toggle" href="#">Authentication</a>
-<ul class="dropdown-menu dropdown-menu-end" data-bs-popper="none">
-<li> <a class="dropdown-item" data-th-href="@{/sign-in.html}" href="sign-in.html" th:href="@{/sign-in.html}">Sign in</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/sign-up.html}" href="sign-up.html" th:href="@{/sign-up.html}">Sing up</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/forgot-password.html}" href="forgot-password.html" th:href="@{/forgot-password.html}">Forgot password</a> </li>
-<li class="dropdown-divider"></li>
-<li> <a class="dropdown-item" data-th-href="@{/sign-in-advance.html}" href="sign-in-advance.html" th:href="@{/sign-in-advance.html}">Sign in advance</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/sign-up-advance.html}" href="sign-up-advance.html" th:href="@{/sign-up-advance.html}">Sing up advance</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/forgot-password-advance.html}" href="forgot-password-advance.html" th:href="@{/forgot-password-advance.html}">Forgot password advance</a> </li>
-</ul>
-</li>
-<li> <a class="dropdown-item" data-th-href="@{/error-404.html}" href="error-404.html" th:href="@{/error-404.html}">Error 404</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/offline.html}" href="offline.html" th:href="@{/offline.html}">Offline</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/privacy-and-terms.html}" href="privacy-and-terms.html" th:href="@{/privacy-and-terms.html}">Privacy &amp; terms</a> </li>
-</ul>
-</li>
-<!-- Nav item 4 Mega menu -->
-<li class="nav-item">
-<a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}">Mes amis</a>
-</li>
-</ul>
-</div>
-<!-- Main navbar END -->
-<!-- Nav right START -->
-<ul class="nav flex-nowrap align-items-center ms-sm-3 list-unstyled">
-<li class="nav-item ms-2">
-<a class="nav-link icon-md btn btn-light p-0" data-th-href="@{/messaging.html}" href="messaging.html" th:href="@{/messaging.html}">
-<i class="bi bi-chat-left-text-fill fs-6"> </i>
-</a>
-</li>
-<li class="nav-item ms-2">
-<a class="nav-link icon-md btn btn-light p-0" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">
-<i class="bi bi-gear-fill fs-6"> </i>
-</a>
-</li>
-<li class="nav-item dropdown ms-2">
-<a aria-expanded="false" class="nav-link icon-md btn btn-light p-0" data-bs-auto-close="outside" data-bs-toggle="dropdown" href="#" id="notifDropdown" role="button">
-<span class="badge-notif animation-blink"></span>
-<i class="bi bi-bell-fill fs-6"> </i>
-</a>
-<div aria-labelledby="notifDropdown" class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0">
-<div class="card">
-<div class="card-header d-flex justify-content-between align-items-center">
-<h6 class="m-0">Notifications <span class="badge bg-danger bg-opacity-10 text-danger ms-2">4 new</span></h6>
-<a class="small" href="#">Clear all</a>
-</div>
-<div class="card-body p-0">
-<ul class="list-group list-group-flush list-unstyled p-2">
+
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-lg">
+		<div class="container">
+			<!-- Logo START -->
+			<a class="navbar-brand" th:href="@{/(id=${utilisateur.idU})}">
+        <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+			</a>
+			<!-- Logo END -->
+
+			<!-- Responsive navbar toggler -->
+			<button class="navbar-toggler ms-auto icon-md btn btn-light p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-animation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+
+			<!-- Main navbar START -->
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+
+        <!-- Nav Search START -->
+        <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
+          <div class="nav-item w-100">
+            <form class="rounded position-relative">
+              <input class="form-control ps-5 bg-light" type="search" placeholder="Search..." aria-label="Search">
+              <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit"><i class="bi bi-search fs-5"> </i></button>
+            </form>
+          </div>
+        </div>
+        <!-- Nav Search END -->
+
+				<ul class="navbar-nav navbar-nav-scroll ms-auto">
+					<!-- Nav item 1 Demos -->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="homeMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+						<ul class="dropdown-menu" aria-labelledby="homeMenu">
+							<li> <a class="dropdown-item" th:href="@{/(id=${utilisateur.idU})}">Index</a></li>
+						</ul>
+					</li>
+					<!-- Nav item 2 Pages -->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="pagesMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
+						<ul class="dropdown-menu" aria-labelledby="pagesMenu">
+							<!-- <li> <a class="dropdown-item" href="albums.html">Albums</a></li>
+							<li> <a class="dropdown-item" href="celebration.html">Celebration</a></li>
+              <li> <a class="dropdown-item" href="messaging.html">Messaging</a></li> -->
+							<!-- Dropdown submenu -->
+							<li class="dropdown-submenu dropend"> 
+                <a class="dropdown-item dropdown-toggle" href="#!">Profile</a>
+								<ul class="dropdown-menu" data-bs-popper="none">
+									<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Post</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}">Profil</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}">Amis</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-group(id=${utilisateur.idU})}">Groupe</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-event(id=${utilisateur.idU})}">Evenements</a> </li>
+								</ul>
+							</li>
+
+							<!-- <li> <a class="dropdown-item" href="events.html">Events</a></li>
+							<li> <a class="dropdown-item" href="events-2.html">Events 2</a></li>
+							<li> <a class="dropdown-item" href="event-details.html">Event details</a></li>
+							<li> <a class="dropdown-item" href="event-details-2.html">Event details 2</a></li>
+							<li> <a class="dropdown-item" href="groups.html">Groups</a></li>
+							<li> <a class="dropdown-item" href="group-details.html">Group details</a></li>
+							<li> <a class="dropdown-item" href="post-videos.html">Post videos</a></li>
+							<li> <a class="dropdown-item" href="post-video-details.html">Post video details</a></li>
+							<li> <a class="dropdown-item" href="post-details.html">Post details</a></li>
+							<li> <a class="dropdown-item" href="video-details.html">Video details</a></li>
+              <li> <a class="dropdown-item" href="blog.html">Blog</a></li>
+							<li> <a class="dropdown-item" href="blog-details.html">Blog details</a></li> -->
+              
+							<!-- Dropdown submenu levels -->
+
+							<!-- <li class="dropdown-divider"></li>
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#">Dropdown levels</a>
+								<ul class="dropdown-menu dropdown-menu-end" data-bs-popper="none">
+									<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+									<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+									
+									<li class="dropdown-submenu dropstart">
+										<a class="dropdown-item dropdown-toggle" href="#">Dropdown (start)</a>
+										<ul class="dropdown-menu dropdown-menu-end" data-bs-popper="none">
+											<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+											<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+										</ul>
+									</li>
+									<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+								</ul>
+							</li> -->
+						</ul>
+					</li>
+
+					<!-- Nav item 3 Post -->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="postMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account </a>
+						<ul class="dropdown-menu" aria-labelledby="postMenu">
+              <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a> </li>
+
+              <!-- dropdown submenu open left -->
+               
+              <!-- <li class="dropdown-submenu dropstart">
+                <a class="dropdown-item dropdown-toggle" href="#">Authentication</a>
+                <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="none">
+                  <li> <a class="dropdown-item" href="sign-in.html">Sign in</a> </li>
+                  <li> <a class="dropdown-item" href="sign-up.html">Sing up</a> </li>
+                  <li> <a class="dropdown-item" href="forgot-password.html">Forgot password</a> </li>
+                  <li class="dropdown-divider"></li>
+                  <li> <a class="dropdown-item" href="sign-in-advance.html">Sign in advance</a> </li>
+                  <li> <a class="dropdown-item" href="sign-up-advance.html">Sing up advance</a> </li>
+                  <li> <a class="dropdown-item" href="forgot-password-advance.html">Forgot password advance</a> </li>
+                </ul>
+              </li>
+              <li> <a class="dropdown-item" href="error-404.html">Error 404</a> </li>
+              <li> <a class="dropdown-item" href="offline.html">Offline</a> </li>
+              <li> <a class="dropdown-item" href="privacy-and-terms.html">Privacy & terms</a> </li> -->
+						</ul>
+					</li>
+
+
+
+          
+					<!-- Nav item 4 Mega menu -->
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}">Mes Amis</a>
+					</li>
+				</ul>
+			</div>
+			<!-- Main navbar END -->
+
+			<!-- Nav right START -->
+			<ul class="nav flex-nowrap align-items-center ms-sm-3 list-unstyled">
+				<li class="nav-item ms-2">
+					<!-- <a class="nav-link icon-md btn btn-light p-0" href="messaging.html">
+						<i class="bi bi-chat-left-text-fill fs-6"> </i>
+					</a> -->
+				</li>
+
+        <li class="nav-item ms-2">
+					<a class="nav-link icon-md btn btn-light p-0" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">
+						<i class="bi bi-gear-fill fs-6"> </i>
+					</a>
+				</li>
+
+        <li class="nav-item dropdown ms-2">
+					<!-- <a class="nav-link icon-md btn btn-light p-0" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            <span class="badge-notif animation-blink"></span>
+						<i class="bi bi-bell-fill fs-6"> </i>
+					</a>
+          <div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0" aria-labelledby="notifDropdown">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="m-0">Notifications <span class="badge bg-danger bg-opacity-10 text-danger ms-2">4 new</span></h6>
+                <a class="small" href="#">Clear all</a>
+              </div>
+              <div class="card-body p-0">
+                <ul class="list-group list-group-flush list-unstyled p-2"> -->
 <!-- Notif item -->
-<li>
-<div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
-<div class="avatar text-center d-none d-sm-inline-block">
-<img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/01.jpg}" src="assets/images/avatar/01.jpg" th:src="@{/assets/images/avatar/01.jpg}"/>
-</div>
-<div class="ms-sm-3">
-<div class="d-flex">
-<p class="small mb-2"><b>Judy Nguyen</b> sent you a friend request.</p>
-<p class="small ms-3 text-nowrap">Just now</p>
-</div>
-<div class="d-flex">
-<button class="btn btn-sm py-1 btn-primary me-2">Accept </button>
-<button class="btn btn-sm py-1 btn-danger-soft">Delete </button>
-</div>
-</div>
-</div>
-</li>
+                  <!-- <li>
+                    <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
+                      <div class="avatar text-center d-none d-sm-inline-block">
+                        <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="">
+                      </div>
+                      <div class="ms-sm-3">
+                        <div class=" d-flex">
+                        <p class="small mb-2"><b>Judy Nguyen</b> sent you a friend request.</p>
+                        <p class="small ms-3 text-nowrap">Just now</p>
+                      </div>
+                      <div class="d-flex">
+                        <button class="btn btn-sm py-1 btn-primary me-2">Accept </button>
+                        <button class="btn btn-sm py-1 btn-danger-soft">Delete </button>
+                      </div>
+                    </div>
+                  </div>
+                  </li> -->
 <!-- Notif item -->
-<li>
-<div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative">
-<div class="avatar text-center d-none d-sm-inline-block">
-<img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/02.jpg}" src="assets/images/avatar/02.jpg" th:src="@{/assets/images/avatar/02.jpg}"/>
-</div>
-<div class="ms-sm-3 d-flex">
-<div>
-<p class="small mb-2">Wish <b>Amanda Reed</b> a happy birthday (Nov 12)</p>
-<button class="btn btn-sm btn-outline-light py-1 me-2">Say happy birthday 🎂</button>
-</div>
-<p class="small ms-3">2min</p>
-</div>
-</div>
-</li>
+                  <!-- <li>
+                    <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative">
+                      <div class="avatar text-center d-none d-sm-inline-block">
+                        <img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="">
+                      </div>
+                      <div class="ms-sm-3 d-flex">
+                        <div>
+                          <p class="small mb-2">Wish <b>Amanda Reed</b> a happy birthday (Nov 12)</p>
+                          <button class="btn btn-sm btn-outline-light py-1 me-2">Say happy birthday 🎂</button>
+                        </div>
+                        <p class="small ms-3">2min</p>
+                      </div>
+                    </div>
+                  </li> -->
 <!-- Notif item -->
-<li>
-<a class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3" href="#">
-<div class="avatar text-center d-none d-sm-inline-block">
-<div class="avatar-img rounded-circle bg-success"><span class="text-white position-absolute top-50 start-50 translate-middle fw-bold">WB</span></div>
-</div>
-<div class="ms-sm-3">
-<div class="d-flex">
-<p class="small mb-2">Webestica has 15 like and 1 new activity</p>
-<p class="small ms-3">1hr</p>
-</div>
-</div>
-</a>
-</li>
+                  <!-- <li>
+                    <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3">
+                      <div class="avatar text-center d-none d-sm-inline-block">
+                        <div class="avatar-img rounded-circle bg-success"><span class="text-white position-absolute top-50 start-50 translate-middle fw-bold">WB</span></div>
+                      </div>
+                      <div class="ms-sm-3">
+                        <div class="d-flex">
+                          <p class="small mb-2">Webestica has 15 like and 1 new activity</p>
+                          <p class="small ms-3">1hr</p>
+                        </div>
+                      </div>
+                    </a>
+                  </li> -->
 <!-- Notif item -->
-<li>
-<a class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1" href="#">
-<div class="avatar text-center d-none d-sm-inline-block">
-<img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/logo/12.svg}" src="assets/images/logo/12.svg" th:src="@{/assets/images/logo/12.svg}"/>
-</div>
-<div class="ms-sm-3 d-flex">
-<p class="small mb-2"><b>Bootstrap in the news:</b> The search giant’s parent company, Alphabet, just joined an exclusive club of tech stocks.</p>
-<p class="small ms-3">4hr</p>
-</div>
-</a>
-</li>
-</ul>
-</div>
-<div class="card-footer text-center">
-<a class="btn btn-sm btn-primary-soft" href="#">See all incoming activity</a>
-</div>
-</div>
-</div>
-</li>
-<!-- Notification dropdown END -->
-<li class="nav-item ms-2 dropdown">
-<a aria-expanded="false" class="nav-link btn icon-md p-0" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" href="#" id="profileDropdown" role="button">
-<img th:src="@{${utilisateur.avatar}}" alt="avatar" class="avatar-img rounded-circle" />
-</a>
-<ul aria-labelledby="profileDropdown" class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3">
-<!-- Profile info -->
-<li class="px-3">
-<div class="d-flex align-items-center position-relative">
-<!-- Avatar -->
-<div class="avatar me-3">
-<img alt="avatar" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/07.jpg}" src="assets/images/avatar/07.jpg" th:src="@{/assets/images/avatar/07.jpg}"/>
-</div>
-<div>
-<a class="h6 stretched-link" href="#">Lori Ferguson</a>
-<p class="small m-0">Web Developer</p>
-</div>
-</div>
-<a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Regarde profil</a>
-</li>
-<!-- Links -->
-<li><a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"></i>Settings &amp; Privacy</a></li>
-<li>
-<a class="dropdown-item" href="http://www.bootstrapmb.com">
-<i class="fa-fw bi bi-life-preserver me-2"></i>Support
-              </a>
-</li>
-<li>
-<a class="dropdown-item" href="">
-<i class="fa-fw bi bi-card-text me-2"></i>Documentation
-              </a>
-</li>
-<li class="dropdown-divider"></li>
-<li><a class="dropdown-item bg-danger-soft-hover" data-th-href="@{/sign-in-advance.html}" href="sign-in-advance.html" th:href="@{/sign-in-advance.html}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
-<li> <hr class="dropdown-divider"/></li>
-<!-- Dark mode switch START -->
-<li>
-<div class="modeswitch-wrap" id="darkModeSwitch">
-<div class="modeswitch-item">
-<div class="modeswitch-icon"></div>
-</div>
-<span>Dark mode</span>
-</div>
-</li>
-<!-- Dark mode switch END -->
-</ul>
-</li>
-<!-- Profile START -->
-</ul>
-<!-- Nav right END -->
-</div>
-</nav>
-<!-- Logo Nav END -->
+
+                  <!-- <li>
+                    <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
+                      <div class="avatar text-center d-none d-sm-inline-block">
+                        <img class="avatar-img rounded-circle" src="assets/images/logo/12.svg" alt="">
+                      </div>
+                      <div class="ms-sm-3 d-flex">
+                        <p class="small mb-2"><b>Bootstrap in the news:</b> The search giant’s parent company, Alphabet, just joined an exclusive club of tech stocks.</p>
+                        <p class="small ms-3">4hr</p>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer text-center">
+                <a href="#" class="btn btn-sm btn-primary-soft">See all incoming activity</a>
+              </div>
+            </div>
+          </div> -->
+				</li>
+        <!-- Notification dropdown END -->
+
+        <li class="nav-item ms-2 dropdown">
+					<a class="nav-link btn icon-md p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						<img class="avatar-img rounded-2" th:src="@{/assets/images/avatar/07.jpg}" alt="">
+					</a>
+          <ul class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3" aria-labelledby="profileDropdown">
+            <!-- Profile info -->
+            <li class="px-3">
+              <div class="d-flex align-items-center position-relative">
+                <!-- Avatar -->
+                <div class="avatar me-3">
+                  <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/07.jpg}" alt="avatar">
+                </div>
+                <div>
+                  <a class="h6 stretched-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">
+                    <strong th:text="${utilisateur.prenomU} + ' ' + ${utilisateur.nomU}"> ZHENG Shiwei </strong>
+                  </a>
+                  <p class="small m-0" th:text="${utilisateur.universite}">Universite</p>
+                  <p class="small m-0" th:text="${utilisateur.ville}">Ville</p>
+                </div>
+              </div>
+              <a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Regarde Profil</a>
+            </li>
+            <!-- Links -->
+            <li><a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"><i class="bi bi-gear fa-fw me-2"></i>Settings & Privacy</a></li>
+            <!-- <li> 
+              <a class="dropdown-item" href="http://www.bootstrapmb.com" >
+                <i class="fa-fw bi bi-life-preserver me-2"></i>Support
+              </a> 
+            </li>
+            <li> 
+              <a class="dropdown-item" href="" >
+                <i class="fa-fw bi bi-card-text me-2"></i>Documentation
+              </a> 
+            </li> -->
+            <li class="dropdown-divider"></li>
+            <li><a class="dropdown-item bg-danger-soft-hover" th:href="@{/utilisateurs/signin}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+            <li> <hr class="dropdown-divider"></li>
+
+            <!-- Dark mode switch START -->
+            <li>
+              <div class="modeswitch-wrap" id="darkModeSwitch">
+                <div class="modeswitch-item">
+                  <div class="modeswitch-icon"></div>
+                </div>
+                <span>Dark mode</span>
+              </div>
+            </li> 
+            <!-- Dark mode switch END -->
+
+          </ul>
+				</li>
+			  <!-- Profile START -->
+        
+			</ul>
+			<!-- Nav right END -->
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+
 </header>
 <!-- =======================
 Header END -->
+
+
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
 <!-- Container START -->

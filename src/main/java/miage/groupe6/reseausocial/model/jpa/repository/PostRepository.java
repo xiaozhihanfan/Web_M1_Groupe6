@@ -21,5 +21,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByOrderByDateP();
 
+    /**
+     * Récupère la liste des posts d’un auteur donné, triés par dateP décroissante.
+     */
+    List<Post> findByAuteurOrderByDatePDesc(Utilisateur auteur);
 
 }

@@ -1,5 +1,8 @@
 package miage.groupe6.reseausocial.controller;
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -7,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.ProfilService;
 
 
@@ -24,6 +29,7 @@ public class ProfilController {
 
     /** Service métier pour obtenir les informations de profil d’un utilisateur. */
     private final ProfilService profilService;
+    private final PostService   postService;
 
     /**
      * Constructeur par injection du {@link ProfilService}.
@@ -31,8 +37,9 @@ public class ProfilController {
      * @param profilService le service à utiliser pour récupérer les données de profil
      */
     @Autowired
-    public ProfilController(ProfilService profilService) {
+    public ProfilController(ProfilService profilService, PostService postService) {
         this.profilService = profilService;
+        this.postService = postService;
     }
 
     /**
@@ -80,7 +87,11 @@ public class ProfilController {
     public String afficherProfilePost(@PathVariable Long id, Model model) {
         try {
             Utilisateur utilisateur = profilService.getProfileById(id);
+            List<Post> posts = postService.findByAuteurOrderByDateDesc(utilisateur);
+            
             model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("posts", posts);
+
             return "my-profile-post";
         } catch (RuntimeException ex) {
             throw new ResponseStatusException(
@@ -90,4 +101,5 @@ public class ProfilController {
             );
         }
     }
+
 }

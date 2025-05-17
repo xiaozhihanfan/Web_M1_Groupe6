@@ -1,4 +1,4 @@
-package miage.groupe6.reseausocial;
+package miage.groupe6.reseausocial.service;
 
 
 import static org.junit.jupiter.api.Assertions.*;

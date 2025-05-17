@@ -45,6 +45,8 @@ public class Utilisateur {
     private LocalDate birthday;
     private String telephone;
     private String userName;
+    private String universite;
+    private String ville;
 
     /** Publications créées par l'utilisateur. */
     @OneToMany(mappedBy = "idP", cascade = CascadeType.ALL)
@@ -110,8 +112,10 @@ public class Utilisateur {
      * @param birthday date de naissance
      * @param telephone numéro tel
      * @param userName nom de Reseau Social
+     * @param universite université
+     * @param ville ville d'habitant
      */
-    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU, LocalDate birthday, String telephone, String userName) {
+    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU, LocalDate birthday, String telephone, String userName, String universite, String ville) {
         this.avatarU = avatarU;
         this.dateInscription = dateInscription;
         this.descriptionU = descriptionU;
@@ -123,6 +127,8 @@ public class Utilisateur {
         this.birthday = birthday;
         this.telephone = telephone;
         this.userName = userName;
+        this.universite = universite;
+        this.ville = ville;
     }
 
     // ==== Getters & Setters ====
@@ -436,6 +442,24 @@ public class Utilisateur {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public String getUniversite() {
+        return universite;
+    }
+
+    public void setUniversite(String universite) {
+        this.universite = universite;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    
 
 }
 

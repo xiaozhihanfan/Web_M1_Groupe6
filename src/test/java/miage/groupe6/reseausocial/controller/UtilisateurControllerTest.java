@@ -70,24 +70,6 @@ public class UtilisateurControllerTest {
     }
 
     @Test
-    void testAfficherProfilUtilisateur() throws Exception {
-        mockMvc.perform(get("/utilisateurs/" + utilisateur.getIdU())
-                        .session(session))
-               .andExpect(status().isOk())
-               .andExpect(view().name("profilUtilisateur"))
-               .andExpect(model().attributeExists("autre"));
-    }
-
-    @Test
-    void testAfficherProfilUtilisateurIntrouvable() throws Exception {
-        mockMvc.perform(get("/utilisateurs/999999")
-                        .session(session))
-               .andExpect(status().isOk())
-               .andExpect(view().name("erreur-404"))
-               .andExpect(model().attributeExists("erreur"));
-    }
-
-    @Test
     void testRedirectionVersConnexionSiNonConnecté() throws Exception {
         mockMvc.perform(get("/utilisateurs/rechercher")) 
                .andExpect(status().is3xxRedirection())

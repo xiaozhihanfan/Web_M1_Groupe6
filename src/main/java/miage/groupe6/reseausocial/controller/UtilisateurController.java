@@ -22,9 +22,17 @@ import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
 
 /**
- * Contrôleur Spring pour la gestion des utilisateurs.
- * Il gère l'inscription, la connexion et l'affichage des pages correspondantes.
- * 
+ * Contrôleur Spring MVC pour la gestion des utilisateurs.
+ * <p>
+ * Prend en charge :
+ * <ul>
+ *   <li>l'affichage et la soumission des formulaires de connexion (sign-in) et d'inscription (sign-up),</li>
+ *   <li>la recherche d'utilisateurs par nom, prénom ou email,</li>
+ *   <li>l'affichage du profil d'un autre utilisateur.</li>
+ * </ul>
+ * Utilise {@link UtilisateurService} pour la logique métier et
+ * {@link UtilisateurRepository} pour les opérations de persistence.
+ * </p>
  */
 @Controller
 @RequestMapping("/utilisateurs")
@@ -42,14 +50,16 @@ public class UtilisateurController {
 
 
     /**
-     * Affiche le formulaire d'inscription.
+     * Affiche le formulaire de connexion.
+     *
+     * @return le nom de la vue "sign-in"
      */
     @GetMapping("/signin")
 	public String signIn() {
 		return "sign-in";
 	}
 
- 
+
     /**
      * Gère la soumission du formulaire de connexion et vérifie les identifiants de l’utilisateur.
      * Appelle le service utilisateur pour valider l’email et le mot de passe :
@@ -128,6 +138,17 @@ public class UtilisateurController {
         return "rechercherUtilisateurs";
     }
 
+    /**
+     * Exécute la recherche d'utilisateurs par nom, prénom ou email.
+     * <p>
+     * Exclut l'utilisateur en session des résultats.
+     * </p>
+     *
+     * @param query   la chaîne de recherche (email si contient '@', sinon nom/prénom)
+     * @param model   le modèle pour passer des attributs à la vue
+     * @param session la session HTTP pour obtenir l'utilisateur connecté
+     * @return la vue "resultatsRechercherUtilisateurs" ou redirection vers sign-in
+     */
     @GetMapping("/resultats")
     public String rechercherUtilisateurs(@RequestParam("query") String query, Model model, HttpSession session) {
         Utilisateur utilisateurSession = (Utilisateur) session.getAttribute("utilisateur");
@@ -142,7 +163,6 @@ public class UtilisateurController {
             utilisateurs = us.rechercherParNomOuPrenom(query);
         }
 
-        
         utilisateurs.removeIf(u -> u.getIdU().equals(utilisateurSession.getIdU()));
 
         model.addAttribute("utilisateur", utilisateurSession);
@@ -151,22 +171,6 @@ public class UtilisateurController {
         return "resultatsRechercherUtilisateurs";
     }
 
-    // ========================= regarder les utilisatuers rechercheés ========================= //
-
-    @GetMapping("/{id}")
-    public String afficherProfilUtilisateur(@PathVariable Long id, Model model, HttpSession session) {
-        Optional<Utilisateur> utilisateur = us.getUtilisateurById(id);
-        Utilisateur utilisateurSession = (Utilisateur) session.getAttribute("utilisateur");
-
-        if (utilisateur.isPresent()) {
-            model.addAttribute("utilisateur", utilisateurSession);
-            model.addAttribute("autre", utilisateur.get());
-            return "profilUtilisateur";
-        } else {
-            model.addAttribute("erreur", "Utilisateur introuvable.");
-            return "erreur-404";
-        }
-    }
 
 
 }

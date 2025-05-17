@@ -101,13 +101,11 @@ Header START -->
 <li class="dropdown-submenu dropend">
 <a class="dropdown-item dropdown-toggle" href="#!">Profile</a>
 <ul class="dropdown-menu" data-bs-popper="none">
-<li> <a class="dropdown-item" data-th-href="@{/my-profile.html}" href="my-profile.html" th:href="@{/my-profile.html}">Feed</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/my-profile-about.html}" href="my-profile-about.html" th:href="@{/my-profile-about.html}">About</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/my-profile-connections.html}" href="my-profile-connections.html" th:href="@{/my-profile-connections.html}">Connections</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/my-profile-media.html}" href="my-profile-media.html" th:href="@{/my-profile-media.html}">Media</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/my-profile-videos.html}" href="my-profile-videos.html" th:href="@{/my-profile-videos.html}">Videos</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/my-profile-events.html}" href="my-profile-events.html" th:href="@{/my-profile-events.html}">Events</a> </li>
-<li> <a class="dropdown-item" data-th-href="@{/my-profile-activity.html}" href="my-profile-activity.html" th:href="@{/my-profile-activity.html}">Activity</a> </li>
+<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Post</a> </li>
+<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}">Profil</a> </li>
+<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}">Amis</a> </li>
+<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-group(id=${utilisateur.idU})}">Groupe</a> </li>
+<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-event(id=${utilisateur.idU})}">Events</a> </li>
 </ul>
 </li>
 <li> <a class="dropdown-item" data-th-href="@{/events.html}" href="events.html" th:href="@{/events.html}">Events</a></li>
@@ -171,7 +169,7 @@ Header START -->
 </li>
 <!-- Nav item 4 Mega menu -->
 <li class="nav-item">
-<a class="nav-link" data-th-href="@{/my-profile-connections.html}" href="my-profile-connections.html" th:href="@{/my-profile-connections.html}">My network</a>
+<a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}">Mes amis</a>
 </li>
 </ul>
 </div>
@@ -286,7 +284,7 @@ Header START -->
 <p class="small m-0">Web Developer</p>
 </div>
 </div>
-<a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" data-th-href="@{/my-profile.html}" href="my-profile.html" th:href="@{/my-profile.html}">View profile</a>
+<a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Regarde profil</a>
 </li>
 <!-- Links -->
 <li><a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"></i>Settings &amp; Privacy</a></li>
@@ -335,7 +333,7 @@ Header END -->
 <div class="d-flex align-items-center d-lg-none">
 <button aria-controls="offcanvasSideNavbar" class="border-0 bg-transparent" data-bs-target="#offcanvasSideNavbar" data-bs-toggle="offcanvas" type="button">
 <i class="btn btn-primary fw-bold fa-solid fa-sliders-h"></i>
-<span class="h6 mb-0 fw-bold d-lg-none ms-2">My profile</span>
+<span class="h6 mb-0 fw-bold d-lg-none ms-2">Mon Profil</span>
 </button>
 </div>
 <!-- Advanced filter responsive toggler END -->
@@ -390,41 +388,44 @@ Header END -->
 <hr/>
 <!-- Side Nav START -->
 <ul class="nav nav-link-secondary flex-column fw-bold gap-2">
-<li class="nav-item">
-<a class="nav-link" data-th-href="@{/my-profile.html}" href="my-profile.html" th:href="@{/my-profile.html}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/home-outline-filled.svg}" src="assets/images/icon/home-outline-filled.svg" th:src="@{/assets/images/icon/home-outline-filled.svg}"/><span>Feed </span></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-th-href="@{/my-profile-connections.html}" href="my-profile-connections.html" th:href="@{/my-profile-connections.html}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/person-outline-filled.svg}" src="assets/images/icon/person-outline-filled.svg" th:src="@{/assets/images/icon/person-outline-filled.svg}"/><span>Connections </span></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-th-href="@{/blog.html}" href="blog.html" th:href="@{/blog.html}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/earth-outline-filled.svg}" src="assets/images/icon/earth-outline-filled.svg" th:src="@{/assets/images/icon/earth-outline-filled.svg}"/><span>Latest News </span></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-th-href="@{/events.html}" href="events.html" th:href="@{/events.html}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/calendar-outline-filled.svg}" src="assets/images/icon/calendar-outline-filled.svg" th:src="@{/assets/images/icon/calendar-outline-filled.svg}"/><span>Events </span></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-th-href="@{/groups.html}" href="groups.html" th:href="@{/groups.html}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/chat-outline-filled.svg}" src="assets/images/icon/chat-outline-filled.svg" th:src="@{/assets/images/icon/chat-outline-filled.svg}"/><span>Groups </span></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-th-href="@{/notifications.html}" href="notifications.html" th:href="@{/notifications.html}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/notification-outlined-filled.svg}" src="assets/images/icon/notification-outlined-filled.svg" th:src="@{/assets/images/icon/notification-outlined-filled.svg}"/><span>Notifications </span></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"> <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/cog-outline-filled.svg}" src="assets/images/icon/cog-outline-filled.svg" th:src="@{/assets/images/icon/cog-outline-filled.svg}"/><span>Settings </span></a>
-</li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}"> 
+      <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/earth-outline-filled.svg}" src="assets/images/icon/earth-outline-filled.svg" th:src="@{/assets/images/icon/earth-outline-filled.svg}"/><span>Post </span></a>
+    </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}"> 
+      <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/home-outline-filled.svg}" src="assets/images/icon/home-outline-filled.svg" th:src="@{/assets/images/icon/home-outline-filled.svg}"/><span>Profil </span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}"> 
+      <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/person-outline-filled.svg}" src="assets/images/icon/person-outline-filled.svg" th:src="@{/assets/images/icon/person-outline-filled.svg}"/><span>Amis </span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" dth:href="@{/utilisateurs/{id}/profile-groups(id=${utilisateur.idU})}"> 
+      <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/chat-outline-filled.svg}" src="assets/images/icon/chat-outline-filled.svg" th:src="@{/assets/images/icon/chat-outline-filled.svg}"/><span>Groupes </span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-events(id=${utilisateur.idU})}"> 
+      <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/calendar-outline-filled.svg}" src="assets/images/icon/calendar-outline-filled.svg" th:src="@{/assets/images/icon/calendar-outline-filled.svg}"/><span>Evenements </span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"> 
+      <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/cog-outline-filled.svg}" src="assets/images/icon/cog-outline-filled.svg" th:src="@{/assets/images/icon/cog-outline-filled.svg}"/><span>Settings </span></a>
+  </li>
 </ul>
 <!-- Side Nav END -->
 </div>
 <!-- Card body END -->
 <!-- Card footer -->
 <div class="card-footer text-center py-2">
-<a class="btn btn-link btn-sm" data-th-href="@{/my-profile.html}" href="my-profile.html" th:href="@{/my-profile.html}">View Profile </a>
+<a class="btn btn-link btn-sm" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Regarde Profil </a>
 </div>
 </div>
 <!-- Card END -->
 <!-- Helper link START -->
 <ul class="nav small mt-4 justify-content-center lh-1">
 <li class="nav-item">
-<a class="nav-link" data-th-href="@{/my-profile-about.html}" href="my-profile-about.html" th:href="@{/my-profile-about.html}">About</a>
+<a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}">About</a>
 </li>
 <li class="nav-item">
 <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a>
@@ -2771,16 +2772,16 @@ Header END -->
 <!-- =======================
 JS libraries, plugins and custom scripts -->
 <!-- Bootstrap JS -->
-<script data-th-src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}" src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js" th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
 <!-- Vendors -->
-<script data-th-src="@{/assets/vendor/tiny-slider/dist/tiny-slider.js}" src="assets/vendor/tiny-slider/dist/tiny-slider.js" th:src="@{/assets/vendor/tiny-slider/dist/tiny-slider.js}"></script>
-<script data-th-src="@{/assets/vendor/OverlayScrollbars-master/js/OverlayScrollbars.min.js}" src="assets/vendor/OverlayScrollbars-master/js/OverlayScrollbars.min.js" th:src="@{/assets/vendor/OverlayScrollbars-master/js/OverlayScrollbars.min.js}"></script>
-<script data-th-src="@{/assets/vendor/choices.js/public/assets/scripts/choices.min.js}" src="assets/vendor/choices.js/public/assets/scripts/choices.min.js" th:src="@{/assets/vendor/choices.js/public/assets/scripts/choices.min.js}"></script>
-<script data-th-src="@{/assets/vendor/glightbox-master/dist/js/glightbox.min.js}" src="assets/vendor/glightbox-master/dist/js/glightbox.min.js" th:src="@{/assets/vendor/glightbox-master/dist/js/glightbox.min.js}"></script>
-<script data-th-src="@{/assets/vendor/flatpickr/dist/flatpickr.min.js}" src="assets/vendor/flatpickr/dist/flatpickr.min.js" th:src="@{/assets/vendor/flatpickr/dist/flatpickr.min.js}"></script>
-<script data-th-src="@{/assets/vendor/plyr/plyr.js}" src="assets/vendor/plyr/plyr.js" th:src="@{/assets/vendor/plyr/plyr.js}"></script>
-<script data-th-src="@{/assets/vendor/dropzone/dist/min/dropzone.min.js}" src="assets/vendor/dropzone/dist/min/dropzone.min.js" th:src="@{/assets/vendor/dropzone/dist/min/dropzone.min.js}"></script>
+<script th:src="@{/assets/vendor/tiny-slider/dist/tiny-slider.js}"></script>
+<script th:src="@{/assets/vendor/OverlayScrollbars-master/js/OverlayScrollbars.min.js}"></script>
+<script th:src="@{/assets/vendor/choices.js/public/assets/scripts/choices.min.js}"></script>
+<script th:src="@{/assets/vendor/glightbox-master/dist/js/glightbox.min.js}"></script>
+<script th:src="@{/assets/vendor/flatpickr/dist/flatpickr.min.js}"></script>
+<script th:src="@{/assets/vendor/plyr/plyr.js}"></script>
+<script th:src="@{/assets/vendor/dropzone/dist/min/dropzone.min.js}"></script>
 <!-- Template Functions -->
-<script data-th-src="@{/assets/js/functions.js}" src="assets/js/functions.js" th:src="@{/assets/js/functions.js}"></script>
+<script th:src="@{/assets/js/functions.js}"></script>
 </body>
 </html>

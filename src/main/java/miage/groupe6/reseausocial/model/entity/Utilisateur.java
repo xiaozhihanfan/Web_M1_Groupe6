@@ -4,7 +4,6 @@ package miage.groupe6.reseausocial.model.entity;
 
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -229,6 +228,13 @@ public class Utilisateur {
     public String getAvatarU() {
         return avatarU;
     }
+
+    public String getAvatar() {
+    if (this.avatarU == null || this.avatarU.isEmpty()) {
+        return "/assets/images/avatar/default.jpg"; // 默认头像
+    }
+    return this.avatarU;
+}
 
     /**
      * Définit l'avatar de l'utilisateur.

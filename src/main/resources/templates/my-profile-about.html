@@ -36,7 +36,9 @@ Header START -->
 	<nav class="navbar navbar-expand-lg">
 		<div class="container">
 			<!-- Logo START -->
+
 			<a class="navbar-brand" th:href="@{/(id=${utilisateur.idU})}">
+
         <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
 				<img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
 			</a>
@@ -195,7 +197,7 @@ Header START -->
                   <!-- <li>
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/01.jpg}" alt="">
                       </div>
                       <div class="ms-sm-3">
                         <div class=" d-flex">
@@ -213,7 +215,7 @@ Header START -->
                   <!-- <li>
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/02.jpg}" alt="">
                       </div>
                       <div class="ms-sm-3 d-flex">
                         <div>
@@ -242,7 +244,7 @@ Header START -->
                   <!-- <li>
                     <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/logo/12.svg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/logo/12.svg}" alt="">
                       </div>
                       <div class="ms-sm-3 d-flex">
                         <p class="small mb-2"><b>Bootstrap in the news:</b> The search giant’s parent company, Alphabet, just joined an exclusive club of tech stocks.</p>
@@ -472,11 +474,9 @@ Header END -->
           </div>
           <!-- Card feed item END -->
 
+
       </div>
       <!-- Main content END -->
-
-
-
 
         <!-- Right sidebar START -->
         <div class="col-lg-4">
@@ -553,8 +553,8 @@ Header END -->
                 <!-- Card body END -->
               </div>
             </div>
-            <!-- Card Photos END -->
-
+            
+            
           </div>
         </div>  
         <!-- Right sidebar END -->

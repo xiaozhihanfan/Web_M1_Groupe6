@@ -1,11 +1,7 @@
 package miage.groupe6.reseausocial.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,10 +37,12 @@ public class PostController {
         newPost.setAuteur(poster);
         newPost.setDateP(new Date());
 
+
         // if (imageFile != null && !imageFile.isEmpty()) {
         //     String realPath = servletContext.getRealPath("/uploads");
         //     Path uploadDir = Paths.get(realPath);
         //     Files.createDirectories(uploadDir);
+
 
         //     String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
         //     Path target = uploadDir.resolve(filename);
@@ -52,6 +50,7 @@ public class PostController {
 
         //     newPost.setImageP("/uploads/" + filename);
         // }
+
 
         pr.save(newPost);
         return "redirect:/";

@@ -38,7 +38,9 @@ Header START -->
 	<nav class="navbar navbar-expand-lg">
 		<div class="container">
 			<!-- Logo START -->
+
 			<a class="navbar-brand" th:href="@{/(id=${utilisateur.idU})}">
+
         <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
 				<img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
 			</a>
@@ -197,7 +199,7 @@ Header START -->
                   <!-- <li>
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/01.jpg}" alt="">
                       </div>
                       <div class="ms-sm-3">
                         <div class=" d-flex">
@@ -215,7 +217,7 @@ Header START -->
                   <!-- <li>
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/02.jpg}" alt="">
                       </div>
                       <div class="ms-sm-3 d-flex">
                         <div>
@@ -244,7 +246,7 @@ Header START -->
                   <!-- <li>
                     <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/logo/12.svg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/logo/12.svg}" alt="">
                       </div>
                       <div class="ms-sm-3 d-flex">
                         <p class="small mb-2"><b>Bootstrap in the news:</b> The search giant’s parent company, Alphabet, just joined an exclusive club of tech stocks.</p>
@@ -362,14 +364,14 @@ Header END -->
                 <ul class="nav nav-tabs nav-pills nav-pills-soft flex-column fw-bold gap-2 border-0">
                   <li class="nav-item" data-bs-dismiss="offcanvas">
                     <a class="nav-link d-flex mb-0 active" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">
-                      <img class="me-2 h-20px fa-fw" src="assets/images/icon/person-outline-filled.svg" alt="">
+                      <img class="me-2 h-20px fa-fw" th:src="@{/assets/images/icon/person-outline-filled.svg}" alt="">
                       <span>Info Personnelle</span>
                     </a>
                   </li>
 
                   <li class="nav-item" data-bs-dismiss="offcanvas">
                     <a class="nav-link d-flex mb-0" th:href="@{/utilisateurs/{id}/modifier-mdp(id=${utilisateur.idU})}">
-                      <img class="me-2 h-20px fa-fw" src="assets/images/icon/shield-outline-filled.svg" alt="">
+                      <img class="me-2 h-20px fa-fw" th:src="@{/assets/images/icon/cog-outline-filled.svg}" alt="">
                       <span>Mot de passe</span>
                     </a>
                   </li>

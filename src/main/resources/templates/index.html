@@ -249,6 +249,7 @@ Header START -->
                     </a>
                   </li> -->
 <!-- Notif item -->
+
                   <!-- <li>
                     <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
                       <div class="avatar text-center d-none d-sm-inline-block">
@@ -328,6 +329,7 @@ Header START -->
 		</div>
 	</nav>
 	<!-- Logo Nav END -->
+
 </header>
 <!-- =======================
 Header END -->
@@ -551,9 +553,11 @@ Header END -->
 <div class="card card-body">
 <div class="d-flex mb-3">
 <!-- Avatar -->
-<div class="avatar avatar-xs me-2">
-<a href="#"> <img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/03.jpg}" src="assets/images/avatar/03.jpg" th:src="@{/assets/images/avatar/03.jpg}"/> </a>
-</div>
+  <div class="avatar avatar-xs me-2">
+    <a href="#"> 
+      <img th:src="@{${utilisateur.avatar}}" alt="avatar" class="avatar-img rounded-circle" />
+    </a>
+  </div>
 <!-- Post input -->
 <form class="w-100" method="post" th:action="@{/posts/creerPost}" enctype="multipart/form-data">
 <textarea class="form-control pe-4 border-0" data-autoresize="" placeholder="Share your thoughts..." rows="2" name="contenuP"></textarea>

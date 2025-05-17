@@ -543,24 +543,19 @@ Header END -->
 <a href="#"> <img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/03.jpg}" src="assets/images/avatar/03.jpg" th:src="@{/assets/images/avatar/03.jpg}"/> </a>
 </div>
 <!-- Post input -->
-<form class="w-100">
-<textarea class="form-control pe-4 border-0" data-autoresize="" placeholder="Share your thoughts..." rows="2"></textarea>
+<form class="w-100" method="post" th:action="@{/posts/creerPost}" enctype="multipart/form-data">
+<textarea class="form-control pe-4 border-0" data-autoresize="" placeholder="Share your thoughts..." rows="2" name="contenuP"></textarea>
+<!-- image input -->
+<input type="file" name="imageFile" class="form-control mt-2"/>
+<!-- Button  -->
+<button type="submit" class="btn btn-primary mt-2">Publier</button>
 </form>
 </div>
 <!-- Share feed toolbar START -->
-<ul class="nav nav-pills nav-stack small fw-normal">
-<li class="nav-item">
-<a class="nav-link bg-light py-1 px-2 mb-0" data-bs-target="#feedActionPhoto" data-bs-toggle="modal" href="#!"> <i class="bi bi-image-fill text-success pe-2"></i>Photo</a>
-</li>
-<li class="nav-item">
-<a class="nav-link bg-light py-1 px-2 mb-0" data-bs-target="#feedActionVideo" data-bs-toggle="modal" href="#!"> <i class="bi bi-camera-reels-fill text-info pe-2"></i>Video</a>
-</li>
+<!-- <ul class="nav nav-pills nav-stack small fw-normal">
 <li class="nav-item">
 <a class="nav-link bg-light py-1 px-2 mb-0" data-bs-target="#modalCreateEvents" data-bs-toggle="modal" href="#"> <i class="bi bi-calendar2-event-fill text-danger pe-2"></i>Event </a>
-</li>
-<li class="nav-item">
-<a class="nav-link bg-light py-1 px-2 mb-0" data-bs-target="#modalCreateFeed" data-bs-toggle="modal" href="#!"> <i class="bi bi-emoji-smile-fill text-warning pe-2"></i>Feeling /Activity</a>
-</li>
+</li> -->
 <li class="nav-item dropdown ms-lg-auto">
 <a aria-expanded="false" class="nav-link bg-light py-1 px-2 mb-0" data-bs-toggle="dropdown" href="#" id="feedActionShare">
 <i class="bi bi-three-dots"></i>

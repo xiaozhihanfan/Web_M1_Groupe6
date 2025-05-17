@@ -1,5 +1,7 @@
 package miage.groupe6.reseausocial.model.jpa.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,8 @@ import miage.groupe6.reseausocial.model.entity.Utilisateur;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     Integer countByAuteur(Utilisateur auteur);
+
+    List<Post> findAllByOrderByDateP();
 
 
 }

@@ -38,7 +38,7 @@ class ProfilControllerTest {
         when(profilService.getProfileById(7L))
             .thenReturn(utilisateur);
 
-        mockMvc.perform(get("/utilisateurs/7/profil"))
+        mockMvc.perform(get("/utilisateurs/7/profile-about"))
                .andExpect(status().isOk())
                .andExpect(view().name("my-profile-about"))
                .andExpect(model().attribute("utilisateur", utilisateur));
@@ -51,7 +51,7 @@ class ProfilControllerTest {
         when(profilService.getProfileById(99L))
             .thenThrow(new RuntimeException("Utilisateur non trouvé : 99"));
 
-        mockMvc.perform(get("/utilisateurs/99/profil"))
+        mockMvc.perform(get("/utilisateurs/99/profile-about"))
                .andExpect(status().is5xxServerError());
 
         verify(profilService).getProfileById(99L);

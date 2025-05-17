@@ -47,7 +47,7 @@ public class ProfilController {
      * @return le nom de la vue Thymeleaf à rendre (my-profile-about)
      * @throws ResponseStatusException avec code 500 en cas d’erreur interne
      */
-    @GetMapping("/{id}/profil")
+    @GetMapping("/{id}/profile-about")
     public String afficherProfil(@PathVariable Long id, Model model) {
         try {
             Utilisateur utilisateur = profilService.getProfileById(id);

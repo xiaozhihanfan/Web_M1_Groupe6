@@ -1,8 +1,12 @@
 package miage.groupe6.reseausocial.model.jpa.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import miage.groupe6.reseausocial.model.entity.RelationAmis;
+import miage.groupe6.reseausocial.model.entity.RelationAmisId;
 import miage.groupe6.reseausocial.model.entity.StatutRelation;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.RelationAmisRepository;
@@ -13,7 +17,6 @@ import miage.groupe6.reseausocial.model.jpa.repository.RelationAmisRepository;
  * en distinguant les utilisateurs suivis (« following »)
  * et les abonnés (« followers »).
  * 
- * Auteur : Mengyi YANG
  */
 
 @Service
@@ -49,6 +52,20 @@ public class RelationAmisService {
     public int countFollowersAccepte(Utilisateur utilisateur){
         int res = rar.countByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
         return res;
+    }
+
+    public boolean demandeExisteDeja(Long idDemandeur, Long idRecu) {
+        return rar.existsById(new RelationAmisId(idDemandeur, idRecu));
+    }
+
+    public boolean envoyerDemandeAmi(Utilisateur demandeur, Utilisateur receveur) {
+        if(rar.findByUtilisateurDemandeIdUAndUtilisateurRecuIdU(demandeur.getIdU(), receveur.getIdU()).isPresent()) {
+            return false;
+        }
+
+        RelationAmis relation = new RelationAmis(demandeur, receveur, new Date(), StatutRelation.TRAITEE);
+        rar.save(relation);
+        return true;
     }
 
 }

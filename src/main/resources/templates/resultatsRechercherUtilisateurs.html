@@ -454,6 +454,17 @@ Header END -->
     <!-- Main content START -->
 <div class="col-md-8 col-lg-6 vstack gap-4">
 <!-- Résultats de recherche - Utilisateurs -->
+    <!-- Flash Messages -->
+    <div th:if="${message}" class="alert alert-success text-center">
+        <p th:text="${message}"></p>
+    </div>
+    <div th:if="${info}" class="alert alert-info text-center">
+        <p th:text="${info}"></p>
+    </div>
+    <div th:if="${erreur}" class="alert alert-danger text-center">
+        <p th:text="${erreur}"></p>
+    </div>
+
     <section>
     <h4 class="mb-4">Résultats de recherche - Utilisateurs</h4>
 
@@ -463,11 +474,11 @@ Header END -->
             <!-- Carte utilisateur -->
             <div class="card-body text-center pb-0">
             <!-- Avatar -->
-            <div class="avatar avatar-xl mb-3">
-                <a th:href="@{'/utilisateurs/' + ${u.idU}}">
-                <img class="avatar-img rounded-circle" 
-                    th:src="${u.avatarU != null ? u.avatarU : 'assets/images/avatar/01.jpg'}" 
-                    alt="Avatar utilisateur">
+            <div class="avatar avatar-lg mt-n5 mb-3">
+                <a href="#!">
+                <img class="avatar-img rounded border border-white border-3"
+                     th:src="${u.avatarU != null ? u.avatarU : '/assets/images/avatar/placeholder.jpg'}"
+                     alt="Avatar utilisateur" />
                 </a>
             </div>
 
@@ -481,10 +492,11 @@ Header END -->
 
             <!-- Bouton profil + Ajouter ami -->
             <div class="card-footer text-center border-top-0 pt-0">
-                <a th:href="@{'/utilisateurs/' + ${u.idU}}" class="btn btn-sm btn-primary mb-2">Voir le profil</a>
-
-                <form th:action="@{'/amis/ajouter/' + ${u.idU}}" method="post">
-                    <button type="submit" class="btn btn-sm btn-outline-success">Ajouter comme ami</button>
+                <!--
+                <a th:href="@{'/utilisateurs/' + ${u.idU}}" class="btn btn-sm btn-primary mb-2">Profil</a>
+                -->
+                <form th:action="@{'/relationamis/envoyer/' + ${u.idU}}" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-success">Add friends</button>
                 </form>
             </div>
         </div>

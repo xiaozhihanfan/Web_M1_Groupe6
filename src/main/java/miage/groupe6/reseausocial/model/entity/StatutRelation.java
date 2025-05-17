@@ -15,6 +15,11 @@ public enum StatutRelation {
     /**
      * La demande d'amitié a été envoyée mais n'a pas encore été traitée.
      */
-    TRAITEE
+    TRAITEE,
+
+    /**
+     * La demande d'amitié a été refusée par le destinataire.
+     */
+    REFUSEE
 }
 

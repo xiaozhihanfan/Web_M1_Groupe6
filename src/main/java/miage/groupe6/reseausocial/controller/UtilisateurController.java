@@ -2,13 +2,11 @@ package miage.groupe6.reseausocial.controller;
 
 
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -150,23 +148,5 @@ public class UtilisateurController {
         model.addAttribute("utilisateurs", utilisateurs);
         return "resultatsRechercherUtilisateurs";
     }
-
-    // ========================= regarder les utilisatuers rechercheés ========================= //
-
-    @GetMapping("/{id}")
-    public String afficherProfilUtilisateur(@PathVariable Long id, Model model, HttpSession session) {
-        Optional<Utilisateur> utilisateur = us.getUtilisateurById(id);
-        Utilisateur utilisateurSession = (Utilisateur) session.getAttribute("utilisateur");
-
-        if (utilisateur.isPresent()) {
-            model.addAttribute("utilisateur", utilisateurSession);
-            model.addAttribute("autre", utilisateur.get());
-            return "profilUtilisateur";
-        } else {
-            model.addAttribute("erreur", "Utilisateur introuvable.");
-            return "erreur-404";
-        }
-    }
-
 
 }

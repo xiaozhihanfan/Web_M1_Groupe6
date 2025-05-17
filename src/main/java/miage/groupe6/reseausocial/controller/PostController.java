@@ -34,17 +34,17 @@ public class PostController {
         newPost.setAuteur(poster);
         newPost.setDateP(new Date());
 
-        if (imageFile != null && !imageFile.isEmpty()) {
-            String realPath = servletContext.getRealPath("/uploads");
-            Path uploadDir = Paths.get(realPath);
-            Files.createDirectories(uploadDir);
+        // if (imageFile != null && !imageFile.isEmpty()) {
+        //     String realPath = servletContext.getRealPath("/uploads");
+        //     Path uploadDir = Paths.get(realPath);
+        //     Files.createDirectories(uploadDir);
 
-            String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-            Path target = uploadDir.resolve(filename);
-            imageFile.transferTo(target.toFile());
+        //     String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+        //     Path target = uploadDir.resolve(filename);
+        //     imageFile.transferTo(target.toFile());
 
-            newPost.setImageP("/uploads/" + filename);
-        }
+        //     newPost.setImageP("/uploads/" + filename);
+        // }
 
         pr.save(newPost);
         return "redirect:/";

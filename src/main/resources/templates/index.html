@@ -73,22 +73,10 @@ Header START -->
 <ul class="navbar-nav navbar-nav-scroll ms-auto">
 <!-- Nav item 1 Demos -->
 <li class="nav-item dropdown">
-<a aria-expanded="false" aria-haspopup="true" class="nav-link active dropdown-toggle" data-bs-toggle="dropdown" href="#" id="homeMenu">Demo</a>
-<ul aria-labelledby="homeMenu" class="dropdown-menu">
-<li> <a class="dropdown-item active" data-th-href="@{/index.html}" href="index.html" th:href="@{/index.html}">Home default</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/index-classic.html}" href="index-classic.html" th:href="@{/index-classic.html}">Home classic</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/index-post.html}" href="index-post.html" th:href="@{/index-post.html}">Home post</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/index-video.html}" href="index-video.html" th:href="@{/index-video.html}">Home video</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/index-event.html}" href="index-event.html" th:href="@{/index-event.html}">Home event</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/landing.html}" href="landing.html" th:href="@{/landing.html}">Landing page</a></li>
-<li> <a class="dropdown-item" data-th-href="@{/app-download.html}" href="app-download.html" th:href="@{/app-download.html}">App download</a></li>
-<li class="dropdown-divider"></li>
-<li>
-<a class="dropdown-item" href="">
-<i class="text-success fa-fw bi bi-cloud-download-fill me-2"></i>Buy Social!
-								</a>
-</li>
-</ul>
+  <a class="nav-link dropdown-toggle" href="#" id="homeMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demo</a>
+  <ul class="dropdown-menu" aria-labelledby="homeMenu">
+    <li> <a class="dropdown-item" th:href="@{/(id=${utilisateur.idU})}">Index</a></li>
+  </ul>
 </li>
 <!-- Nav item 2 Pages -->
 <li class="nav-item dropdown">

@@ -62,4 +62,32 @@ public class ProfilController {
             );
         }
     }
+
+    /**
+     * Affiche la page de posts (« Posts ») du profil d’un utilisateur.
+     * <p>
+     * Récupère l’utilisateur via {@link ProfilService} et le place dans le modèle
+     * sous l’attribut « utilisateur » pour que la vue Thymeleaf
+     * « my-profile-post.html » puisse y accéder.
+     * </p>
+     *
+     * @param id    l’identifiant unique de l’utilisateur dont on veut afficher les posts
+     * @param model le modèle Spring MVC dans lequel ajouter l’attribut « utilisateur »
+     * @return le nom de la vue Thymeleaf à rendre (my-profile-post)
+     * @throws ResponseStatusException avec code 500 en cas d’erreur interne
+     */
+    @GetMapping("/{id}/profile-post")
+    public String afficherProfilePost(@PathVariable Long id, Model model) {
+        try {
+            Utilisateur utilisateur = profilService.getProfileById(id);
+            model.addAttribute("utilisateur", utilisateur);
+            return "my-profile-post";
+        } catch (RuntimeException ex) {
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(),
+                ex
+            );
+        }
+    }
 }

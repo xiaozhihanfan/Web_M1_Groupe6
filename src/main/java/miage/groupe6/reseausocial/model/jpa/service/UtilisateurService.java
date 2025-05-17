@@ -24,6 +24,9 @@ public class UtilisateurService {
     @Autowired
     private UtilisateurRepository ur;
 
+    @Autowired
+    private PostService ps;
+
     /**
      * Gère l'inscription d'un utilisateur.
      * 
@@ -68,10 +71,10 @@ public class UtilisateurService {
                     utilisateur.setPrenomU("modier votre");
                     utilisateur.setNomU("profil");
                 }
-                if(utilisateur.getDescriptionU() == null){
+                if(utilisateur.getDescriptionU() == null || utilisateur.getDescriptionU().isEmpty()){
                     utilisateur.setDescriptionU("Voici la description par défaut...");
                 }
-                if (utilisateur.getAvatarU() == null) {
+                if (utilisateur.getAvatarU() == null || utilisateur.getAvatarU().isEmpty()) {
                     utilisateur.setAvatarU("/assets/images/avatar/placeholder.jpg");
                 }
                 return utilisateur;

@@ -471,6 +471,17 @@ Header END -->
     <!-- Main content START -->
 <div class="col-md-8 col-lg-6 vstack gap-4">
 <!-- Résultats de recherche - Utilisateurs -->
+    <!-- Flash Messages -->
+    <div th:if="${message}" class="alert alert-success text-center">
+        <p th:text="${message}"></p>
+    </div>
+    <div th:if="${info}" class="alert alert-info text-center">
+        <p th:text="${info}"></p>
+    </div>
+    <div th:if="${erreur}" class="alert alert-danger text-center">
+        <p th:text="${erreur}"></p>
+    </div>
+
     <section>
     <h4 class="mb-4">Résultats de recherche - Utilisateurs</h4>
 
@@ -483,7 +494,7 @@ Header END -->
             <div class="avatar avatar-xl mb-3">
                 <a th:href="@{'/utilisateurs/' + ${u.idU}}">
                 <img class="avatar-img rounded-circle" 
-                    th:src="${u.avatarU != null ? u.avatarU : 'assets/images/avatar/01.jpg'}" 
+                    th:src="@{${utilisateur.avatar}}" 
                     alt="Avatar utilisateur">
                 </a>
             </div>
@@ -502,8 +513,8 @@ Header END -->
                 <!--
                 <a th:href="@{'/utilisateurs/' + ${u.idU}}" class="btn btn-sm btn-primary mb-2">Profil</a>
                 -->
-                <form th:action="@{'/amis/ajouter/' + ${u.idU}}" method="post">
-                    <button type="submit" class="btn btn-sm btn-outline-success">Ajouter comme ami</button>
+                <form th:action="@{'/relationamis/envoyer/' + ${u.idU}}" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-success">Add friends</button>
                 </form>
             </div>
         </div>

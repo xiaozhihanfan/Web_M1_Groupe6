@@ -1,14 +1,14 @@
 package miage.groupe6.reseausocial.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
@@ -165,9 +166,19 @@ public class UtilisateurController {
 
         utilisateurs.removeIf(u -> u.getIdU().equals(utilisateurSession.getIdU()));
 
+        Map<Long, Integer> nbPostsParUtilisateur = new HashMap<>();
+        for (Utilisateur u : utilisateurs) {
+            int nbPost = ps.countPostByUtilisateur(u);
+            nbPostsParUtilisateur.put(u.getIdU(), nbPost);
+        }
+
+        int nbPost = ps.countPostByUtilisateur(utilisateurSession);
+
         model.addAttribute("utilisateur", utilisateurSession);
+        model.addAttribute("nbPost", nbPost);
         model.addAttribute("query", query);
         model.addAttribute("utilisateurs", utilisateurs);
+        model.addAttribute("nbPostsParUtilisateur", nbPostsParUtilisateur);
         return "resultatsRechercherUtilisateurs";
     }
 

@@ -66,10 +66,12 @@ Header START -->
         <!-- Nav Search START -->
         <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
           <div class="nav-item w-100">
-            <form class="rounded position-relative">
-              <input class="form-control ps-5 bg-light" type="search" placeholder="Search..." aria-label="Search">
-              <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit"><i class="bi bi-search fs-5"> </i></button>
-            </form>
+          <form class="rounded position-relative" method="get" action="/utilisateurs/resultats">
+            <input name="query" aria-label="Search" class="form-control ps-5 bg-light" placeholder="Search..." type="search"/>
+            <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit">
+              <i class="bi bi-search fs-5"> </i>
+            </button>
+          </form>
           </div>
         </div>
         <!-- Nav Search END -->
@@ -248,6 +250,7 @@ Header START -->
                     </a>
                   </li> -->
 <!-- Notif item -->
+
                   <!-- <li>
                     <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
                       <div class="avatar text-center d-none d-sm-inline-block">
@@ -271,7 +274,8 @@ Header START -->
 
         <li class="nav-item ms-2 dropdown">
 					<a class="nav-link btn icon-md p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-2" th:src="@{/assets/images/avatar/07.jpg}" alt="">
+						<img class="avatar-img rounded-2" th:src="@{${utilisateur.avatar}}" alt="">
+            
 					</a>
           <ul class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3" aria-labelledby="profileDropdown">
             <!-- Profile info -->
@@ -279,7 +283,7 @@ Header START -->
               <div class="d-flex align-items-center position-relative">
                 <!-- Avatar -->
                 <div class="avatar me-3">
-                  <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/07.jpg}" alt="avatar">
+                  <img class="avatar-img rounded-circle" th:src="@{${utilisateur.avatar}}" alt="avatar">
                 </div>
                 <div>
                   <a class="h6 stretched-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">
@@ -327,6 +331,7 @@ Header START -->
 		</div>
 	</nav>
 	<!-- Logo Nav END -->
+
 </header>
 <!-- =======================
 Header END -->
@@ -336,69 +341,69 @@ Header END -->
 <!-- Container START -->
 <div class="container">
     <div class="row g-4">
-    <!-- Sidenav START -->
-    <div class="col-lg-3">
-    <!-- Advanced filter responsive toggler START -->
-    <div class="d-flex align-items-center d-lg-none">
-    <button aria-controls="offcanvasSideNavbar" class="border-0 bg-transparent" data-bs-target="#offcanvasSideNavbar" data-bs-toggle="offcanvas" type="button">
-    <i class="btn btn-primary fw-bold fa-solid fa-sliders-h"></i>
-    <span class="h6 mb-0 fw-bold d-lg-none ms-2">My profile</span>
-    </button>
-    </div>
-    <!-- Advanced filter responsive toggler END -->
-    <!-- Navbar START-->
-    <nav class="navbar navbar-expand-lg mx-0">
-    <div class="offcanvas offcanvas-start" id="offcanvasSideNavbar" tabindex="-1">
-    <!-- Offcanvas header -->
-    <div class="offcanvas-header">
-    <button aria-label="Close" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" type="button"></button>
-    </div>
-    <!-- Offcanvas body -->
-    <div class="offcanvas-body d-block px-2 px-lg-0">
-    <!-- Card START -->
-    <div class="card overflow-hidden">
-    <!-- Cover image -->
-    <div class="h-50px" style="background-image:url(assets/images/bg/01.jpg); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
-    <!-- Card body START -->
-    <div class="card-body pt-0">
-    <div class="text-center">
-    <!-- Avatar -->
-    <div class="avatar avatar-lg mt-n5 mb-3">
-    <a href="#!"><img alt="" class="avatar-img rounded border border-white border-3" data-th-src="@{/assets/images/avatar/07.jpg}" src="assets/images/avatar/07.jpg" th:src="@{/assets/images/avatar/07.jpg}"/></a>
-    </div>
-    <!-- Info -->
-    <h5 class="mb-0"> <a href="#!" th:text="${utilisateur.prenomU} + ' ' + ${utilisateur.nomU}"></a> </h5>
-    <p class="mt-3" th:text="${utilisateur.descriptionU}"></p>
-    <!-- User stat START -->
-    <div class="hstack gap-2 gap-xl-3 justify-content-center">
-    <!-- User stat item -->
-    <div>
-    <h6 class="mb-0">256</h6>
-    <small>Post</small>
-    </div>
-    <!-- Divider -->
-    <div class="vr"></div>
-    <!-- User stat item -->
-    <div>
-    <h6 class="mb-0">2.5K</h6>
-    <small>Followers</small>
-    </div>
-    <!-- Divider -->
-    <div class="vr"></div>
-    <!-- User stat item -->
-    <div>
-    <h6 class="mb-0">365</h6>
-    <small>Following</small>
-    </div>
-    </div>
-    <!-- User stat END -->
-    </div>
-    <!-- Divider -->
-    <hr/>
-
-
-<!-- Side Nav START -->
-<ul class="nav nav-link-secondary flex-column fw-bold gap-2">
+<!-- Sidenav START -->
+<div class="col-lg-3">
+<!-- Advanced filter responsive toggler START -->
+<div class="d-flex align-items-center d-lg-none">
+<button aria-controls="offcanvasSideNavbar" class="border-0 bg-transparent" data-bs-target="#offcanvasSideNavbar" data-bs-toggle="offcanvas" type="button">
+<i class="btn btn-primary fw-bold fa-solid fa-sliders-h"></i>
+<span class="h6 mb-0 fw-bold d-lg-none ms-2">Mon Profil</span>
+</button>
+</div>
+<!-- Advanced filter responsive toggler END -->
+<!-- Navbar START-->
+<nav class="navbar navbar-expand-lg mx-0">
+<div class="offcanvas offcanvas-start" id="offcanvasSideNavbar" tabindex="-1">
+<!-- Offcanvas header -->
+<div class="offcanvas-header">
+<button aria-label="Close" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" type="button"></button>
+</div>
+<!-- Offcanvas body -->
+<div class="offcanvas-body d-block px-2 px-lg-0">
+<!-- Card START -->
+<div class="card overflow-hidden">
+<!-- Cover image -->
+<div class="h-50px" style="background-image:url(assets/images/bg/01.jpg); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
+<!-- Card body START -->
+  <div class="card-body pt-0">
+  <div class="text-center">
+  <!-- Avatar -->
+  <div class="avatar avatar-lg mt-n5 mb-3">
+    <a href="#!">
+      <img alt="" class="avatar-img rounded border border-white border-3" th:src="${utilisateur.avatarU}"/>
+    </a>
+  </div>
+  <!-- Info -->
+  <h5 class="mb-0"> <a href="#!" th:text="${utilisateur.prenomU} + ' ' + ${utilisateur.nomU}"></a> </h5>
+  <p class="mt-3" th:text="${utilisateur.descriptionU}"></p>
+  <!-- User stat START -->
+  <div class="hstack gap-2 gap-xl-3 justify-content-center">
+  <!-- User stat item -->
+  <div>
+  <h6 class="mb-0" th:text="${nbPost}"></h6>
+  <small>Post</small>
+  </div>
+  <!-- Divider -->
+  <div class="vr"></div>
+  <!-- User stat item -->
+  <div>
+  <h6 class="mb-0" th:text="${nbFollowers}"></h6>
+  <small>Followers</small>
+  </div>
+  <!-- Divider -->
+  <div class="vr"></div>
+  <!-- User stat item -->
+  <div>
+  <h6 class="mb-0" th:text="${nbFollowing}"></h6>
+  <small>Following</small>
+  </div>
+  </div>
+  <!-- User stat END -->
+  </div>
+  <!-- Divider -->
+  <hr/>
+  <!-- Side Nav START -->
+  <ul class="nav nav-link-secondary flex-column fw-bold gap-2">
     <li class="nav-item">
       <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}"> 
         <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/earth-outline-filled.svg}" src="assets/images/icon/earth-outline-filled.svg" th:src="@{/assets/images/icon/earth-outline-filled.svg}"/><span>Post </span></a>
@@ -425,49 +430,58 @@ Header END -->
     </li>
   </ul>
   <!-- Side Nav END -->
-
-
-    </div>
-    <!-- Card body END -->
-    <!-- Card footer -->
-    <div class="card-footer text-center py-2">
-        <a class="btn btn-link btn-sm" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Regarde Profil </a>
-        </div>
-        </div>
-        <!-- Card END -->
-        <!-- Helper link START -->
-        <ul class="nav small mt-4 justify-content-center lh-1">
-        <li class="nav-item">
-        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}">About</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a>
-        </li>
-    <li class="nav-item">
-    <a class="nav-link" href="http://www.bootstrapmb.comlogin">Support </a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="">Docs </a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" data-th-href="@{/help.html}" href="help.html" th:href="@{/help.html}">Help</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-mdp(id=${utilisateur.idU})}">Privacy &amp; terms</a>
-    </li>
-    </ul>
-    <!-- Helper link END -->
-    <!-- Copyright -->
-    <p class="small text-center mt-1">©2022 <a class="text-body" href="http://www.bootstrapmb.com/"> Webestica </a></p>
-    </div>
-    </div>
-    </nav>
-    <!-- Navbar END-->
-    </div>
-    <!-- Sidenav END -->
+  </div>
+<!-- Card body END -->
+<!-- Card footer -->
+<div class="card-footer text-center py-2">
+<a class="btn btn-link btn-sm" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Regarde Profil </a>
+</div>
+</div>
+<!-- Card END -->
+<!-- Helper link START -->
+<ul class="nav small mt-4 justify-content-center lh-1">
+<li class="nav-item">
+<a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}">About</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="http://www.bootstrapmb.comlogin">Support </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="">Docs </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-th-href="@{/help.html}" href="help.html" th:href="@{/help.html}">Help</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-th-href="@{/privacy-and-terms.html}" href="privacy-and-terms.html" th:href="@{/privacy-and-terms.html}">Privacy &amp; terms</a>
+</li>
+</ul>
+<!-- Helper link END -->
+<!-- Copyright -->
+<p class="small text-center mt-1">©2025 <a class="text-body" href="http://www.bootstrapmb.com/"> Webestica </a></p>
+</div>
+</div>
+</nav>
+<!-- Navbar END-->
+</div>
+<!-- Sidenav END -->
     <!-- Main content START -->
 <div class="col-md-8 col-lg-6 vstack gap-4">
 <!-- Résultats de recherche - Utilisateurs -->
+    <!-- Flash Messages -->
+    <div th:if="${message}" class="alert alert-success text-center">
+        <p th:text="${message}"></p>
+    </div>
+    <div th:if="${info}" class="alert alert-info text-center">
+        <p th:text="${info}"></p>
+    </div>
+    <div th:if="${erreur}" class="alert alert-danger text-center">
+        <p th:text="${erreur}"></p>
+    </div>
+
     <section>
     <h4 class="mb-4">Résultats de recherche - Utilisateurs</h4>
 
@@ -480,7 +494,7 @@ Header END -->
             <div class="avatar avatar-xl mb-3">
                 <a th:href="@{'/utilisateurs/' + ${u.idU}}">
                 <img class="avatar-img rounded-circle" 
-                    th:src="${u.avatarU != null ? u.avatarU : 'assets/images/avatar/01.jpg'}" 
+                    th:src="@{${utilisateur.avatar}}" 
                     alt="Avatar utilisateur">
                 </a>
             </div>
@@ -499,8 +513,8 @@ Header END -->
                 <!--
                 <a th:href="@{'/utilisateurs/' + ${u.idU}}" class="btn btn-sm btn-primary mb-2">Profil</a>
                 -->
-                <form th:action="@{'/amis/ajouter/' + ${u.idU}}" method="post">
-                    <button type="submit" class="btn btn-sm btn-outline-success">Ajouter comme ami</button>
+                <form th:action="@{'/relationamis/envoyer/' + ${u.idU}}" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-success">Add friends</button>
                 </form>
             </div>
         </div>

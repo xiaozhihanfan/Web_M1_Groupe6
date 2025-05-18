@@ -60,10 +60,12 @@ Header START -->
         <!-- Nav Search START -->
         <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
           <div class="nav-item w-100">
-            <form class="rounded position-relative">
-              <input class="form-control ps-5 bg-light" type="search" placeholder="Search..." aria-label="Search">
-              <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit"><i class="bi bi-search fs-5"> </i></button>
-            </form>
+          <form class="rounded position-relative" method="get" action="/utilisateurs/resultats">
+            <input name="query" aria-label="Search" class="form-control ps-5 bg-light" placeholder="Search..." type="search"/>
+            <button class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y" type="submit">
+              <i class="bi bi-search fs-5"> </i>
+            </button>
+          </form>
           </div>
         </div>
         <!-- Nav Search END -->
@@ -242,6 +244,7 @@ Header START -->
                     </a>
                   </li> -->
 <!-- Notif item -->
+
                   <!-- <li>
                     <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
                       <div class="avatar text-center d-none d-sm-inline-block">
@@ -265,7 +268,8 @@ Header START -->
 
         <li class="nav-item ms-2 dropdown">
 					<a class="nav-link btn icon-md p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-2" th:src="@{/assets/images/avatar/07.jpg}" alt="">
+						<img class="avatar-img rounded-2" th:src="@{${utilisateur.avatar}}" alt="">
+            
 					</a>
           <ul class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3" aria-labelledby="profileDropdown">
             <!-- Profile info -->
@@ -273,7 +277,7 @@ Header START -->
               <div class="d-flex align-items-center position-relative">
                 <!-- Avatar -->
                 <div class="avatar me-3">
-                  <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/07.jpg}" alt="avatar">
+                  <img class="avatar-img rounded-circle" th:src="@{${utilisateur.avatar}}" alt="avatar">
                 </div>
                 <div>
                   <a class="h6 stretched-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">
@@ -321,6 +325,7 @@ Header START -->
 		</div>
 	</nav>
 	<!-- Logo Nav END -->
+
 </header>
 <!-- =======================
 Header END -->
@@ -346,7 +351,7 @@ Header END -->
                 <div class="avatar avatar-xxl mt-n5 mb-3">
                   <img 
                     class="avatar-img rounded-circle border border-white border-3"                      
-                    th:src="@{${utilisateur.avatarU}}"
+                    th:src="@{${utilisateur.avatar}}"
                     alt="Avatar" />
                 </div>
               </div>
@@ -401,7 +406,7 @@ Header END -->
             <div class="d-flex mb-3">
               <!-- Avatar -->
               <div class="avatar avatar-xs me-2">
-                <a href="#"> <img class="avatar-img rounded-circle" th:src="@{${utilisateur.avatarU}}" alt=""> </a>
+                <a href="#"> <img class="avatar-img rounded-circle" th:src="@{${utilisateur.avatar}}" alt=""> </a>
               </div>
               <!-- Post input -->
               <form class="w-100">
@@ -424,7 +429,7 @@ Header END -->
                   <div class="avatar avatar-story me-2">
                     <a th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">
                       <img class="avatar-img rounded-circle"
-                           th:src="@{${utilisateur.avatarU}}"
+                           th:src="@{${utilisateur.avatar}}"
                            alt="Avatar">
                     </a>
                   </div>
@@ -447,7 +452,7 @@ Header END -->
           
             <!-- Card body START -->
             <div class="card-body">
-              <!-- 内容文本 -->
+              
               <p th:text="${post.contenuP}">I'm thrilled to share…</p>
           
               <img class="card-img"

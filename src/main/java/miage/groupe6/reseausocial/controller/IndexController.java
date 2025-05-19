@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.RelationAmis;
+import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
@@ -47,8 +48,11 @@ public class IndexController {
             return "redirect:/utilisateurs/signin";   
 
         }
+        List<Post> allPosts = postService.findAllOrderedByDateDesc();
+        model.addAttribute("posts", allPosts);
 
         int nbPost = postService.countPostByUtilisateur(utilisateur);
+
         
         List<RelationAmis> demandes = relationAmisService.getDemandesRecues(utilisateur);
         
@@ -64,6 +68,9 @@ public class IndexController {
 
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("demandesAmis", demandes);
+
+        model.addAttribute("nbPost", nbPost);
+
 
         return "index";
     }

@@ -1,3 +1,4 @@
+
 package miage.groupe6.reseausocial.controller;
 
 import static org.hamcrest.Matchers.containsString;
@@ -59,3 +60,4 @@ public class UtilisateurControllerTest {
                .andExpect(model().attributeExists("utilisateurs"));
     }
 }
+

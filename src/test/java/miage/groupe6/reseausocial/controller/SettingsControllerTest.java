@@ -1,3 +1,4 @@
+
 package miage.groupe6.reseausocial.controller;
 
 import static org.hamcrest.Matchers.containsString;
@@ -97,3 +98,4 @@ class SettingsControllerTest {
                 .andExpect(redirectedUrl("/utilisateurs/" + utilisateur.getIdU() + "/modifier"));
     }
 }
+

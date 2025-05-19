@@ -43,7 +43,7 @@ public class Utilisateur {
     private String dateInscription;
     private LocalDate birthday;
     private String telephone;
-    private String userName;
+    private String ine;
     private String universite;
     private String ville;
 
@@ -110,11 +110,11 @@ public class Utilisateur {
      * @param prenomU prénom
      * @param birthday date de naissance
      * @param telephone numéro tel
-     * @param userName nom de Reseau Social
+     * @param ine INE
      * @param universite université
      * @param ville ville d'habitant
      */
-    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU, LocalDate birthday, String telephone, String userName, String universite, String ville) {
+    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU, LocalDate birthday, String telephone, String ine, String universite, String ville) {
         this.avatarU = avatarU;
         this.dateInscription = dateInscription;
         this.descriptionU = descriptionU;
@@ -125,7 +125,7 @@ public class Utilisateur {
         this.prenomU = prenomU;
         this.birthday = birthday;
         this.telephone = telephone;
-        this.userName = userName;
+        this.ine = ine;
         this.universite = universite;
         this.ville = ville;
     }
@@ -441,12 +441,12 @@ public class Utilisateur {
         this.telephone = telephone;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getIne() {
+        return ine;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setIne(String ine) {
+        this.ine = ine;
     }
 
         public String getUniversite() {

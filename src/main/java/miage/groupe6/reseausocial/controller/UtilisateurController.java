@@ -1,11 +1,13 @@
 package miage.groupe6.reseausocial.controller;
 
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -113,21 +115,53 @@ public class UtilisateurController {
     /**
      * Traite la soumission du formulaire d'inscription.
      *
-     * @param email            l'adresse email saisie par l'utilisateur
-     * @param password         le mot de passe saisi
+     * @param email            l'adresse email
+     * @param password         le mot de passe
      * @param confirmPassword  la confirmation du mot de passe
-     * @param model            le modèle pour ajouter des attributs à la vue
-     * @return la vue "sign-in" si l'inscription a réussi, sinon "sign-up" avec un message d'erreur
+     * @param nomU             le nom de famille
+     * @param prenomU          le prénom
+     * @param universite       l'université
+     * @param ville            la ville
+     * @param birthday         la date de naissance au format ISO (yyyy-MM-dd)
+     * @param ine              le code INE
+     * @param model            le modèle pour afficher les erreurs
+     * @return "sign-in" si succès, sinon "sign-up"
      */
     @PostMapping("/verifierSignUp")
-    public String verifierSignUp(@RequestParam String email, @RequestParam String password, @RequestParam String confirmPassword, Model model) {
-        String res = us.verifierSignUp(email, password, confirmPassword);
-        if (res.equals("succès")) {
+    public String verifierSignUp(
+            @RequestParam String email,
+            @RequestParam String password,
+            @RequestParam String confirmPassword,
+            @RequestParam String nomU,
+            @RequestParam String prenomU,
+            @RequestParam String universite,
+            @RequestParam String ville,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                         LocalDate birthday,
+            @RequestParam String ine,
+            Model model) {
+
+        String res = us.verifierSignUp(
+            email, password, confirmPassword,
+            nomU, prenomU, universite, ville,
+            birthday, ine
+        );
+        if ("succès".equals(res)) {
             return "sign-in";
         }
+        // en cas d'erreur, renvoyer les valeurs remplies pour ne pas tout retaper
         model.addAttribute("erreur", res);
-        return "sign-up";  
+        model.addAttribute("email", email);
+        model.addAttribute("nomU", nomU);
+        model.addAttribute("prenomU", prenomU);
+        model.addAttribute("universite", universite);
+        model.addAttribute("ville", ville);
+        model.addAttribute("birthday", birthday);
+        model.addAttribute("ine", ine);
+        return "sign-up";
     }
+
+    
 
     // ========================= US1.3: Recherche ========================= //
 

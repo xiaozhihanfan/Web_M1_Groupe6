@@ -3,8 +3,6 @@ package miage.groupe6.reseausocial.controller;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +18,6 @@ import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
-import miage.groupe6.reseausocial.model.jpa.service.SettingsService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
 @Controller
@@ -81,7 +78,7 @@ public class PostController {
     
         newPost.setAuteur(poster);
         newPost.setDateP(new Date());
-        pr.save(newPost);
+        ps.save(newPost);
     
         return "redirect:/utilisateurs/" + idU + "/profile-post";
     }

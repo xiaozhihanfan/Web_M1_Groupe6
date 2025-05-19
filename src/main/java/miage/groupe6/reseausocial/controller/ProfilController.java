@@ -1,6 +1,7 @@
 package miage.groupe6.reseausocial.controller;
 
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,13 +109,19 @@ public class ProfilController {
      * @throws ResponseStatusException en cas d'erreur interne
      */
     @GetMapping("/{id}/profile-connections")
-    public String afficherProfileConnections(@PathVariable Long id, Model model) {
+    public String afficherProfileConnections(@PathVariable Long id, Principal principal, Model model) {
         try {
+            Utilisateur courant = profilService.getProfileByUsername(principal.getName());
+            
+            boolean estProprietaire = courant.getIdU().equals(id);
+
             Utilisateur utilisateur = profilService.getProfileById(id);
             List<Utilisateur> amis = relationAmisService.listerAmis(utilisateur);
 
+            model.addAttribute("estProprietaire", estProprietaire);
             model.addAttribute("utilisateur", utilisateur);
             model.addAttribute("amis", amis);
+
             return "my-profile-connections";
         } catch (RuntimeException ex) {
             throw new ResponseStatusException(

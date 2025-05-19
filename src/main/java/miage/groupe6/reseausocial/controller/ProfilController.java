@@ -1,6 +1,7 @@
 package miage.groupe6.reseausocial.controller;
 
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.ProfilService;
+import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 
 
 /**
@@ -28,19 +31,15 @@ import miage.groupe6.reseausocial.model.jpa.service.ProfilService;
 public class ProfilController {
 
     /** Service métier pour obtenir les informations de profil d’un utilisateur. */
-    private final ProfilService profilService;
-    private final PostService   postService;
-
-    /**
-     * Constructeur par injection du {@link ProfilService}.
-     *
-     * @param profilService le service à utiliser pour récupérer les données de profil
-     */
     @Autowired
-    public ProfilController(ProfilService profilService, PostService postService) {
-        this.profilService = profilService;
-        this.postService = postService;
-    }
+    private ProfilService profilService;
+
+    @Autowired
+    private PostService   postService;
+
+    @Autowired
+    private RelationAmisService relationAmisService;
+
 
     /**
      * Affiche la page de profil (« About ») d’un utilisateur.
@@ -50,18 +49,27 @@ public class ProfilController {
      * </p>
      *
      * @param id    l’identifiant unique de l’utilisateur à afficher
+     * @param session la session HTTP pour identifier l’utilisateur connecté
      * @param model le modèle Spring MVC dans lequel ajouter l’attribut « utilisateur »
      * @return le nom de la vue Thymeleaf à rendre (my-profile-about)
      * @throws ResponseStatusException avec code 500 en cas d’erreur interne
      */
     @GetMapping("/{id}/profile-about")
-    public String afficherProfil(@PathVariable Long id, Model model) {
+    public String afficherProfil(@PathVariable Long id,
+                                HttpSession session,
+                                Model model) {
         try {
+            // --- NOUVEAU : déterminer si on est propriétaire du profil ---
+            Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
+            boolean estProprietaire = sessionUser != null && sessionUser.getIdU().equals(id);
+            model.addAttribute("estProprietaire", estProprietaire);
+            // ---------------------------------------------------------------
+
             Utilisateur utilisateur = profilService.getProfileById(id);
             model.addAttribute("utilisateur", utilisateur);
+
             return "my-profile-about";
         } catch (RuntimeException ex) {
-            
             throw new ResponseStatusException(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 ex.getMessage(),
@@ -79,16 +87,25 @@ public class ProfilController {
      * </p>
      *
      * @param id    l’identifiant unique de l’utilisateur dont on veut afficher les posts
+     * @param session la session HTTP pour identifier l’utilisateur connecté
      * @param model le modèle Spring MVC dans lequel ajouter l’attribut « utilisateur »
      * @return le nom de la vue Thymeleaf à rendre (my-profile-post)
      * @throws ResponseStatusException avec code 500 en cas d’erreur interne
      */
     @GetMapping("/{id}/profile-post")
-    public String afficherProfilePost(@PathVariable Long id, Model model) {
+    public String afficherProfilePost(@PathVariable Long id,
+                                    HttpSession session,
+                                    Model model) {
         try {
+            // --- NOUVEAU : déterminer si on est propriétaire du profil ---
+            Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
+            boolean estProprietaire = sessionUser != null && sessionUser.getIdU().equals(id);
+            model.addAttribute("estProprietaire", estProprietaire);
+            // ---------------------------------------------------------------
+
             Utilisateur utilisateur = profilService.getProfileById(id);
             List<Post> posts = postService.findByAuteurOrderByDateDesc(utilisateur);
-            
+
             model.addAttribute("utilisateur", utilisateur);
             model.addAttribute("posts", posts);
 
@@ -99,6 +116,39 @@ public class ProfilController {
                 ex.getMessage(),
                 ex
             );
+        }
+    }
+
+    /**
+     * Affiche la page des connexions (amis) d'un utilisateur.
+     * Ne propose l'édition que si c'est son propre profil.
+     */
+    @GetMapping("/{idU}/profile-connections")
+    public String afficherProfileConnections(
+            @PathVariable("idU") Long idU,
+            HttpSession session,
+            Model model) {
+        try {
+
+            Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
+
+            boolean estProprietaire = false;
+            if (sessionUser != null && sessionUser.getIdU().equals(idU)) {
+                estProprietaire = true;
+            }
+
+            Utilisateur utilisateur = profilService.getProfileById(idU);
+            List<Utilisateur> amis = relationAmisService.listerAmis(utilisateur);
+
+            model.addAttribute("estProprietaire", estProprietaire);
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("amis", amis);
+
+            return "my-profile-connections";
+        } catch (RuntimeException ex) {
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(), ex);
         }
     }
 

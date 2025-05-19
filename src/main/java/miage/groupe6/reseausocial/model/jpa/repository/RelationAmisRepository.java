@@ -29,5 +29,27 @@ public interface RelationAmisRepository extends JpaRepository<RelationAmis, Rela
 
     boolean existsById(RelationAmisId id);
 
+
+
+    /**
+     * Récupère toutes les relations où l'utilisateur est receveur et le statut est ACCETPTEE.
+     *
+     * @param utilisateurRecu l'utilisateur ayant reçu la demande d'amitié
+     * @param statut          le statut de la relation (doit être ACCEPTEE)
+     * @return la liste des relations d'amitié où l'utilisateur a accepté une demande
+     */
     List<RelationAmis> findByUtilisateurRecuAndStatut(Utilisateur utilisateurRecu, StatutRelation statut);
+
+    /**
+     * Récupère toutes les relations où l'utilisateur est demandeur et le statut est ACCEPTEE.
+     * 
+     *
+     * @param utilisateurDemande l'utilisateur ayant envoyé la demande d'amitié
+     * @param statut             le statut de la relation (doit être ACCEPTEE)
+     * @return la liste des relations d'amitié où l'utilisateur est à l'origine de la demande
+     */
+    List<RelationAmis> findByUtilisateurDemandeAndStatut(Utilisateur utilisateurDemande, StatutRelation statut);
+
+
+    
 } 

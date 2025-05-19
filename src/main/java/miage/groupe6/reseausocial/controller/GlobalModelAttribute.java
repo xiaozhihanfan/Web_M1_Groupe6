@@ -25,4 +25,13 @@ public class GlobalModelAttribute {
         }
         return List.of(); 
     }
+
+    /**
+     * Fournit à toutes les vues Thymeleaf l'utilisateur connecté en session,
+     * sous l'attribut "sessionUser".
+     */
+    @ModelAttribute("sessionUser")
+    public Utilisateur sessionUser(HttpSession session) {
+        return (Utilisateur) session.getAttribute("utilisateur");
+    }
 }

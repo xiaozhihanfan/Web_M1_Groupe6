@@ -465,7 +465,18 @@ public class Utilisateur {
         this.ville = ville;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Utilisateur)) return false;
+        Utilisateur other = (Utilisateur) o;
+        return idU != null && idU.equals(other.getIdU());
+    }
 
+    @Override
+    public int hashCode() {
+        return 31 + (idU == null ? 0 : idU.hashCode());
+    }
 
 
 }

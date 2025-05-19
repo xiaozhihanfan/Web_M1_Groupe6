@@ -109,7 +109,7 @@ public class RelationAmis {
     /**
      * @return Utilisateur retourne l'utilisateur cible (destinataire de la demande)
      */
-    public Utilisateur getUtilisateurCible() {
+    public Utilisateur getUtilisateurRecu() {
         return utilisateurRecu;
     }
 

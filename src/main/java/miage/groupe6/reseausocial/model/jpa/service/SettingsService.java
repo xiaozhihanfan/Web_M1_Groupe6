@@ -45,7 +45,7 @@ public class SettingsService {
             utilisateur.setDescriptionU(newData.getDescriptionU());
             utilisateur.setBirthday(newData.getBirthday());
             utilisateur.setTelephone(newData.getTelephone());
-            utilisateur.setUserName(newData.getUserName());
+            utilisateur.setIne(newData.getIne());
             utilisateur.setUniversite(newData.getUniversite());
             utilisateur.setVille(newData.getVille());
             return utilisateurRepository.save(utilisateur);

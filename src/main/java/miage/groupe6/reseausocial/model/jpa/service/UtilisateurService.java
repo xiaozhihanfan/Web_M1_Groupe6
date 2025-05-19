@@ -33,30 +33,41 @@ public class UtilisateurService {
 
     /**
      * Gère l'inscription d'un utilisateur.
-     * 
-     * @param email
-     * @param password
-     * @param confirmPassword
-     * @return un message indiquant le résultat de l'inscription
-     * 
+     *
+     * @param email           l'adresse email
+     * @param password        le mot de passe
+     * @param confirmPassword la confirmation du mot de passe
+     * @param nomU            le nom de famille
+     * @param prenomU         le prénom
+     * @param universite      l'université
+     * @param ville           la ville
+     * @param birthday        la date de naissance
+     * @param ine             le code INE
+     * @return "succès" ou un message d'erreur
      */
-    public String verifierSignUp(String email, String password, String confirmPassword) {
-        Optional<Utilisateur> utilisateurOpt =  ur.findByEmailU(email);
-        if (utilisateurOpt.isPresent()) {
-            return "Cet email existe déjà ! ";
-        } 
-
+    public String verifierSignUp(String email, String password, String confirmPassword, String nomU, String prenomU, String universite, String ville, LocalDate birthday, String ine) {
+        // 1) doublon email
+        if (ur.findByEmailU(email).isPresent()) {
+            return "Cet email existe déjà !";
+        }
+        // 2) mot de passe identique
         if (!password.equals(confirmPassword)) {
             return "Les deux mots de passe ne sont pas identiques !";
         }
-
+        // 3) créer et initialiser l'utilisateur
         Utilisateur utilisateur = new Utilisateur();
-        String dateInscription = LocalDate.now().toString();
         utilisateur.setEmailU(email);
         utilisateur.setMpU(password);
-        utilisateur.setDateInscription(dateInscription);
-        save(utilisateur);
+        utilisateur.setNomU(nomU);
+        utilisateur.setPrenomU(prenomU);
+        utilisateur.setUniversite(universite);
+        utilisateur.setVille(ville);
+        utilisateur.setBirthday(birthday);
+        utilisateur.setIne(ine);
+        utilisateur.setDateInscription(LocalDate.now().toString());
 
+        // 4) persister
+        save(utilisateur);
         return "succès";
     }
 

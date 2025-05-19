@@ -27,6 +27,10 @@ public class UtilisateurService {
     @Autowired
     private PostService ps;
 
+    public Utilisateur save(Utilisateur utilisateur) {
+        return ur.save(utilisateur);
+    }
+
     /**
      * Gère l'inscription d'un utilisateur.
      * 
@@ -51,7 +55,7 @@ public class UtilisateurService {
         utilisateur.setEmailU(email);
         utilisateur.setMpU(password);
         utilisateur.setDateInscription(dateInscription);
-        ur.save(utilisateur);
+        save(utilisateur);
 
         return "succès";
     }

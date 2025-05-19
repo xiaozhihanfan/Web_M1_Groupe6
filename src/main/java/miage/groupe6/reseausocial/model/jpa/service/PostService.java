@@ -1,6 +1,7 @@
 package miage.groupe6.reseausocial.model.jpa.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,19 @@ public class PostService {
 
 
     /**
+     * Récupère un post par son identifiant.
+     *
+     * @param id l'identifiant du post
+     * @return Optional contenant le post s'il existe, sinon empty
+     */
+    public Optional<Post> findById(Long id) {
+        return pr.findById(id);
+    }
+
+
+
+
+    /**
      * Récupère tous les posts de l’utilisateur passé en paramètre,
      * triés par date de publication décroissante (plus récents d’abord).
      */
@@ -74,4 +88,5 @@ public class PostService {
     public List<Post> findAllOrderedByDateDesc() {
         return pr.findAllByOrderByDatePDesc();
     }
+
 }

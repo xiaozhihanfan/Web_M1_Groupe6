@@ -2,6 +2,9 @@ package miage.groupe6.reseausocial.controller;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.SettingsService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
@@ -24,35 +28,44 @@ import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 public class PostController {
 
     @Autowired
-    private PostService pr;
+    private PostService ps;
+
+    @Autowired
+    private ActionPostService aps;
 
     @Autowired
     private UtilisateurService utilisateurService;
 
 
     @PostMapping("/creerPost")
+
     public String creerPost(@ModelAttribute Post newPost, HttpSession session, @RequestParam(value="imageFile", required=false) MultipartFile imageFile)throws IOException{
         System.out.println(newPost.getContenuP());
         Utilisateur poster = (Utilisateur) session.getAttribute("utilisateur");
         newPost.setAuteur(poster);
         newPost.setDateP(new Date());
+        ps.save(newPost);
+        return "redirect:/";
+    }
 
 
-        // if (imageFile != null && !imageFile.isEmpty()) {
-        //     String realPath = servletContext.getRealPath("/uploads");
-        //     Path uploadDir = Paths.get(realPath);
-        //     Files.createDirectories(uploadDir);
-
-
-        //     String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-        //     Path target = uploadDir.resolve(filename);
-        //     imageFile.transferTo(target.toFile());
-
-        //     newPost.setImageP("/uploads/" + filename);
-        // }
-
-
-        pr.save(newPost);
+    /**
+     * Permet à un utilisateur de liker un post.
+     * Récupère d'abord l'utilisateur en session, puis le post par son ID.
+     * Si l'utilisateur n'est pas connecté, redirige vers la page de connexion.
+     * Si le post n'existe pas, redirige vers l'accueil.
+     */
+    @PostMapping("/{id}/like")
+    public String likePost(@PathVariable("id") Long id, HttpSession session) {
+        Utilisateur liker = (Utilisateur) session.getAttribute("utilisateur");
+        if (liker == null) {
+            return "redirect:/utilisateurs/signin";
+        }
+        Optional<Post> optPost = ps.findById(id);
+        if (!optPost.isPresent()) {
+            return "redirect:/";
+        }
+        aps.likePost(liker, optPost.get());
         return "redirect:/";
     }
 

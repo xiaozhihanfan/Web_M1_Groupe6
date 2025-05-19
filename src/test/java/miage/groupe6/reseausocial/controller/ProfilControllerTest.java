@@ -4,6 +4,8 @@ import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.ProfilService;
+import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +39,9 @@ class ProfilControllerTest {
 
     @MockBean
     private PostService postService;
+
+    @MockBean
+    private RelationAmisService relationAmisService;
 
     @Test
     void afficherProfil_existingUser_rendersProfilePage() throws Exception {
@@ -114,6 +119,54 @@ class ProfilControllerTest {
         verifyNoInteractions(postService);
     }
 
-    
+    /**
+     * Vérifie que GET /utilisateurs/{id}/profile-connections
+     * affiche correctement la page avec la liste des amis.
+     */
+    @Test
+    void afficherProfileConnections_avecAmis_rendersPage() throws Exception {
+        Utilisateur alice = new Utilisateur();
+        alice.setIdU(5L);
+        alice.setNomU("Alice");
+        alice.setPrenomU("Dupont");
+
+        Utilisateur ami1 = new Utilisateur();
+        ami1.setIdU(6L);
+        ami1.setNomU("Bob");
+        ami1.setPrenomU("Martin");
+
+        Utilisateur ami2 = new Utilisateur();
+        ami2.setIdU(7L);
+        ami2.setNomU("Charlie");
+        ami2.setPrenomU("Durand");
+
+        when(profilService.getProfileById(5L)).thenReturn(alice);
+        when(relationAmisService.listerAmis(alice)).thenReturn(List.of(ami1, ami2));
+
+        mockMvc.perform(get("/utilisateurs/5/profile-connections"))
+               .andExpect(status().isOk())
+               .andExpect(view().name("my-profile-connections"))
+               .andExpect(model().attribute("utilisateur", alice))
+               .andExpect(model().attribute("amis", List.of(ami1, ami2)));
+
+        verify(profilService).getProfileById(5L);
+        verify(relationAmisService).listerAmis(alice);
+    }
+
+    /**
+     * Vérifie que GET /utilisateurs/{id}/profile-connections
+     * renvoie une erreur 500 si le service jette une exception.
+     */
+    @Test
+    void afficherProfileConnections_utilisateurIntrouvable_returnsServerError() throws Exception {
+        when(profilService.getProfileById(99L))
+            .thenThrow(new RuntimeException("Utilisateur introuvable : 99"));
+
+        mockMvc.perform(get("/utilisateurs/99/profile-connections"))
+               .andExpect(status().is5xxServerError());
+
+        verify(profilService).getProfileById(99L);
+        verifyNoInteractions(relationAmisService);
+    }
 }
 

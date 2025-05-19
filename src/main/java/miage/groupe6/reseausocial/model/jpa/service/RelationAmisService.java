@@ -1,8 +1,11 @@
 package miage.groupe6.reseausocial.model.jpa.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,5 +97,26 @@ public class RelationAmisService {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Liste tous les amis d'un utilisateur, qu'il ait
+     * envoyé ou reçu la demande, et dont le statut est ACCEPTEE.
+     *
+     * @param utilisateur l'utilisateur cible
+     * @return la liste de ses amis
+     */
+    public List<Utilisateur> listerAmis(Utilisateur utilisateur) {
+        // 1) Les relations qu'il a envoyées et qui ont été acceptées
+        List<RelationAmis> envoyees = rar.findByUtilisateurDemandeAndStatut(utilisateur, StatutRelation.ACCEPTEE);
+        // 2) Les relations qu'il a reçues et qu'il a acceptées
+        List<RelationAmis> recues   = rar.findByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
+
+        // 3) Fusionner en évitant les doublons
+        Set<Utilisateur> amis = new HashSet<>();
+        envoyees.forEach(r -> amis.add(r.getUtilisateurRecu()));
+        recues  .forEach(r -> amis.add(r.getUtilisateurDemande()));
+
+        return new ArrayList<>(amis);
     }
 }

@@ -14,6 +14,7 @@ import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.ProfilService;
+import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 
 
 /**
@@ -28,19 +29,15 @@ import miage.groupe6.reseausocial.model.jpa.service.ProfilService;
 public class ProfilController {
 
     /** Service métier pour obtenir les informations de profil d’un utilisateur. */
-    private final ProfilService profilService;
-    private final PostService   postService;
-
-    /**
-     * Constructeur par injection du {@link ProfilService}.
-     *
-     * @param profilService le service à utiliser pour récupérer les données de profil
-     */
     @Autowired
-    public ProfilController(ProfilService profilService, PostService postService) {
-        this.profilService = profilService;
-        this.postService = postService;
-    }
+    private ProfilService profilService;
+
+    @Autowired
+    private PostService   postService;
+
+    @Autowired
+    private RelationAmisService relationAmisService;
+
 
     /**
      * Affiche la page de profil (« About ») d’un utilisateur.
@@ -99,6 +96,30 @@ public class ProfilController {
                 ex.getMessage(),
                 ex
             );
+        }
+    }
+
+    /**
+     * Affiche la page des connexions (amis) d'un utilisateur.
+     *
+     * @param id    l'identifiant de l'utilisateur dont on veut voir les amis
+     * @param model le modèle Thymeleaf pour transmettre les données à la vue
+     * @return le nom de la vue "my-profile-connections"
+     * @throws ResponseStatusException en cas d'erreur interne
+     */
+    @GetMapping("/{id}/profile-connections")
+    public String afficherProfileConnections(@PathVariable Long id, Model model) {
+        try {
+            Utilisateur utilisateur = profilService.getProfileById(id);
+            List<Utilisateur> amis = relationAmisService.listerAmis(utilisateur);
+
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("amis", amis);
+            return "my-profile-connections";
+        } catch (RuntimeException ex) {
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(), ex);
         }
     }
 

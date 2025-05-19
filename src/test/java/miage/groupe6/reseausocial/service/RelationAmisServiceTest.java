@@ -2,6 +2,9 @@ package miage.groupe6.reseausocial.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +88,54 @@ public class RelationAmisServiceTest {
     @Test
     void testDemandeExisteDeja_false() {
         assertFalse(relationAmisService.demandeExisteDeja(demandeur.getIdU(), receveur.getIdU()));
+    }
+
+
+    /**
+     * Vérifie que listerAmis renvoie une liste vide lorsqu'il n'y a aucune relation acceptée.
+     */
+    @Test
+    void testListerAmisVide() {
+        // Pas de demande envoyée ni reçue
+        List<Utilisateur> amis = relationAmisService.listerAmis(demandeur);
+        assertTrue(amis.isEmpty(), "La liste d'amis devrait être vide");
+    }
+
+    /**
+     * Vérifie que listerAmis renvoie bien tous les amis acceptés, qu'ils soient
+     * demandeurs ou receveurs.
+     */
+    @Test
+    void testListerAmisComplet() {
+        // 1) relation où 'demandeur' a envoyé à 'receveur'
+        relationAmisService.envoyerDemandeAmi(demandeur, receveur);
+        RelationAmis rel1 = relationAmisRepository
+            .findByUtilisateurDemandeIdUAndUtilisateurRecuIdU(demandeur.getIdU(), receveur.getIdU())
+            .get();
+        rel1.setStatut(StatutRelation.ACCEPTEE);
+        relationAmisRepository.save(rel1);
+
+        // 2) relation inverse : un tiers envoie à 'demandeur'
+        Utilisateur tiers = new Utilisateur();
+        tiers.setEmailU("tiers@mail.com");
+        tiers.setMpU("pwd");
+        tiers.setNomU("Tiers");
+        tiers.setPrenomU("Z");
+        utilisateurRepository.save(tiers);
+
+        relationAmisService.envoyerDemandeAmi(tiers, demandeur);
+        RelationAmis rel2 = relationAmisRepository
+            .findByUtilisateurDemandeIdUAndUtilisateurRecuIdU(tiers.getIdU(), demandeur.getIdU())
+            .get();
+        rel2.setStatut(StatutRelation.ACCEPTEE);
+        relationAmisRepository.save(rel2);
+
+        // Appel de la méthode à tester
+        List<Utilisateur> amis = relationAmisService.listerAmis(demandeur);
+
+        // Vérifications
+        assertEquals(2, amis.size(), "Il devrait y avoir exactement 2 amis");
+        assertTrue(amis.contains(receveur), "La liste doit contenir le receveur initial");
+        assertTrue(amis.contains(tiers),     "La liste doit contenir le tiers");
     }
 }

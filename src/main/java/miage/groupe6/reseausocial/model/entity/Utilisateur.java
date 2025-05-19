@@ -465,6 +465,21 @@ public class Utilisateur {
         this.ville = ville;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Utilisateur)) return false;
+        Utilisateur other = (Utilisateur) o;
+        // 两个实体只要 idU 相等，就认为是同一个用户
+        return idU != null && idU.equals(other.getIdU());
+    }
+
+    @Override
+    public int hashCode() {
+        // 只基于 idU 计算
+        return 31 + (idU == null ? 0 : idU.hashCode());
+    }
     
 
 }

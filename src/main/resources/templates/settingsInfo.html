@@ -413,6 +413,18 @@ Header END -->
                   <form th:action="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}" 
                   th:object="${utilisateur}" method="post" class="row g-3">
 
+                    <!-- emailU -->
+                    <div class="col-sm-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" th:field="*{emailU}" readonly />
+                    </div>
+                
+                    <!-- INE -->
+                    <div class="col-sm-6">
+                        <label class="form-label">INE</label>
+                        <input type="text" class="form-control" th:field="*{ine}" readonly />
+                    </div>
+
                     <!-- nomU -->
                     <div class="col-sm-6">
                         <label class="form-label">Nom</label>
@@ -423,18 +435,6 @@ Header END -->
                     <div class="col-sm-6">
                         <label class="form-label">Prénom</label>
                         <input type="text" class="form-control" th:field="*{prenomU}" />
-                    </div>
-                
-                    <!-- emailU -->
-                    <div class="col-sm-6">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" th:field="*{emailU}" />
-                    </div>
-                
-                    <!-- INE -->
-                    <div class="col-sm-6">
-                        <label class="form-label">INE</label>
-                        <input type="text" class="form-control" th:field="*{ine}" />
                     </div>
                 
                     <!-- birthday -->

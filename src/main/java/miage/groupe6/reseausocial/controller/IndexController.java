@@ -1,11 +1,14 @@
 package miage.groupe6.reseausocial.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 
@@ -37,12 +40,13 @@ public class IndexController {
             return "redirect:/utilisateurs/signin";   
 
         }
+        List<Post> allPosts = postService.findAllOrderedByDateDesc();
+        model.addAttribute("posts", allPosts);
 
         int nbPost = postService.countPostByUtilisateur(utilisateur);
-        
         model.addAttribute("utilisateur", utilisateur);
-
         model.addAttribute("nbPost", nbPost);
+
         return "index";
     }
 

@@ -62,4 +62,16 @@ public class PostService {
     public List<Post> findByAuteurOrderByDateDesc(Utilisateur auteur) {
         return pr.findByAuteurOrderByDatePDesc(auteur);
     }
+
+
+    /**
+     * Récupère tous les posts de la base,
+     * triés par date de publication décroissante
+     * (les plus récents en premier).
+     *
+     * @return liste de tous les posts
+     */
+    public List<Post> findAllOrderedByDateDesc() {
+        return pr.findAllByOrderByDatePDesc();
+    }
 }

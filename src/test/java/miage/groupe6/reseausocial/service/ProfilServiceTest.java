@@ -67,4 +67,6 @@ class ProfilServiceTest {
         assertTrue(ex.getMessage().contains("Utilisateur non trouvé"));
         verify(utilisateurRepository).findById(42L);
     }
+
+    
 }

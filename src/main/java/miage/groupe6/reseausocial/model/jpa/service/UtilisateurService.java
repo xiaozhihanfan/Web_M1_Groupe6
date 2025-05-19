@@ -87,14 +87,35 @@ public class UtilisateurService {
         return null;
     }
 
+
+    /**
+     * Récupère un utilisateur à partir de son identifiant.
+     *
+     * @param id l'identifiant de l'utilisateur
+     * @return un Optional contenant l'utilisateur si trouvé, ou vide sinon
+     */
     public Optional<Utilisateur> getUtilisateurById(Long id) {
         return ur.findById(id);
     }
 
+
+    /**
+     * Recherche les utilisateurs dont le nom ou le prénom contient la chaîne fournie (sans tenir compte de la casse).
+     *
+     * @param query chaîne à rechercher dans le nom ou le prénom
+     * @return une liste d'utilisateurs correspondant à la recherche
+     */
     public List<Utilisateur> rechercherParNomOuPrenom(String query) {
         return ur.findByNomUContainingIgnoreCaseOrPrenomUContainingIgnoreCase(query, query);
     }
 
+
+    /**
+     * Recherche un utilisateur par son adresse e-mail.
+     *
+     * @param emailU l'adresse e-mail à rechercher
+     * @return l'utilisateur trouvé, ou null si aucun utilisateur ne correspond
+     */
     public Utilisateur rechercherParEmail(String emailU) {
         return ur.findByEmailU(emailU).orElse(null);
     }

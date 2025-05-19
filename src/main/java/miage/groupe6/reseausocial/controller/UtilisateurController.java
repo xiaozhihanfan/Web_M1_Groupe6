@@ -1,14 +1,14 @@
 package miage.groupe6.reseausocial.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,15 +16,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
 
 /**
- * Contrôleur Spring pour la gestion des utilisateurs.
- * Il gère l'inscription, la connexion et l'affichage des pages correspondantes.
- * 
+ * Contrôleur Spring MVC pour la gestion des utilisateurs.
+ * <p>
+ * Prend en charge :
+ * <ul>
+ *   <li>l'affichage et la soumission des formulaires de connexion (sign-in) et d'inscription (sign-up),</li>
+ *   <li>la recherche d'utilisateurs par nom, prénom ou email,</li>
+ *   <li>l'affichage du profil d'un autre utilisateur.</li>
+ * </ul>
+ * Utilise {@link UtilisateurService} pour la logique métier et
+ * {@link UtilisateurRepository} pour les opérations de persistence.
+ * </p>
  */
 @Controller
 @RequestMapping("/utilisateurs")
@@ -42,14 +51,16 @@ public class UtilisateurController {
 
 
     /**
-     * Affiche le formulaire d'inscription.
+     * Affiche le formulaire de connexion.
+     *
+     * @return le nom de la vue "sign-in"
      */
     @GetMapping("/signin")
 	public String signIn() {
 		return "sign-in";
 	}
 
- 
+
     /**
      * Gère la soumission du formulaire de connexion et vérifie les identifiants de l’utilisateur.
      * Appelle le service utilisateur pour valider l’email et le mot de passe :
@@ -128,6 +139,17 @@ public class UtilisateurController {
         return "rechercherUtilisateurs";
     }
 
+    /**
+     * Exécute la recherche d'utilisateurs par nom, prénom ou email.
+     * <p>
+     * Exclut l'utilisateur en session des résultats.
+     * </p>
+     *
+     * @param query   la chaîne de recherche (email si contient '@', sinon nom/prénom)
+     * @param model   le modèle pour passer des attributs à la vue
+     * @param session la session HTTP pour obtenir l'utilisateur connecté
+     * @return la vue "resultatsRechercherUtilisateurs" ou redirection vers sign-in
+     */
     @GetMapping("/resultats")
     public String rechercherUtilisateurs(@RequestParam("query") String query, Model model, HttpSession session) {
         Utilisateur utilisateurSession = (Utilisateur) session.getAttribute("utilisateur");
@@ -142,31 +164,24 @@ public class UtilisateurController {
             utilisateurs = us.rechercherParNomOuPrenom(query);
         }
 
-        
         utilisateurs.removeIf(u -> u.getIdU().equals(utilisateurSession.getIdU()));
 
+        Map<Long, Integer> nbPostsParUtilisateur = new HashMap<>();
+        for (Utilisateur u : utilisateurs) {
+            int nbPost = ps.countPostByUtilisateur(u);
+            nbPostsParUtilisateur.put(u.getIdU(), nbPost);
+        }
+
+        int nbPost = ps.countPostByUtilisateur(utilisateurSession);
+
         model.addAttribute("utilisateur", utilisateurSession);
+        model.addAttribute("nbPost", nbPost);
         model.addAttribute("query", query);
         model.addAttribute("utilisateurs", utilisateurs);
+        model.addAttribute("nbPostsParUtilisateur", nbPostsParUtilisateur);
         return "resultatsRechercherUtilisateurs";
     }
 
-    // ========================= regarder les utilisatuers rechercheés ========================= //
-
-    @GetMapping("/{id}")
-    public String afficherProfilUtilisateur(@PathVariable Long id, Model model, HttpSession session) {
-        Optional<Utilisateur> utilisateur = us.getUtilisateurById(id);
-        Utilisateur utilisateurSession = (Utilisateur) session.getAttribute("utilisateur");
-
-        if (utilisateur.isPresent()) {
-            model.addAttribute("utilisateur", utilisateurSession);
-            model.addAttribute("autre", utilisateur.get());
-            return "profilUtilisateur";
-        } else {
-            model.addAttribute("erreur", "Utilisateur introuvable.");
-            return "erreur-404";
-        }
-    }
 
 
 }

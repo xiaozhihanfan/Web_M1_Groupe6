@@ -62,7 +62,15 @@ public class SettingsController {
 
     
 
-
+    /**
+     * Affiche le formulaire de modification du mot de passe
+     * pour l’utilisateur spécifié.
+     *
+     * @param id    l’identifiant de l’utilisateur
+     * @param model le modèle Spring MVC pour transmettre les données à la vue
+     * @return le nom de la vue Thymeleaf pour le changement de mot de passe (settingsMdp)
+     * @throws RuntimeException si l’utilisateur n’est pas trouvé
+     */
     @GetMapping("/{id}/modifier-mdp")
     public String afficherPageModificationMotDePasse(@PathVariable Long id, Model model) {
         Utilisateur utilisateur = settingsService.getUtilisateurById(id)
@@ -75,6 +83,7 @@ public class SettingsController {
 
 
 
+    
     /**
      * Traite la soumission du formulaire de changement de mot de passe.
      *

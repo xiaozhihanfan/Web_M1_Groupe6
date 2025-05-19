@@ -1,3 +1,4 @@
+
 package miage.groupe6.reseausocial.controller;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -93,3 +94,4 @@ public class PostControllerTest {
 
 
 }
+

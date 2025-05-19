@@ -45,6 +45,8 @@ public class Utilisateur {
     private LocalDate birthday;
     private String telephone;
     private String userName;
+    private String universite;
+    private String ville;
 
     /** Publications créées par l'utilisateur. */
     @OneToMany(mappedBy = "idP", cascade = CascadeType.ALL)
@@ -436,6 +438,24 @@ public class Utilisateur {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public String getUniversite() {
+        return universite;
+    }
+
+    public void setUniversite(String universite) {
+        this.universite = universite;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+
 
 }
 

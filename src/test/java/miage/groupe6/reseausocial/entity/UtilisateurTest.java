@@ -35,7 +35,7 @@ public class UtilisateurTest {
         utilisateur.setUniversite("TestU");
         utilisateur.setVille("TestC");
 
-        Utilisateur newU = utilisateurService.saveUtilisateur(utilisateur);
+        Utilisateur newU = utilisateurService.save(utilisateur);
 
         assertNotNull(newU.getIdU());
         assertEquals("abc", newU.getNomU());

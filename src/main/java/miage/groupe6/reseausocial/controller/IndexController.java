@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpSession;
-import miage.groupe6.reseausocial.model.entity.RelationAmis;
 import miage.groupe6.reseausocial.model.entity.Post;
+import miage.groupe6.reseausocial.model.entity.RelationAmis;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
@@ -46,19 +46,34 @@ public class IndexController {
     public String index(HttpSession session, Model model) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         
-        
-        
         if (utilisateur == null) {
             return "redirect:/utilisateurs/signin";   
 
         }
+
+
         List<Post> allPosts = ps.findAllOrderedByDateDesc();
+        model.addAttribute("posts", allPosts);
+
+        int nbPost = ps.countPostByUtilisateur(utilisateur);
+        List<RelationAmis> demandes = relationAmisService.getDemandesRecues(utilisateur);
+
+        if (!model.containsAttribute("nbPost")) {
+            model.addAttribute("nbPost", ps.countPostByUtilisateur(utilisateur));
+        }
+        if (!model.containsAttribute("nbFollowing")) {
+            model.addAttribute("nbFollowing", relationAmisService.countFollowingAccepte(utilisateur));
+        }
+        if (!model.containsAttribute("nbFollowers")) {
+            model.addAttribute("nbFollowers", relationAmisService.countFollowersAccepte(utilisateur));
+        }
+
         for (int i = 0; i < allPosts.size(); i++) {
             Post post = allPosts.get(i);
             int nbLikes = aps.countLikes(post);
             post.setNombreLikes(nbLikes);
         }
-        model.addAttribute("posts", allPosts);
+        
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("demandesAmis", demandes);
 

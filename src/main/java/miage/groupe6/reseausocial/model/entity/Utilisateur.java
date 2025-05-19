@@ -449,7 +449,7 @@ public class Utilisateur {
         this.userName = userName;
     }
 
-    public String getUniversite() {
+        public String getUniversite() {
         return universite;
     }
 
@@ -465,7 +465,8 @@ public class Utilisateur {
         this.ville = ville;
     }
 
-    
+
+
 
 }
 

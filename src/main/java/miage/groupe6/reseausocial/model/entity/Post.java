@@ -50,6 +50,8 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateP;
 
+    private transient int nombreLikes;
+
 
     // === Relations ===
 
@@ -229,5 +231,15 @@ public class Post {
     public void setCommentaires(Set<Commentaire> commentaires) {
         this.commentaires = commentaires;
     }
+
+    public int getNombreLikes() {
+        return nombreLikes;
+    }
+
+    public void setNombreLikes(int nombreLikes) {
+        this.nombreLikes = nombreLikes;
+    }
+
+    
 
 }

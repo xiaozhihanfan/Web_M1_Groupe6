@@ -31,7 +31,7 @@ public class ActionPostService {
         }
     }
 
-    public long countLikes(Post post) {
+    public int countLikes(Post post) {
         return apr.countByPostAndStatut(post, StatutActionPost.LIKE);
     }
 }

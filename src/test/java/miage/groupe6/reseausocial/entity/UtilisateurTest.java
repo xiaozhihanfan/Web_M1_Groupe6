@@ -30,7 +30,7 @@ public class UtilisateurTest {
         utilisateur.setDateInscription("2025-05-17");
         utilisateur.setBirthday(LocalDate.of(2025, 5, 18));
         utilisateur.setTelephone("1234567890");
-        utilisateur.setUserName("abcdef");
+        utilisateur.setIne("abcdef");
         utilisateur.setUniversite("TestU");
         utilisateur.setVille("TestC");
 
@@ -46,7 +46,7 @@ public class UtilisateurTest {
         assertEquals("2025-05-17", newU.getDateInscription());
         assertEquals(LocalDate.of(2025, 5, 18), newU.getBirthday());
         assertEquals("1234567890", newU.getTelephone());
-        assertEquals("abcdef", newU.getUserName());
+        assertEquals("abcdef", newU.getIne());
         assertEquals("TestU", newU.getUniversite());
         assertEquals("TestC", newU.getVille());
     }

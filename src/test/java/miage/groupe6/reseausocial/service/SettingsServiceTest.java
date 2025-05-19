@@ -44,7 +44,7 @@ public class SettingsServiceTest {
         utilisateur.setMpU("oldpass");
         utilisateur.setBirthday(LocalDate.of(1990, 1, 1));
         utilisateur.setTelephone("1234567890");
-        utilisateur.setUserName("johndoe");
+        utilisateur.setIne("99999999BD");
     }
 
     @Test
@@ -57,7 +57,7 @@ public class SettingsServiceTest {
         newData.setDescriptionU("Nouvelle description");
         newData.setBirthday(LocalDate.of(1995, 5, 5));
         newData.setTelephone("0987654321");
-        newData.setUserName("janesmith");
+        newData.setIne("88888888AD");
 
         when(utilisateurRepository.findById(1L)).thenReturn(Optional.of(utilisateur));
         when(utilisateurRepository.save(any(Utilisateur.class))).thenReturn(utilisateur);
@@ -66,7 +66,7 @@ public class SettingsServiceTest {
 
         assertEquals("Jane", updated.getNomU());
         assertEquals("Smith", updated.getPrenomU());
-        assertEquals("janesmith", updated.getUserName());
+        assertEquals("88888888AD", updated.getIne());
     }
 
     @Test

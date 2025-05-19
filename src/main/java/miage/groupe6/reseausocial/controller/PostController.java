@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,13 +56,14 @@ public class PostController {
      * Si l'utilisateur n'est pas connecté, redirige vers la page de connexion.
      * Si le post n'existe pas, redirige vers l'accueil.
      */
-    @PostMapping("/{id}/like")
-    public String likePost(@PathVariable("id") Long id, HttpSession session) {
+    @GetMapping("/{id}/like")
+    public String likePost(@PathVariable("id") String id, HttpSession session) {
         Utilisateur liker = (Utilisateur) session.getAttribute("utilisateur");
         if (liker == null) {
             return "redirect:/utilisateurs/signin";
         }
-        Optional<Post> optPost = ps.findById(id);
+
+        Optional<Post> optPost = ps.findById(Long.parseLong(id));
         if (!optPost.isPresent()) {
             return "redirect:/";
         }
@@ -81,7 +83,7 @@ public class PostController {
     
         newPost.setAuteur(poster);
         newPost.setDateP(new Date());
-        pr.save(newPost);
+        ps.save(newPost);
     
         return "redirect:/utilisateurs/" + idU + "/profile-post";
     }

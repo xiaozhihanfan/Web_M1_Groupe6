@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 
 /**
@@ -21,7 +22,10 @@ import miage.groupe6.reseausocial.model.jpa.service.PostService;
 public class IndexController {
 
     @Autowired
-    private PostService postService;
+    private PostService ps;
+
+    @Autowired
+    private ActionPostService aps;
 
     /**
      * Point d’entrée principal de l’application.
@@ -40,10 +44,15 @@ public class IndexController {
             return "redirect:/utilisateurs/signin";   
 
         }
-        List<Post> allPosts = postService.findAllOrderedByDateDesc();
+        List<Post> allPosts = ps.findAllOrderedByDateDesc();
+        for (int i = 0; i < allPosts.size(); i++) {
+            Post post = allPosts.get(i);
+            int nbLikes = aps.countLikes(post);
+            post.setNombreLikes(nbLikes);
+        }
         model.addAttribute("posts", allPosts);
 
-        int nbPost = postService.countPostByUtilisateur(utilisateur);
+        int nbPost = ps.countPostByUtilisateur(utilisateur);
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("nbPost", nbPost);
 

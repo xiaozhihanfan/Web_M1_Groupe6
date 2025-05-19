@@ -1,43 +1,50 @@
 package miage.groupe6.reseausocial.controller;
 
-import miage.groupe6.reseausocial.controller.SettingsController;
-import miage.groupe6.reseausocial.controller.UtilisateurController;
-import miage.groupe6.reseausocial.model.dto.PasswordChangeForm;
-import miage.groupe6.reseausocial.model.entity.Utilisateur;
-import miage.groupe6.reseausocial.model.jpa.service.SettingsService;
-import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
+import static org.hamcrest.Matchers.containsString;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.time.LocalDate;
-import java.util.Optional;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-@WebMvcTest(SettingsController.class)
-public class SettingsControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+class SettingsControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private SettingsService ss;
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
+
+    private Utilisateur utilisateur;
+
+    @BeforeEach
+    void setUp() {
+        utilisateurRepository.deleteAll(); // 清空以防数据污染
+        utilisateur = new Utilisateur();
+        utilisateur.setNomU("TestNom");
+        utilisateur.setPrenomU("TestPrenom");
+        utilisateur.setEmailU("test@email.com");
+        utilisateur.setMpU("ancienmdp");
+        utilisateur = utilisateurRepository.save(utilisateur);
+    }
 
     @Test
-    void afficherFormulaireModification_shouldRenderSettingsInfo() throws Exception {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setIdU(1L);
-        utilisateur.setNomU("Jean");
-
-        Mockito.when(ss.getUtilisateurById(1L)).thenReturn(Optional.of(utilisateur));
-
-        mockMvc.perform(get("/utilisateurs/1/modifier-info"))
+    void testAfficherFormulaireModification() throws Exception {
+        mockMvc.perform(get("/utilisateurs/" + utilisateur.getIdU() + "/modifier-info"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("settingsInfo"))
                 .andExpect(model().attributeExists("utilisateur"))
@@ -45,42 +52,48 @@ public class SettingsControllerTest {
     }
 
     @Test
-    void modifierUtilisateur_shouldRedirectWithSuccess() throws Exception {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setIdU(1L);
-        utilisateur.setNomU("Jean");
-
-        Mockito.when(ss.updateUtilisateur(anyLong(), any(Utilisateur.class)))
-                .thenReturn(utilisateur);
-
-        mockMvc.perform(post("/utilisateurs/1/modifier-info")
-                        .param("nomU", "Jean")
-                        .param("prenomU", "Dupont")
-                        .param("emailU", "jean@example.com"))
+    void testModifierUtilisateur_Success() throws Exception {
+        mockMvc.perform(post("/utilisateurs/" + utilisateur.getIdU() + "/modifier-info")
+                        .param("nom", "NouveauNom")
+                        .param("prenom", "NouveauPrenom")
+                        .param("email", "new@email.com")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/utilisateurs/1/modifier-info"));
+                .andExpect(flash().attribute("updateSuccess", true))
+                .andExpect(redirectedUrl("/utilisateurs/" + utilisateur.getIdU() + "/modifier-info"));
     }
 
     @Test
-    void modifierMotDePasse_shouldSucceed_whenPasswordsMatch() throws Exception {
-        Mockito.doNothing().when(ss).updatePassword(anyLong(), anyString(), anyString());
-
-        mockMvc.perform(post("/utilisateurs/1/modifier-mdp")
-                        .param("currentPassword", "oldpass")
-                        .param("newPassword", "newpass")
-                        .param("confirmPassword", "newpass"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/utilisateurs/1/modifier-mdp"));
+    void testAfficherPageModificationMotDePasse() throws Exception {
+        mockMvc.perform(get("/utilisateurs/" + utilisateur.getIdU() + "/modifier-mdp"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("settingsMdp"))
+                .andExpect(model().attributeExists("utilisateur"))
+                .andExpect(model().attributeExists("passwordForm"));
     }
 
     @Test
-    void modifierMotDePasse_shouldFail_whenPasswordsMismatch() throws Exception {
-        mockMvc.perform(post("/utilisateurs/1/modifier-mdp")
-                        .param("currentPassword", "oldpass")
-                        .param("newPassword", "newpass")
-                        .param("confirmPassword", "wrongpass"))
+    void testModifierMotDePasse_Success() throws Exception {
+        // 假设 settingsService 会成功更新密码（你可以用 H2 配置一个简单密码验证逻辑）
+        mockMvc.perform(post("/utilisateurs/" + utilisateur.getIdU() + "/modifier-mdp")
+                        .param("currentPassword", "ancienmdp")
+                        .param("newPassword", "nouveaumdp")
+                        .param("confirmPassword", "nouveaumdp")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(flash().attribute("passwordError", "Les deux mots de passe ne correspondent pas."))
-                .andExpect(redirectedUrl("/utilisateurs/1/modifier"));
+                .andExpect(flash().attribute("passwordSuccess", containsString("succès")))
+                .andExpect(redirectedUrl("/utilisateurs/" + utilisateur.getIdU() + "/modifier-mdp"));
+    }
+
+    @Test
+    void testModifierMotDePasse_Mismatch() throws Exception {
+        mockMvc.perform(post("/utilisateurs/" + utilisateur.getIdU() + "/modifier-mdp")
+                        .param("currentPassword", "ancienmdp")
+                        .param("newPassword", "123456")
+                        .param("confirmPassword", "654321")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attribute("passwordError", containsString("ne correspondent")))
+                .andExpect(redirectedUrl("/utilisateurs/" + utilisateur.getIdU() + "/modifier"));
     }
 }

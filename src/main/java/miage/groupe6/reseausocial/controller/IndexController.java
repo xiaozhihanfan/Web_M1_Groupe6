@@ -1,13 +1,17 @@
 package miage.groupe6.reseausocial.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.RelationAmis;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
+import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 
 /**
  * Contrôleur pour la page d’accueil de l’application.
@@ -19,6 +23,9 @@ public class IndexController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private RelationAmisService relationAmisService;
 
     /**
      * Point d’entrée principal de l’application.
@@ -33,6 +40,9 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpSession session, Model model) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        
+        
+        
         if (utilisateur == null) {
             return "redirect:/utilisateurs/signin";   
 
@@ -40,9 +50,21 @@ public class IndexController {
 
         int nbPost = postService.countPostByUtilisateur(utilisateur);
         
-        model.addAttribute("utilisateur", utilisateur);
+        List<RelationAmis> demandes = relationAmisService.getDemandesRecues(utilisateur);
+        
+        if (!model.containsAttribute("nbPost")) {
+            model.addAttribute("nbPost", postService.countPostByUtilisateur(utilisateur));
+        }
+        if (!model.containsAttribute("nbFollowing")) {
+            model.addAttribute("nbFollowing", relationAmisService.countFollowingAccepte(utilisateur));
+        }
+        if (!model.containsAttribute("nbFollowers")) {
+            model.addAttribute("nbFollowers", relationAmisService.countFollowersAccepte(utilisateur));
+        }
 
-        model.addAttribute("nbPost", nbPost);
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("demandesAmis", demandes);
+
         return "index";
     }
 

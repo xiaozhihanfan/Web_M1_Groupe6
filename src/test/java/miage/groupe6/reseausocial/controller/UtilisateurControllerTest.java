@@ -1,24 +1,21 @@
 package miage.groupe6.reseausocial.controller;
 
-import miage.groupe6.reseausocial.model.entity.Utilisateur;
-import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
-
+import static org.hamcrest.Matchers.containsString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
-
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -52,13 +49,6 @@ public class UtilisateurControllerTest {
     }
 
     @Test
-    void testAfficherFormulaireRechercher() throws Exception {
-        mockMvc.perform(get("/utilisateurs/rechercher").session(session))
-               .andExpect(status().isOk())
-               .andExpect(view().name("rechercherUtilisateurs"));
-    }
-
-    @Test
     void testRechercherUtilisateurParEmail() throws Exception {
         mockMvc.perform(get("/utilisateurs/resultats")
                         .param("query", utilisateur.getEmailU())
@@ -67,12 +57,5 @@ public class UtilisateurControllerTest {
                .andExpect(view().name("resultatsRechercherUtilisateurs"))
                .andExpect(content().string(containsString(utilisateur.getEmailU())))
                .andExpect(model().attributeExists("utilisateurs"));
-    }
-
-    @Test
-    void testRedirectionVersConnexionSiNonConnecté() throws Exception {
-        mockMvc.perform(get("/utilisateurs/rechercher")) 
-               .andExpect(status().is3xxRedirection())
-               .andExpect(redirectedUrl("/utilisateurs/signin"));
     }
 }

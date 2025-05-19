@@ -189,86 +189,56 @@ Header START -->
 					</a>
 				</li>
 
+        <!-- Message d'invite -->
         <li class="nav-item dropdown ms-2">
-					<!-- <a class="nav-link icon-md btn btn-light p-0" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+					<a class="nav-link icon-md btn btn-light p-0" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
             <span class="badge-notif animation-blink"></span>
 						<i class="bi bi-bell-fill fs-6"> </i>
 					</a>
           <div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0" aria-labelledby="notifDropdown">
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <h6 class="m-0">Notifications <span class="badge bg-danger bg-opacity-10 text-danger ms-2">4 new</span></h6>
+                <h6 class="m-0">Notifications <span class="badge bg-danger bg-opacity-10 text-danger ms-2"></span></h6>
                 <a class="small" href="#">Clear all</a>
               </div>
               <div class="card-body p-0">
-                <ul class="list-group list-group-flush list-unstyled p-2"> -->
-<!-- Notif item -->
-                  <!-- <li>
+                <ul class="list-group list-group-flush list-unstyled p-2">
+            <!-- Notif item -->
+                  <li th:each="demande : ${demandesAmis}">
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="">
+                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatarU}}" alt="avatar" />
                       </div>
-                      <div class="ms-sm-3">
-                        <div class=" d-flex">
-                        <p class="small mb-2"><b>Judy Nguyen</b> sent you a friend request.</p>
-                        <p class="small ms-3 text-nowrap">Just now</p>
-                      </div>
-                      <div class="d-flex">
-                        <button class="btn btn-sm py-1 btn-primary me-2">Accept </button>
-                        <button class="btn btn-sm py-1 btn-danger-soft">Delete </button>
-                      </div>
-                    </div>
-                  </div>
-                  </li> -->
-<!-- Notif item -->
-                  <!-- <li>
-                    <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3 position-relative">
-                      <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="">
-                      </div>
-                      <div class="ms-sm-3 d-flex">
-                        <div>
-                          <p class="small mb-2">Wish <b>Amanda Reed</b> a happy birthday (Nov 12)</p>
-                          <button class="btn btn-sm btn-outline-light py-1 me-2">Say happy birthday 🎂</button>
+                      <div class="ms-sm-3 w-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <p class="small mb-2">
+                            <b th:text="${demande.utilisateurDemande.prenomU + ' ' + demande.utilisateurDemande.nomU}">Nom Prénom</b>
+                            vous a envoyé une demande d’amis.
+                          </p>
+                          <p class="small text-nowrap">Maintenant</p>
                         </div>
-                        <p class="small ms-3">2min</p>
-                      </div>
-                    </div>
-                  </li> -->
-<!-- Notif item -->
-                  <!-- <li>
-                    <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3">
-                      <div class="avatar text-center d-none d-sm-inline-block">
-                        <div class="avatar-img rounded-circle bg-success"><span class="text-white position-absolute top-50 start-50 translate-middle fw-bold">WB</span></div>
-                      </div>
-                      <div class="ms-sm-3">
                         <div class="d-flex">
-                          <p class="small mb-2">Webestica has 15 like and 1 new activity</p>
-                          <p class="small ms-3">1hr</p>
+                          <form th:action="@{'/relationamis/accepter/' + ${demande.utilisateurDemande.idU}}" method="post" class="me-2">
+                            <button class="btn btn-sm py-1 btn-primary">Accepter</button>
+                          </form>
+                          <form th:action="@{'/relationamis/refuser/' + ${demande.utilisateurDemande.idU}}" method="post">
+                            <button class="btn btn-sm py-1 btn-danger-soft">Refuser</button>
+                          </form>
                         </div>
                       </div>
-                    </a>
-                  </li> -->
-<!-- Notif item -->
-
-                  <!-- <li>
-                    <a href="#" class="list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
-                      <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" src="assets/images/logo/12.svg" alt="">
-                      </div>
-                      <div class="ms-sm-3 d-flex">
-                        <p class="small mb-2"><b>Bootstrap in the news:</b> The search giant’s parent company, Alphabet, just joined an exclusive club of tech stocks.</p>
-                        <p class="small ms-3">4hr</p>
-                      </div>
-                    </a>
+                    </div>
                   </li>
+              <!-- Notif item -->
                 </ul>
               </div>
+              <!--
               <div class="card-footer text-center">
                 <a href="#" class="btn btn-sm btn-primary-soft">See all incoming activity</a>
               </div>
+              -->
+              
             </div>
-          </div> -->
+          </div>
 				</li>
         <!-- Notification dropdown END -->
 
@@ -342,131 +312,131 @@ Header END -->
 <div class="container">
     <div class="row g-4">
 <!-- Sidenav START -->
-<div class="col-lg-3">
-<!-- Advanced filter responsive toggler START -->
-<div class="d-flex align-items-center d-lg-none">
-<button aria-controls="offcanvasSideNavbar" class="border-0 bg-transparent" data-bs-target="#offcanvasSideNavbar" data-bs-toggle="offcanvas" type="button">
-<i class="btn btn-primary fw-bold fa-solid fa-sliders-h"></i>
-<span class="h6 mb-0 fw-bold d-lg-none ms-2">Mon Profil</span>
-</button>
-</div>
-<!-- Advanced filter responsive toggler END -->
-<!-- Navbar START-->
-<nav class="navbar navbar-expand-lg mx-0">
-<div class="offcanvas offcanvas-start" id="offcanvasSideNavbar" tabindex="-1">
-<!-- Offcanvas header -->
-<div class="offcanvas-header">
-<button aria-label="Close" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" type="button"></button>
-</div>
-<!-- Offcanvas body -->
-<div class="offcanvas-body d-block px-2 px-lg-0">
-<!-- Card START -->
-<div class="card overflow-hidden">
-<!-- Cover image -->
-<div class="h-50px" style="background-image:url(assets/images/bg/01.jpg); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
-<!-- Card body START -->
-  <div class="card-body pt-0">
-  <div class="text-center">
-  <!-- Avatar -->
-  <div class="avatar avatar-lg mt-n5 mb-3">
-    <a href="#!">
-      <img alt="" class="avatar-img rounded border border-white border-3" th:src="${utilisateur.avatarU}"/>
-    </a>
+  <div class="col-lg-3">
+  <!-- Advanced filter responsive toggler START -->
+  <div class="d-flex align-items-center d-lg-none">
+  <button aria-controls="offcanvasSideNavbar" class="border-0 bg-transparent" data-bs-target="#offcanvasSideNavbar" data-bs-toggle="offcanvas" type="button">
+  <i class="btn btn-primary fw-bold fa-solid fa-sliders-h"></i>
+  <span class="h6 mb-0 fw-bold d-lg-none ms-2">Mon Profil</span>
+  </button>
   </div>
-  <!-- Info -->
-  <h5 class="mb-0"> <a href="#!" th:text="${utilisateur.prenomU} + ' ' + ${utilisateur.nomU}"></a> </h5>
-  <p class="mt-3" th:text="${utilisateur.descriptionU}"></p>
-  <!-- User stat START -->
-  <div class="hstack gap-2 gap-xl-3 justify-content-center">
-  <!-- User stat item -->
-  <div>
-  <h6 class="mb-0" th:text="${nbPost}"></h6>
-  <small>Post</small>
+  <!-- Advanced filter responsive toggler END -->
+  <!-- Navbar START-->
+  <nav class="navbar navbar-expand-lg mx-0">
+  <div class="offcanvas offcanvas-start" id="offcanvasSideNavbar" tabindex="-1">
+  <!-- Offcanvas header -->
+  <div class="offcanvas-header">
+  <button aria-label="Close" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" type="button"></button>
   </div>
-  <!-- Divider -->
-  <div class="vr"></div>
-  <!-- User stat item -->
-  <div>
-  <h6 class="mb-0" th:text="${nbFollowers}"></h6>
-  <small>Followers</small>
-  </div>
-  <!-- Divider -->
-  <div class="vr"></div>
-  <!-- User stat item -->
-  <div>
-  <h6 class="mb-0" th:text="${nbFollowing}"></h6>
-  <small>Following</small>
-  </div>
-  </div>
-  <!-- User stat END -->
-  </div>
-  <!-- Divider -->
-  <hr/>
-  <!-- Side Nav START -->
-  <ul class="nav nav-link-secondary flex-column fw-bold gap-2">
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}"> 
-        <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/earth-outline-filled.svg}" src="assets/images/icon/earth-outline-filled.svg" th:src="@{/assets/images/icon/earth-outline-filled.svg}"/><span>Post </span></a>
+  <!-- Offcanvas body -->
+  <div class="offcanvas-body d-block px-2 px-lg-0">
+  <!-- Card START -->
+  <div class="card overflow-hidden">
+  <!-- Cover image -->
+  <div class="h-50px" style="background-image:url(assets/images/bg/01.jpg); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
+  <!-- Card body START -->
+    <div class="card-body pt-0">
+    <div class="text-center">
+    <!-- Avatar -->
+    <div class="avatar avatar-lg mt-n5 mb-3">
+      <a href="#!">
+        <img alt="" class="avatar-img rounded border border-white border-3" th:src="${utilisateur.avatarU}"/>
+      </a>
+    </div>
+    <!-- Info -->
+    <h5 class="mb-0"> <a href="#!" th:text="${utilisateur.prenomU} + ' ' + ${utilisateur.nomU}"></a> </h5>
+    <p class="mt-3" th:text="${utilisateur.descriptionU}"></p>
+    <!-- User stat START -->
+    <div class="hstack gap-2 gap-xl-3 justify-content-center">
+    <!-- User stat item -->
+    <div>
+    <h6 class="mb-0" th:text="${nbPost}"></h6>
+    <small>Post</small>
+    </div>
+    <!-- Divider -->
+    <div class="vr"></div>
+    <!-- User stat item -->
+    <div>
+    <h6 class="mb-0" th:text="${nbFollowers}"></h6>
+    <small>Followers</small>
+    </div>
+    <!-- Divider -->
+    <div class="vr"></div>
+    <!-- User stat item -->
+    <div>
+    <h6 class="mb-0" th:text="${nbFollowing}"></h6>
+    <small>Following</small>
+    </div>
+    </div>
+    <!-- User stat END -->
+    </div>
+    <!-- Divider -->
+    <hr/>
+    <!-- Side Nav START -->
+    <ul class="nav nav-link-secondary flex-column fw-bold gap-2">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}"> 
+          <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/earth-outline-filled.svg}" src="assets/images/icon/earth-outline-filled.svg" th:src="@{/assets/images/icon/earth-outline-filled.svg}"/><span>Post </span></a>
+        </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}"> 
+          <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/home-outline-filled.svg}" src="assets/images/icon/home-outline-filled.svg" th:src="@{/assets/images/icon/home-outline-filled.svg}"/><span>Profil </span></a>
       </li>
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}"> 
-        <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/home-outline-filled.svg}" src="assets/images/icon/home-outline-filled.svg" th:src="@{/assets/images/icon/home-outline-filled.svg}"/><span>Profil </span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}"> 
-        <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/person-outline-filled.svg}" src="assets/images/icon/person-outline-filled.svg" th:src="@{/assets/images/icon/person-outline-filled.svg}"/><span>Amis </span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" dth:href="@{/utilisateurs/{id}/profile-groups(id=${utilisateur.idU})}"> 
-        <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/chat-outline-filled.svg}" src="assets/images/icon/chat-outline-filled.svg" th:src="@{/assets/images/icon/chat-outline-filled.svg}"/><span>Groupes </span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-events(id=${utilisateur.idU})}"> 
-        <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/calendar-outline-filled.svg}" src="assets/images/icon/calendar-outline-filled.svg" th:src="@{/assets/images/icon/calendar-outline-filled.svg}"/><span>Evenements </span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"> 
-        <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/cog-outline-filled.svg}" src="assets/images/icon/cog-outline-filled.svg" th:src="@{/assets/images/icon/cog-outline-filled.svg}"/><span>Settings </span></a>
-    </li>
-  </ul>
-  <!-- Side Nav END -->
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${utilisateur.idU})}"> 
+          <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/person-outline-filled.svg}" src="assets/images/icon/person-outline-filled.svg" th:src="@{/assets/images/icon/person-outline-filled.svg}"/><span>Amis </span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" dth:href="@{/utilisateurs/{id}/profile-groups(id=${utilisateur.idU})}"> 
+          <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/chat-outline-filled.svg}" src="assets/images/icon/chat-outline-filled.svg" th:src="@{/assets/images/icon/chat-outline-filled.svg}"/><span>Groupes </span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-events(id=${utilisateur.idU})}"> 
+          <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/calendar-outline-filled.svg}" src="assets/images/icon/calendar-outline-filled.svg" th:src="@{/assets/images/icon/calendar-outline-filled.svg}"/><span>Evenements </span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}"> 
+          <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/cog-outline-filled.svg}" src="assets/images/icon/cog-outline-filled.svg" th:src="@{/assets/images/icon/cog-outline-filled.svg}"/><span>Settings </span></a>
+      </li>
+    </ul>
+    <!-- Side Nav END -->
+    </div>
+  <!-- Card body END -->
+  <!-- Card footer -->
+  <div class="card-footer text-center py-2">
+  <a class="btn btn-link btn-sm" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Regarde Profil </a>
   </div>
-<!-- Card body END -->
-<!-- Card footer -->
-<div class="card-footer text-center py-2">
-<a class="btn btn-link btn-sm" th:href="@{/utilisateurs/{id}/profile-post(id=${utilisateur.idU})}">Regarde Profil </a>
-</div>
-</div>
-<!-- Card END -->
-<!-- Helper link START -->
-<ul class="nav small mt-4 justify-content-center lh-1">
-<li class="nav-item">
-<a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}">About</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="http://www.bootstrapmb.comlogin">Support </a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="">Docs </a>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-th-href="@{/help.html}" href="help.html" th:href="@{/help.html}">Help</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-th-href="@{/privacy-and-terms.html}" href="privacy-and-terms.html" th:href="@{/privacy-and-terms.html}">Privacy &amp; terms</a>
-</li>
-</ul>
-<!-- Helper link END -->
-<!-- Copyright -->
-<p class="small text-center mt-1">©2025 <a class="text-body" href="http://www.bootstrapmb.com/"> Webestica </a></p>
-</div>
-</div>
-</nav>
-<!-- Navbar END-->
-</div>
+  </div>
+  <!-- Card END -->
+  <!-- Helper link START -->
+  <ul class="nav small mt-4 justify-content-center lh-1">
+  <li class="nav-item">
+  <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}">About</a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${utilisateur.idU})}">Settings</a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link" href="http://www.bootstrapmb.comlogin">Support </a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link" href="">Docs </a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link" data-th-href="@{/help.html}" href="help.html" th:href="@{/help.html}">Help</a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link" data-th-href="@{/privacy-and-terms.html}" href="privacy-and-terms.html" th:href="@{/privacy-and-terms.html}">Privacy &amp; terms</a>
+  </li>
+  </ul>
+  <!-- Helper link END -->
+  <!-- Copyright -->
+  <p class="small text-center mt-1">©2025 <a class="text-body" href="http://www.bootstrapmb.com/"> Webestica </a></p>
+  </div>
+  </div>
+  </nav>
+  <!-- Navbar END-->
+  </div>
 <!-- Sidenav END -->
     <!-- Main content START -->
 <div class="col-md-8 col-lg-6 vstack gap-4">

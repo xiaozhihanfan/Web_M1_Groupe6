@@ -131,14 +131,6 @@ public class UtilisateurController {
 
     // ========================= US1.3: Recherche ========================= //
 
-    @GetMapping("/rechercher")
-    public String afficherFormulaireRechercher(Model model, HttpSession session) {
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-        if (utilisateur == null) return "redirect:/utilisateurs/signin";
-        model.addAttribute("utilisateur", utilisateur);
-        return "rechercherUtilisateurs";
-    }
-
     /**
      * Exécute la recherche d'utilisateurs par nom, prénom ou email.
      * <p>
@@ -173,9 +165,13 @@ public class UtilisateurController {
         }
 
         int nbPost = ps.countPostByUtilisateur(utilisateurSession);
+        int nbFollowers = ras.countFollowersAccepte(utilisateurSession);
+        int nbFollowing = ras.countFollowingAccepte(utilisateurSession);
 
         model.addAttribute("utilisateur", utilisateurSession);
         model.addAttribute("nbPost", nbPost);
+        model.addAttribute("nbFollowers",nbFollowers);
+        model.addAttribute("nbFollowing",nbFollowing);
         model.addAttribute("query", query);
         model.addAttribute("utilisateurs", utilisateurs);
         model.addAttribute("nbPostsParUtilisateur", nbPostsParUtilisateur);

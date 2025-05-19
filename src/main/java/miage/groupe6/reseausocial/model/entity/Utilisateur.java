@@ -4,7 +4,6 @@ package miage.groupe6.reseausocial.model.entity;
 
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -112,8 +111,10 @@ public class Utilisateur {
      * @param birthday date de naissance
      * @param telephone numéro tel
      * @param userName nom de Reseau Social
+     * @param universite université
+     * @param ville ville d'habitant
      */
-    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU, LocalDate birthday, String telephone, String userName) {
+    public Utilisateur(String avatarU, String dateInscription, String descriptionU, String emailU, Long idU, String mpU, String nomU, String prenomU, LocalDate birthday, String telephone, String userName, String universite, String ville) {
         this.avatarU = avatarU;
         this.dateInscription = dateInscription;
         this.descriptionU = descriptionU;
@@ -125,6 +126,8 @@ public class Utilisateur {
         this.birthday = birthday;
         this.telephone = telephone;
         this.userName = userName;
+        this.universite = universite;
+        this.ville = ville;
     }
 
     // ==== Getters & Setters ====
@@ -225,6 +228,13 @@ public class Utilisateur {
     public String getAvatarU() {
         return avatarU;
     }
+
+    public String getAvatar() {
+    if (this.avatarU == null || this.avatarU.isEmpty()) {
+        return "/assets/images/avatar/placeholder.jpg"; 
+    }
+    return this.avatarU;
+}
 
     /**
      * Définit l'avatar de l'utilisateur.
@@ -439,7 +449,7 @@ public class Utilisateur {
         this.userName = userName;
     }
 
-    public String getUniversite() {
+        public String getUniversite() {
         return universite;
     }
 
@@ -454,6 +464,7 @@ public class Utilisateur {
     public void setVille(String ville) {
         this.ville = ville;
     }
+
 
 
 

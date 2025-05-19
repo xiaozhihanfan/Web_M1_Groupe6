@@ -55,6 +55,7 @@ public class PostService {
         return pr.findAllByOrderByDateP();
     }
 
+
     /**
      * Récupère un post par son identifiant.
      *
@@ -65,5 +66,27 @@ public class PostService {
         return pr.findById(id);
     }
 
+
+
+
+    /**
+     * Récupère tous les posts de l’utilisateur passé en paramètre,
+     * triés par date de publication décroissante (plus récents d’abord).
+     */
+    public List<Post> findByAuteurOrderByDateDesc(Utilisateur auteur) {
+        return pr.findByAuteurOrderByDatePDesc(auteur);
+    }
+
+
+    /**
+     * Récupère tous les posts de la base,
+     * triés par date de publication décroissante
+     * (les plus récents en premier).
+     *
+     * @return liste de tous les posts
+     */
+    public List<Post> findAllOrderedByDateDesc() {
+        return pr.findAllByOrderByDatePDesc();
+    }
 
 }

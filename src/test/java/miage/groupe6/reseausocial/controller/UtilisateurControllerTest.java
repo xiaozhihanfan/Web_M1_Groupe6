@@ -70,7 +70,7 @@ public class UtilisateurControllerTest {
     }
 
     @Test
-    void testRedirectionVersConnexionSiNonConnecté() throws Exception {
+    void testRedirectionVersConnexionSiNonConnecte() throws Exception {
         mockMvc.perform(get("/utilisateurs/rechercher")) 
                .andExpect(status().is3xxRedirection())
                .andExpect(redirectedUrl("/utilisateurs/signin"));

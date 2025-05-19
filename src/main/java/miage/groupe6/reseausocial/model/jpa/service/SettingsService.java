@@ -46,6 +46,8 @@ public class SettingsService {
             utilisateur.setBirthday(newData.getBirthday());
             utilisateur.setTelephone(newData.getTelephone());
             utilisateur.setUserName(newData.getUserName());
+            utilisateur.setUniversite(newData.getUniversite());
+            utilisateur.setVille(newData.getVille());
             return utilisateurRepository.save(utilisateur);
         }).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec id: " + id));
     }

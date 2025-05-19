@@ -1,5 +1,6 @@
 package miage.groupe6.reseausocial.model.jpa.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,4 +28,6 @@ public interface RelationAmisRepository extends JpaRepository<RelationAmis, Rela
     Optional<RelationAmis> findByUtilisateurDemandeIdUAndUtilisateurRecuIdU(Long idDemande, Long idRecu);
 
     boolean existsById(RelationAmisId id);
+
+    List<RelationAmis> findByUtilisateurRecuAndStatut(Utilisateur utilisateurRecu, StatutRelation statut);
 } 

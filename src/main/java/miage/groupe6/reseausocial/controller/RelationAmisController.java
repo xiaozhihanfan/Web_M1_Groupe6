@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
@@ -23,6 +24,12 @@ public class RelationAmisController {
 
     @Autowired
     private UtilisateurService utilisateurService;
+
+    @Autowired
+    private PostService postService;
+
+
+    // ----------------------- us 1.4 Envoyer une demande d’ami ---------------------
 
     @PostMapping("/envoyer/{idCible}")
     public String envoyerDemandeAmi(@PathVariable Long idCible,
@@ -47,5 +54,35 @@ public class RelationAmisController {
         }
 
         return "redirect:/utilisateurs/resultats?query=" + cibleOpt.get().getEmailU();
+    }
+
+
+    // ----------------------- us 1.5 Accepter ou refuser une demande d’ami ---------------------
+
+    @PostMapping("/accepter/{idDemandeur}")
+    public String accepter(@PathVariable Long idDemandeur, HttpSession session, RedirectAttributes redirectAttributes) {
+        Utilisateur receveur = (Utilisateur) session.getAttribute("utilisateur");
+        if (relationAmisService.accepterDemandeAmis(idDemandeur, receveur.getIdU())) {
+            redirectAttributes.addFlashAttribute("message", "Demande acceptée !");
+        }
+
+        int nbFollowers = relationAmisService.countFollowersAccepte(receveur);
+        int nbFollowing = relationAmisService.countFollowingAccepte(receveur);
+        int nbPost = postService.countPostByUtilisateur(receveur);
+
+        redirectAttributes.addFlashAttribute("nbPost", nbPost);
+        redirectAttributes.addFlashAttribute("nbFollowing", nbFollowing);
+        redirectAttributes.addFlashAttribute("nbFollowers", nbFollowers);
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/refuser/{idDemandeur}")
+    public String refuser(@PathVariable Long idDemandeur, HttpSession session, RedirectAttributes redirectAttributes) {
+        Utilisateur receveur = (Utilisateur) session.getAttribute("utilisateur");
+        if (relationAmisService.refuserDemandeAmis(idDemandeur, receveur.getIdU())) {
+            redirectAttributes.addFlashAttribute("message", "Demande refusée !");
+        }
+        return "redirect:/";
     }
 }

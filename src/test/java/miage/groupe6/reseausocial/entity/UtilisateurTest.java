@@ -1,16 +1,15 @@
 package miage.groupe6.reseausocial.entity;
 
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
-
-
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDate;
 
 @SpringBootTest
 public class UtilisateurTest {

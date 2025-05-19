@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.RelationAmis;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
+import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 
 /**
  * Contrôleur pour la page d’accueil de l’application.
@@ -27,6 +29,9 @@ public class IndexController {
     @Autowired
     private ActionPostService aps;
 
+    @Autowired
+    private RelationAmisService relationAmisService;
+
     /**
      * Point d’entrée principal de l’application.
      * Si l’utilisateur n’est pas présent dans la session, redirige
@@ -40,6 +45,9 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpSession session, Model model) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        
+        
+        
         if (utilisateur == null) {
             return "redirect:/utilisateurs/signin";   
 
@@ -51,10 +59,11 @@ public class IndexController {
             post.setNombreLikes(nbLikes);
         }
         model.addAttribute("posts", allPosts);
-
-        int nbPost = ps.countPostByUtilisateur(utilisateur);
         model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("demandesAmis", demandes);
+
         model.addAttribute("nbPost", nbPost);
+
 
         return "index";
     }

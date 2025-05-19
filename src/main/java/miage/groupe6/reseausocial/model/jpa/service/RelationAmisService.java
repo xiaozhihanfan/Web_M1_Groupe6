@@ -1,6 +1,8 @@
 package miage.groupe6.reseausocial.model.jpa.service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,8 @@ public class RelationAmisService {
         return res;
     }
 
+    // ----------------------- us 1.4 Envoyer une demande d’ami ---------------------
+
     public boolean demandeExisteDeja(Long idDemandeur, Long idRecu) {
         return rar.existsById(new RelationAmisId(idDemandeur, idRecu));
     }
@@ -68,4 +72,27 @@ public class RelationAmisService {
         return true;
     }
 
+    // ----------------------- us 1.5 Accepter ou refuser une demande d’ami ---------------------
+    public List<RelationAmis> getDemandesRecues(Utilisateur utilisateur) {
+        return rar.findByUtilisateurRecuAndStatut(utilisateur, StatutRelation.TRAITEE);
+    }
+
+    public boolean accepterDemandeAmis(Long idDemandeur, Long idReceveur) {
+        Optional<RelationAmis> relationOpt = rar.findById(new RelationAmisId(idDemandeur, idReceveur));
+        if(relationOpt.isPresent()) {
+            RelationAmis relation = relationOpt.get();
+            relation.setStatut(StatutRelation.ACCEPTEE);
+            rar.save(relation);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean refuserDemandeAmis(Long idDemandeur, Long idReceveur) {
+        if(rar.existsById(new RelationAmisId(idDemandeur, idReceveur))) {
+            rar.deleteById(new RelationAmisId(idDemandeur, idReceveur));
+            return true;
+        }
+        return false;
+    }
 }

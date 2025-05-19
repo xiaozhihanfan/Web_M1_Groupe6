@@ -81,7 +81,7 @@ public class PostController {
     
         newPost.setAuteur(poster);
         newPost.setDateP(new Date());
-        pr.save(newPost);
+        ps.save(newPost);
     
         return "redirect:/utilisateurs/" + idU + "/profile-post";
     }

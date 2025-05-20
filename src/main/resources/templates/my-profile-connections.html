@@ -199,7 +199,7 @@ Header START -->
                   <li th:each="demande : ${demandesAmis}">
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatarU}}" alt="avatar" />
+                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatar}}" alt="avatar" />
                       </div>
                       <div class="ms-sm-3 w-100">
                         <div class="d-flex justify-content-between align-items-center">
@@ -390,7 +390,7 @@ Header END -->
                 <div class="avatar me-3 mb-3 mb-md-0">
                   <a th:href="@{/utilisateurs/{id}/profile-about(id=${ami.idU})}">
                     <img class="avatar-img rounded-circle"
-                         th:src="@{${ami.avatarU}}"
+                         th:src="@{${ami.avatar}}"
                          th:alt="${ami.prenomU} + ' ' + ${ami.nomU}" />
                   </a>
                 </div>
@@ -413,7 +413,7 @@ Header END -->
                 <!-- Button -->
                 <div class="ms-md-auto d-flex">
                   <button th:if="${estProprietaire}" class="btn btn-danger-soft btn-sm mb-0 me-2"> Remove </button>
-                  <button class="btn btn-primary-soft btn-sm mb-0"> Message </button>
+                  <a th:href="@{'/messages/' + ${ami.idU}}" class="btn btn-primary btn-sm mb-0"> Message </a>
                 </div>
             </div>
 

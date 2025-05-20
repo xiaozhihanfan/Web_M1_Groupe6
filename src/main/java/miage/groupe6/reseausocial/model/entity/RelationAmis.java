@@ -1,7 +1,16 @@
 package miage.groupe6.reseausocial.model.entity;
 
-import jakarta.persistence.*;
 import java.util.Date;
+
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  * Entité représentant une relation d'amitié entre deux utilisateurs.

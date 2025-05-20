@@ -206,7 +206,7 @@ Header START -->
                   <li th:each="demande : ${demandesAmis}">
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatarU}}" alt="avatar" />
+                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatar}}" alt="avatar" />
                       </div>
                       <div class="ms-sm-3 w-100">
                         <div class="d-flex justify-content-between align-items-center">
@@ -356,16 +356,16 @@ Header END -->
     <div class="vr"></div>
     <!-- User stat item -->
     <div>
-    <h6 class="mb-0" th:text="${nbFollowers}"></h6>
-    <small>Followers</small>
+    <h6 class="mb-0" th:text="${nbAmis}"></h6>
+    <small>Amis</small>
     </div>
     <!-- Divider -->
     <div class="vr"></div>
     <!-- User stat item -->
-    <div>
+    <!-- <div>
     <h6 class="mb-0" th:text="${nbFollowing}"></h6>
     <small>Following</small>
-    </div>
+    </div> -->
     </div>
     <!-- User stat END -->
     </div>

@@ -61,11 +61,8 @@ public class IndexController {
         if (!model.containsAttribute("nbPost")) {
             model.addAttribute("nbPost", ps.countPostByUtilisateur(utilisateur));
         }
-        if (!model.containsAttribute("nbFollowing")) {
-            model.addAttribute("nbFollowing", relationAmisService.countFollowingAccepte(utilisateur));
-        }
-        if (!model.containsAttribute("nbFollowers")) {
-            model.addAttribute("nbFollowers", relationAmisService.countFollowersAccepte(utilisateur));
+        if (!model.containsAttribute("nbAmis")) {
+            model.addAttribute("nbAmis", relationAmisService.countRelationsAcceptees(utilisateur));
         }
 
         for (int i = 0; i < allPosts.size(); i++) {

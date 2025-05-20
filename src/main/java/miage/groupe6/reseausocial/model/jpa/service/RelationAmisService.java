@@ -59,6 +59,12 @@ public class RelationAmisService {
         return res;
     }
 
+    public int countRelationsAcceptees(Utilisateur utilisateur) {
+        int countDemande = rar.countByUtilisateurDemandeAndStatut(utilisateur, StatutRelation.ACCEPTEE);
+        int countRecu = rar.countByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
+        return countDemande + countRecu;
+    }
+
     // ----------------------- us 1.4 Envoyer une demande d’ami ---------------------
 
     public boolean demandeExisteDeja(Long idDemandeur, Long idRecu) {
@@ -80,12 +86,25 @@ public class RelationAmisService {
         return rar.findByUtilisateurRecuAndStatut(utilisateur, StatutRelation.TRAITEE);
     }
 
+
     public boolean accepterDemandeAmis(Long idDemandeur, Long idReceveur) {
         Optional<RelationAmis> relationOpt = rar.findById(new RelationAmisId(idDemandeur, idReceveur));
         if(relationOpt.isPresent()) {
             RelationAmis relation = relationOpt.get();
             relation.setStatut(StatutRelation.ACCEPTEE);
             rar.save(relation);
+            
+            RelationAmisId miroirId = new RelationAmisId(idReceveur, idDemandeur);
+            if(!rar.existsById(miroirId)) {
+                RelationAmis miroir = new RelationAmis(
+                    relation.getUtilisateurRecu(),
+                    relation.getUtilisateurRecu(),
+                    new Date(),
+                    StatutRelation.ACCEPTEE
+                );
+                rar.save(miroir);
+            }
+            
             return true;
         }
         return false;

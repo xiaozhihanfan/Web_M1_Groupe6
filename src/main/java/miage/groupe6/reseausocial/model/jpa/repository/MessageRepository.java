@@ -1,8 +1,11 @@
 package miage.groupe6.reseausocial.model.jpa.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import miage.groupe6.reseausocial.model.entity.Message;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
 
 /**
  * Repository JPA pour l'entité {@link Message}.
@@ -16,5 +19,5 @@ import miage.groupe6.reseausocial.model.entity.Message;
  * 
  */
 public interface MessageRepository extends JpaRepository<Message, Long>{
-
+    List<Message> findByEnvoyeurAndRecepteurOrRecepteurAndEnvoyeurOrderByTempsAsc(Utilisateur u1, Utilisateur u2, Utilisateur u3, Utilisateur u4);
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.Evenement;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
@@ -150,6 +151,38 @@ public class ProfilController {
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 ex.getMessage(), ex);
         }
+    }
+
+
+   /**
+     * Affiche la page des événements classés par type (créés, inscrits, intéressés).
+     *
+     * @param id      identifiant de l’utilisateur
+     * @param session HTTP session pour savoir si c’est son propre profil
+     * @param model   modèle Thymeleaf
+     * @return vue "my-profile-events"
+     */
+    @GetMapping("/{id}/profile-events")
+    public String afficherProfileEvents(
+            @PathVariable Long id,
+            HttpSession session,
+            Model model) {
+
+        Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
+        boolean estProprietaire = sessionUser != null && sessionUser.getIdU().equals(id);
+        model.addAttribute("estProprietaire", estProprietaire);
+
+        // Chargement des trois catégories
+        List<Evenement> crees      = profilService.getEvenementsCrees(id);
+        List<Evenement> inscrits   = profilService.getEvenementsInscrits(id);
+        List<Evenement> interesses = profilService.getEvenementsInteresses(id);
+
+        model.addAttribute("evenementsCrees",    crees);
+        model.addAttribute("evenementsInscrits", inscrits);
+        model.addAttribute("evenementsIntereses", interesses);
+        model.addAttribute("utilisateur", sessionUser);
+
+        return "my-profile-events";
     }
 
 }

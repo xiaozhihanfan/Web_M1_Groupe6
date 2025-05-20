@@ -39,6 +39,7 @@ public class Evenement {
      */
     private String titre;
     private String lieu;
+    private String avatarE;
 
     /**
      * Description détaillée de l'événement.
@@ -92,6 +93,7 @@ public class Evenement {
      * @param idE identifiant
      * @param titre titre
      * @param lieu lieu
+     * @param avatarE avatar
      * @param descriptionE description
      * @param dateDebut date de début
      * @param dateFin date de fin
@@ -99,7 +101,7 @@ public class Evenement {
      * @param actionEvenement participations
      * @param groupes groupes liés
      */
-    public Evenement(Long idE, String titre, String lieu, String descriptionE, Date dateDebut, Date dateFin,
+    public Evenement(Long idE, String titre, String lieu, String avatarE, String descriptionE, Date dateDebut, Date dateFin,
             Utilisateur utilisateur, Set<ActionEvenement> actionEvenement, Set<Groupe> groupes) {
         this.idE = idE;
         this.titre = titre;
@@ -274,5 +276,12 @@ public class Evenement {
         this.groupes = groupes;
     }
 
+    public String getAvatarE() {
+        return avatarE;
+    }
+
+    public void setAvatarE(String avatarE) {
+        this.avatarE = avatarE;
+    }
 
 }

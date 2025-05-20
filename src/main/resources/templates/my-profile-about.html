@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Social - Network, Community and Event Theme</title>
 
@@ -89,8 +89,8 @@ Header START -->
 									<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-post(id=${sessionUser.idU})}">Post</a> </li>
                   <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${sessionUser.idU})}">Profil</a> </li>
                   <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${sessionUser.idU})}">Amis</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-group(id=${sessionUser.idU})}">Groupe</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-event(id=${sessionUser.idU})}">Evenements</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-groups(id=${sessionUser.idU})}">Groupe</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-events(id=${sessionUser.idU})}">Evenements</a> </li>
 								</ul>
 							</li>
 

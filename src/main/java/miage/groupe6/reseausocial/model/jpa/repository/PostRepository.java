@@ -3,6 +3,7 @@ package miage.groupe6.reseausocial.model.jpa.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import miage.groupe6.reseausocial.model.entity.Post;
@@ -36,5 +37,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      * @return liste de tous les posts ordonnée par dateP desc.
      */
     List<Post> findAllByOrderByDatePDesc();
+
+    @Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.commentaires ORDER BY p.dateP DESC")
+    List<Post> findAllWithCommentaires();
 
 }

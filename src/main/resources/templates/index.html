@@ -538,37 +538,41 @@ Header END -->
   <!-- Post input -->
   <form class="w-100" method="post" th:action="@{/posts/creerPost}" enctype="multipart/form-data">
   <textarea class="form-control pe-4 border-0" data-autoresize="" placeholder="Share your thoughts..." rows="2" name="contenuP"></textarea>
-  <!-- image input -->
-  <input type="file" name="imageFile" class="form-control mt-2"/>
   <!-- Button  -->
   <button type="submit" class="btn btn-primary mt-2">Publier</button>
   </form>
   </div>
   <!-- Share feed toolbar START -->
-  <!-- <ul class="nav nav-pills nav-stack small fw-normal">
-  <li class="nav-item">
-  <a class="nav-link bg-light py-1 px-2 mb-0" data-bs-target="#modalCreateEvents" data-bs-toggle="modal" href="#"> <i class="bi bi-calendar2-event-fill text-danger pe-2"></i>Event </a>
-  </li> -->
-  <li class="nav-item dropdown ms-lg-auto">
-  <a aria-expanded="false" class="nav-link bg-light py-1 px-2 mb-0" data-bs-toggle="dropdown" href="#" id="feedActionShare">
-  <i class="bi bi-three-dots"></i>
-  </a>
-  <!-- Dropdown menu -->
-  <ul aria-labelledby="feedActionShare" class="dropdown-menu dropdown-menu-end">
-  <li><a class="dropdown-item" href="#"> <i class="bi bi-envelope fa-fw pe-2"></i>Create a poll</a></li>
-  <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark-check fa-fw pe-2"></i>Ask a question </a></li>
-  <li><hr class="dropdown-divider"/></li>
-  <li><a class="dropdown-item" href="#"> <i class="bi bi-pencil-square fa-fw pe-2"></i>Help</a></li>
-  </ul>
-  </li>
-  </ul>
+    <ul class="nav nav-pills nav-stack small fw-normal">
+      <li class="nav-item">
+        <a class="nav-link bg-light py-1 px-2 mb-0" href="#!" data-bs-toggle="modal" data-bs-target="#feedActionPhoto"> <i class="bi bi-image-fill text-success pe-2"></i>Photo</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link bg-light py-1 px-2 mb-0" href="#!" data-bs-toggle="modal" data-bs-target="#feedActionVideo"> <i class="bi bi-camera-reels-fill text-info pe-2"></i>Video</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link bg-light py-1 px-2 mb-0" data-bs-toggle="modal" data-bs-target="#modalCreateEvents"> <i class="bi bi-calendar2-event-fill text-danger pe-2"></i>Event </a>
+      </li>
+      <li class="nav-item dropdown ms-lg-auto">
+        <a class="nav-link bg-light py-1 px-2 mb-0" href="#" id="feedActionShare" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-three-dots"></i>
+        </a>
+        <!-- Dropdown menu -->
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="feedActionShare">
+          <li><a class="dropdown-item" href="#"> <i class="bi bi-envelope fa-fw pe-2"></i>Create a poll</a></li>
+          <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark-check fa-fw pe-2"></i>Ask a question </a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#"> <i class="bi bi-pencil-square fa-fw pe-2"></i>Help</a></li>
+        </ul>
+      </li>
+    </ul>
   <!-- Share feed toolbar END -->
   </div>
   <!-- Share feed END -->
 
 
   <!-- Card feed item START -->
-  <div th:each="post,iterStat : ${posts}"
+  <div th:each="post, iterStat : ${posts}"
       th:classappend="${iterStat.index >= 5} ? ' d-none' : ''"
       class="card"
       data-post>
@@ -634,12 +638,15 @@ Header END -->
         alt="Post image">  
   <!-- Feed react START -->
   <ul class="nav nav-stack py-3 small">
-  <li class="nav-item">
-  <a class="nav-link active" href="#!"> <i class="bi bi-hand-thumbs-up-fill pe-1"></i>Liked (56)</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> <i class="bi bi-chat-fill pe-1"></i>Comments (12)</a>
-  </li>
+    <li class="nav-item">
+      <i class="bi bi-hand-thumbs-up-fill pe-1"></i>
+      <a class="nav-link d-inline p-0 me-2" th:href="@{/posts/{id}/like(id=${post.idP})}"
+        th:text="'Liked (' + (${post.nombreLikes} ?: 0) + ')'">Liked (0)</a>
+      <i class="bi bi-chat-left-text-fill pe-1"></i>
+      <span class="d-inline" th:text="'Comments (' + ${#lists.size(post.commentaires)} + ')'">Comments (0)</span>
+    </li>
+  </ul>
+
   <!-- Card share action START -->
   <li class="nav-item dropdown ms-sm-auto">
   <a aria-expanded="false" class="nav-link mb-0" data-bs-toggle="dropdown" href="#" id="cardShareAction">
@@ -659,173 +666,47 @@ Header END -->
   </ul>
   <!-- Feed react END -->
 
-  <!-- Add comment -->
-  <div class="d-flex mb-3">
-  <!-- Avatar -->
-  <div class="avatar avatar-xs me-2">
-  <a href="#!"> <img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/12.jpg}" src="assets/images/avatar/12.jpg" th:src="@{/assets/images/avatar/12.jpg}"/> </a>
-  </div>
-  <!-- Comment box  -->
-  <form class="w-100">
-  <textarea class="form-control pe-4 bg-light" data-autoresize="" placeholder="Add a comment..." rows="1"></textarea>
-  </form>
+    <!-- Add comment -->
+   <div class="d-flex mb-3">
+    <!-- Avatar -->
+    <div class="avatar avatar-xs me-2">
+      <a href="#!"> <img alt="" class="avatar-img rounded-circle" th:src="@{${utilisateur.avatar}}" /> </a>
+    </div>
+    <!-- Comment form (inline) -->
+    <form class="d-flex w-100" th:action="@{'/commentaires/creer/' + ${post.idP}}" method="post">
+      <input class="form-control me-2" type="text" name="contenu" placeholder="add a comment..." required />
+      <button type="submit" class="btn btn-sm btn-primary">Publier</button>
+    </form>
   </div>
 
-  <!-- Comment wrap START -->
-  <ul class="comment-wrap list-unstyled">
-  <!-- Comment item START -->
-  <li class="comment-item">
-  <div class="d-flex position-relative">
-  <!-- Avatar -->
-  <div class="avatar avatar-xs">
-  <a href="#!"><img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/05.jpg}" src="assets/images/avatar/05.jpg" th:src="@{/assets/images/avatar/05.jpg}"/></a>
+  <!-- Comment count + list -->
+  <div>
+    <ul class="comment-wrap list-unstyled">
+      <li class="comment-item" th:each="commentaire : ${post.commentaires}">
+        <div class="d-flex">
+          <!-- Avatar -->
+          <div class="avatar avatar-xs me-2">
+            <img class="avatar-img rounded-circle"
+                th:src="${commentaire.utilisateur.avatarU != null} ? @{${commentaire.utilisateur.avatarU}} : @{/assets/images/avatar/placeholder.jpg}"
+                alt="avatar">
+          </div>
+          <!-- Comment content -->
+          <div>
+            <div class="bg-light rounded-start-top-0 p-2 px-3 mb-1">
+              <span class="fw-bold" th:text="${commentaire.utilisateur.nomU}">Nom</span>
+              <p class="mb-0 small" th:text="${commentaire.contenueC}">Texte</p>
+            </div>
+            <span class="small text-muted" th:if="${commentaire.tempsC != null}" th:text="${#dates.format(commentaire.tempsC, 'dd/MM/yyyy HH:mm')}"></span>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
-  <div class="ms-2">
-  <!-- Comment by -->
-  <div class="bg-light rounded-start-top-0 p-3 rounded">
-  <div class="d-flex justify-content-between">
-  <h6 class="mb-1"> <a href="#!"> Frances Guerrero </a></h6>
-  <small class="ms-2">5hr</small>
-  </div>
-  <p class="small mb-0">Removed demands expense account in outward tedious do. Particular way thoroughly unaffected projection.</p>
-  </div>
-  <!-- Comment react -->
-  <ul class="nav nav-divider py-2 small">
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> Like (3)</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> Reply</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> View 5 replies</a>
-  </li>
-  </ul>
-  </div>
-  </div>
-  <!-- Comment item nested START -->
-  <ul class="comment-item-nested list-unstyled">
-  <!-- Comment item START -->
-  <li class="comment-item">
-  <div class="d-flex">
-  <!-- Avatar -->
-  <div class="avatar avatar-xs">
-  <a href="#!"><img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/06.jpg}" src="assets/images/avatar/06.jpg" th:src="@{/assets/images/avatar/06.jpg}"/></a>
-  </div>
-  <!-- Comment by -->
-  <div class="ms-2">
-  <div class="bg-light p-3 rounded">
-  <div class="d-flex justify-content-between">
-  <h6 class="mb-1"> <a href="#!"> Lori Stevens </a> </h6>
-  <small class="ms-2">2hr</small>
-  </div>
-  <p class="small mb-0">See resolved goodness felicity shy civility domestic had but Drawings offended yet answered Jennings perceive.</p>
-  </div>
-  <!-- Comment react -->
-  <ul class="nav nav-divider py-2 small">
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> Like (5)</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> Reply</a>
-  </li>
-  </ul>
-  </div>
-  </div>
-  </li>
-  <!-- Comment item END -->
-  <!-- Comment item START -->
-  <li class="comment-item">
-  <div class="d-flex">
-  <!-- Avatar -->
-  <div class="avatar avatar-story avatar-xs">
-  <a href="#!"><img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/07.jpg}" src="assets/images/avatar/07.jpg" th:src="@{/assets/images/avatar/07.jpg}"/></a>
-  </div>
-  <!-- Comment by -->
-  <div class="ms-2">
-  <div class="bg-light p-3 rounded">
-  <div class="d-flex justify-content-between">
-  <h6 class="mb-1"> <a href="#!"> Billy Vasquez </a> </h6>
-  <small class="ms-2">15min</small>
-  </div>
-  <p class="small mb-0">Wishing calling is warrant settled was lucky.</p>
-  </div>
-  <!-- Comment react -->
-  <ul class="nav nav-divider py-2 small">
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> Like</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> Reply</a>
-  </li>
-  </ul>
-  </div>
-  </div>
-  </li>
-  <!-- Comment item END -->
-  </ul>
-  <!-- Load more replies -->
-  <a aria-pressed="true" class="btn btn-link btn-link-loader btn-sm text-secondary d-flex align-items-center mb-3 ms-5" data-bs-toggle="button" href="#!" role="button">
-  <div class="spinner-dots me-2">
-  <span class="spinner-dot"></span>
-  <span class="spinner-dot"></span>
-  <span class="spinner-dot"></span>
-  </div>
-                    Load more replies 
-                  </a>
-  <!-- Comment item nested END -->
-  </li>
-  <!-- Comment item END -->
-  <!-- Comment item START -->
-  <li class="comment-item">
-  <div class="d-flex">
-  <!-- Avatar -->
-  <div class="avatar avatar-xs">
-  <a href="#!"><img alt="" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/05.jpg}" src="assets/images/avatar/05.jpg" th:src="@{/assets/images/avatar/05.jpg}"/></a>
-  </div>
-  <!-- Comment by -->
-  <div class="ms-2">
-  <div class="bg-light p-3 rounded">
-  <div class="d-flex justify-content-between">
-  <h6 class="mb-1"> <a href="#!"> Frances Guerrero </a> </h6>
-  <small class="ms-2">4min</small>
-  </div>
-  <p class="small mb-0">Removed demands expense account in outward tedious do. Particular way thoroughly unaffected projection.</p>
-  </div>
-  <!-- Comment react -->
-  <ul class="nav nav-divider pt-2 small">
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> Like (1)</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> Reply</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" href="#!"> View 6 replies</a>
-  </li>
-  </ul>
-  </div>
-  </div>
-  </li>
-  <!-- Comment item END -->
+
   </ul>
   <!-- Comment wrap END -->
   </div>
   <!-- Card body END -->
-
-  <!-- Card footer START -->
-  <div class="card-footer border-0 pt-0">
-  <!-- Load more comments -->
-  <a aria-pressed="true" class="btn btn-link btn-link-loader btn-sm text-secondary d-flex align-items-center" data-bs-toggle="button" href="#!" role="button">
-  <div class="spinner-dots me-2">
-  <span class="spinner-dot"></span>
-  <span class="spinner-dot"></span>
-  <span class="spinner-dot"></span>
-  </div>
-                Load more comments 
-              </a>
-  </div>
-  <!-- Card footer END -->
 
   </div>
   <!-- Card feed item END -->

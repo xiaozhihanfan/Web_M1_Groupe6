@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +38,7 @@ class PostTest {
         commentaires = new HashSet<>();
         
         post.setUtilisateurs(utilisateurs);
-        post.setCommentaires(commentaires);
+        post.setCommentaires((List<Commentaire>) commentaires);
     }
 
     @Test
@@ -173,7 +174,7 @@ class PostTest {
         newComments.add(comment1);
         newComments.add(comment2);
         
-        post.setCommentaires(newComments);
+        post.setCommentaires((List<Commentaire>) newComments);
 
         assertEquals(2, post.getCommentaires().size());
         assertTrue(post.getCommentaires().contains(comment1));

@@ -1,7 +1,9 @@
 package miage.groupe6.reseausocial.model.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -13,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -50,6 +53,8 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateP;
 
+    private transient int nombreLikes;
+
 
     // === Relations ===
 
@@ -69,8 +74,11 @@ public class Post {
     /**
      * Ensemble des commentaires associés à ce post.
      */
-    @OneToMany(mappedBy = "idC", cascade = CascadeType.ALL)
-    private Set<Commentaire> commentaires = new HashSet<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("tempsC DESC")
+    private List<Commentaire> commentaires = new ArrayList<>();
+
+
 
 
     // ===== Constructors ====
@@ -92,7 +100,7 @@ public class Post {
      * @param commentaires commentaires associés
      */
     public Post(Long idP, String contenuP, String imageP, Date dateP, Utilisateur auteur, Set<ActionPost> utilisateurs,
-            Set<Commentaire> commentaires) {
+            List<Commentaire> commentaires) {
         this.idP = idP;
         this.contenuP = contenuP;
         this.imageP = imageP;
@@ -217,7 +225,7 @@ public class Post {
      *
      * @return ensemble des commentaires
      */
-    public Set<Commentaire> getCommentaires() {
+    public List<Commentaire> getCommentaires() {
         return commentaires;
     }
 
@@ -226,8 +234,18 @@ public class Post {
      *
      * @param commentaires ensemble des commentaires
      */
-    public void setCommentaires(Set<Commentaire> commentaires) {
+    public void setCommentaires(List<Commentaire> commentaires) {
         this.commentaires = commentaires;
     }
+
+    public int getNombreLikes() {
+        return nombreLikes;
+    }
+
+    public void setNombreLikes(int nombreLikes) {
+        this.nombreLikes = nombreLikes;
+    }
+
+    
 
 }

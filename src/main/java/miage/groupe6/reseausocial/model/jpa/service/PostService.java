@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import miage.groupe6.reseausocial.model.entity.Post;
@@ -25,6 +26,7 @@ public class PostService {
     private PostRepository pr;
 
     @Autowired
+    @Lazy
     private UtilisateurService us;
 
     /**

@@ -574,6 +574,11 @@ Header END -->
       th:classappend="${iterStat.index >= 5} ? ' d-none' : ''"
       class="card"
       data-post>
+      <div class="repost-of" th:if="${post.originalPost != null}">
+      Repris de
+      <strong th:text="${post.originalPost.auteur.prenomU + ' ' + post.originalPost.auteur.nomU}">{{…}}</strong>:
+      <span th:text="${post.originalPost.contenuP}">Contenu original</span>
+      </div>
   <!-- Card header START -->
   <div class="card-header border-0 pb-0">
   <div class="d-flex align-items-center justify-content-between">
@@ -629,20 +634,12 @@ Header END -->
 
   <!-- Card body START -->
   <div class="card-body">
+    
     <p th:text="${post.contenuP}">Contenue de post</p>
     <img class="card-img" th:if="${post.imageP != null}" th:src="${post.imageP}" alt="Post image">
     <!-- Si c’est un repost, afficher l’original -->
-    <div class="repost-of" th:if="${post.originalPost != null}">
-      Repris de
-      <strong th:text="${post.originalPost.auteur.nom}">Auteur</strong> :
-      <span th:text="${post.originalPost.contenuP}">Contenu original</span>
-    </div>
+    
 
-    <!-- Formulaire de repost -->
-    <form th:action="@{/repost}" method="post" style="display:inline">
-      <input type="hidden" name="idP" th:value="${post.idP}" />
-      <button type="submit">Reposter</button>
-    </form>  
   <!-- Feed react START -->
   <ul class="nav nav-stack py-3 small">
     <li class="nav-item">
@@ -652,13 +649,20 @@ Header END -->
       <i class="bi bi-chat-left-text-fill pe-1"></i>
       <span class="d-inline" th:text="'Comments (' + ${#lists.size(post.commentaires)} + ')'">Comments (0)</span>
     </li>
-  </ul>
+  
 
   <!-- Card share action START -->
-  <li class="nav-item dropdown ms-sm-auto">
-  <a aria-expanded="false" class="nav-link mb-0" data-bs-toggle="dropdown" href="#" id="cardShareAction">
-  <i class="bi bi-reply-fill flip-horizontal ps-1"></i>Share (3)
-                  </a>
+  <li class="nav-item ms-sm-auto">
+    <form th:action="@{/posts/repost}" method="post" class="d-inline">
+      <input type="hidden" name="idP" th:value="${post.idP}" />
+      <button type="submit" class="btn btn-link nav-link mb-0 p-0">
+        <i class="bi bi-reply-fill flip-horizontal ps-1"></i> share
+      </button>
+    </form>
+  </li>
+  </ul>
+  <!-- Card share action END -->
+
   <!-- Card share action dropdown menu -->
   <ul aria-labelledby="cardShareAction" class="dropdown-menu dropdown-menu-end">
   <li><a class="dropdown-item" href="#"> <i class="bi bi-envelope fa-fw pe-2"></i>Send via Direct Message</a></li>

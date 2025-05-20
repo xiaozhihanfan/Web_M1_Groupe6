@@ -17,6 +17,10 @@ import miage.groupe6.reseausocial.model.jpa.service.MessageService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
+/**
+ * Contrôleur web pour la gestion des messages privés entre utilisateurs.
+ * Permet d'afficher une discussion et d'envoyer des messages.
+ */
 @Controller
 @RequestMapping("/messages")
 public class MessageController {
@@ -30,6 +34,14 @@ public class MessageController {
     @Autowired
     private RelationAmisService relationAmisService;
 
+    /**
+     * Affiche la page de messagerie entre l'utilisateur connecté et le destinataire sélectionné.
+     *
+     * @param idRecepteur ID de l'utilisateur destinataire du message
+     * @param session La session HTTP pour identifier l'utilisateur connecté
+     * @param model Le modèle pour envoyer les données à la vue
+     * @return Le nom de la vue "messaging" ou redirection vers l'accueil en cas d'erreur
+     */
     @GetMapping("/{idRecepteur}")
     public String afficherDiscussion(@PathVariable Long idRecepteur, 
                                      HttpSession session, Model model) {
@@ -53,6 +65,14 @@ public class MessageController {
         return "messaging";
     }
 
+    /**
+     * Envoie un message texte entre deux utilisateurs.
+     *
+     * @param idRecpteur ID du destinataire
+     * @param contenu Contenu textuel du message
+     * @param session La session HTTP contenant l'utilisateur connecté
+     * @return Redirection vers la page de discussion correspondante
+     */
     @PostMapping("/envoyer")
     public String envoyerMessage(@RequestParam Long idRecpteur,
                                  @RequestParam String contenu,

@@ -89,4 +89,8 @@ public class PostService {
         return pr.findAllByOrderByDatePDesc();
     }
 
+    public List<Post> findAllPostsWithCommentaires() {
+    return pr.findAllWithCommentaires();
+}
+
 }

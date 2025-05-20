@@ -62,7 +62,7 @@ public class IndexController {
             model.addAttribute("nbPost", ps.countPostByUtilisateur(utilisateur));
         }
         if (!model.containsAttribute("nbAmis")) {
-            model.addAttribute("nbAmis", relationAmisService.countRelationsAcceptees(utilisateur));
+            model.addAttribute("nbAmis", relationAmisService.countAmis(utilisateur));
         }
 
         for (int i = 0; i < allPosts.size(); i++) {

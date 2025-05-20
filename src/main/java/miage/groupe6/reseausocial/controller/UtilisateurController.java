@@ -85,11 +85,8 @@ public class UtilisateurController {
         if (utilisateur != null) {
             session.setAttribute("utilisateur", utilisateur);
             int nbPost = ps.countPostByUtilisateur(utilisateur);
-            int nbFollowing = ras.countFollowingAccepte(utilisateur);
-            int nbFollowers = ras.countFollowersAccepte(utilisateur);
             redirectAttributes.addFlashAttribute("nbPost", nbPost);
-            redirectAttributes.addFlashAttribute("nbFollowing", nbFollowing);
-            redirectAttributes.addFlashAttribute("nbFollowers", nbFollowers);
+
 
             return "redirect:/";
         }
@@ -199,13 +196,12 @@ public class UtilisateurController {
         }
 
         int nbPost = ps.countPostByUtilisateur(utilisateurSession);
-        int nbFollowers = ras.countFollowersAccepte(utilisateurSession);
-        int nbFollowing = ras.countFollowingAccepte(utilisateurSession);
+        int nbAmis = ras.countAmis(utilisateurSession);
+        
 
         model.addAttribute("utilisateur", utilisateurSession);
         model.addAttribute("nbPost", nbPost);
-        model.addAttribute("nbFollowers",nbFollowers);
-        model.addAttribute("nbFollowing",nbFollowing);
+        model.addAttribute("nbAmis",nbAmis);
         model.addAttribute("query", query);
         model.addAttribute("utilisateurs", utilisateurs);
         model.addAttribute("nbPostsParUtilisateur", nbPostsParUtilisateur);

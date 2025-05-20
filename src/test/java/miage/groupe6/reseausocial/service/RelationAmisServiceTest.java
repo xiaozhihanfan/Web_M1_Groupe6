@@ -1,10 +1,9 @@
 package miage.groupe6.reseausocial.service;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,22 +67,6 @@ public class RelationAmisServiceTest {
         assertFalse(secondTry);
     }
 
-    @Test
-    void testCountFollowingAndFollowers_Acceptee() {
-        // Envoyer une demande, l'accepter manuellement
-        relationAmisService.envoyerDemandeAmi(demandeur, receveur);
-        RelationAmis relation = relationAmisRepository
-                .findByUtilisateurDemandeIdUAndUtilisateurRecuIdU(demandeur.getIdU(), receveur.getIdU())
-                .get();
-        relation.setStatut(StatutRelation.ACCEPTEE);
-        relationAmisRepository.save(relation);
-
-        int following = relationAmisService.countFollowingAccepte(demandeur);
-        int followers = relationAmisService.countFollowersAccepte(receveur);
-
-        assertEquals(1, following);
-        assertEquals(1, followers);
-    }
 
     @Test
     void testDemandeExisteDeja_false() {

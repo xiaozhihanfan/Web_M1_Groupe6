@@ -39,10 +39,10 @@ public class RelationAmisService {
      * @param utilisateur l’entité utilisateur dont on veut compter les suivis acceptés
      * @return le nombre de suivis acceptés
      */
-    public int countFollowingAccepte(Utilisateur utilisateur){
-        int res = rar.countByUtilisateurDemandeAndStatut(utilisateur, StatutRelation.ACCEPTEE);
-        return res;
-    }
+    // public int countFollowingAccepte(Utilisateur utilisateur){
+    //     int res = rar.countByUtilisateurDemandeAndStatut(utilisateur, StatutRelation.ACCEPTEE);
+    //     return res;
+    // }
 
     /**
      * Compte le nombre d’utilisateurs qui suivent l’utilisateur
@@ -54,15 +54,29 @@ public class RelationAmisService {
      * @param utilisateur l’entité utilisateur dont on veut compter les abonnés acceptés
      * @return le nombre d’abonnés acceptés
      */
-    public int countFollowersAccepte(Utilisateur utilisateur){
-        int res = rar.countByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
-        return res;
-    }
+    // public int countFollowersAccepte(Utilisateur utilisateur){
+    //     int res = rar.countByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
+    //     return res;
+    // }
 
-    public int countRelationsAcceptees(Utilisateur utilisateur) {
-        int countDemande = rar.countByUtilisateurDemandeAndStatut(utilisateur, StatutRelation.ACCEPTEE);
-        int countRecu = rar.countByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
-        return countDemande + countRecu;
+
+    public int countAmis(Utilisateur utilisateur) {
+        List<RelationAmis> envoyeurs = rar.findByUtilisateurDemandeAndStatut(utilisateur, StatutRelation.ACCEPTEE);
+        List<RelationAmis> receveurs = rar.findByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
+
+        Set<Utilisateur> amis = new HashSet<>();
+        envoyeurs.forEach(r -> {
+            if (!r.getUtilisateurRecu().getIdU().equals(utilisateur.getIdU())) {
+                amis.add(r.getUtilisateurRecu());
+            }
+        });
+        receveurs.forEach(r -> {
+            if (!r.getUtilisateurDemande().getIdU().equals(utilisateur.getIdU())) {
+                amis.add(r.getUtilisateurDemande());
+            }
+        });
+
+        return amis.size();
     }
 
     // ----------------------- us 1.4 Envoyer une demande d’ami ---------------------
@@ -133,8 +147,17 @@ public class RelationAmisService {
 
         // 3) Fusionner en évitant les doublons
         Set<Utilisateur> amis = new HashSet<>();
-        envoyees.forEach(r -> amis.add(r.getUtilisateurRecu()));
-        recues  .forEach(r -> amis.add(r.getUtilisateurDemande()));
+        envoyees.forEach(r -> {
+            if (!r.getUtilisateurRecu().getIdU().equals(utilisateur.getIdU())) {
+                amis.add(r.getUtilisateurRecu());
+            }
+        });
+
+        recues.forEach(r -> {
+            if (!r.getUtilisateurDemande().getIdU().equals(utilisateur.getIdU())) {
+                amis.add(r.getUtilisateurDemande());
+            }
+        });
 
         return new ArrayList<>(amis);
     }

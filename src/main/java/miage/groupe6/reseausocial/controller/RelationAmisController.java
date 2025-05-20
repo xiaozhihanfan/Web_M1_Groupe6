@@ -66,13 +66,12 @@ public class RelationAmisController {
             redirectAttributes.addFlashAttribute("message", "Demande acceptée !");
         }
 
-        int nbFollowers = relationAmisService.countFollowersAccepte(receveur);
-        int nbFollowing = relationAmisService.countFollowingAccepte(receveur);
         int nbPost = postService.countPostByUtilisateur(receveur);
 
+        int nbAmis = relationAmisService.countAmis(receveur);
+        redirectAttributes.addFlashAttribute("nbAmis", nbAmis);
+
         redirectAttributes.addFlashAttribute("nbPost", nbPost);
-        redirectAttributes.addFlashAttribute("nbFollowing", nbFollowing);
-        redirectAttributes.addFlashAttribute("nbFollowers", nbFollowers);
 
         return "redirect:/";
     }

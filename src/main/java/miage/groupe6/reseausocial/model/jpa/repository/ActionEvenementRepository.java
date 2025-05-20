@@ -1,9 +1,13 @@
 package miage.groupe6.reseausocial.model.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import miage.groupe6.reseausocial.model.entity.ActionEvenement;
 import miage.groupe6.reseausocial.model.entity.ActionEvenementId;
+import miage.groupe6.reseausocial.model.entity.Evenement;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
 
 /**
  * Repository JPA pour l'entité {@link ActionEvenement}.
@@ -14,4 +18,10 @@ import miage.groupe6.reseausocial.model.entity.ActionEvenementId;
  */
 public interface ActionEvenementRepository extends JpaRepository<ActionEvenement, ActionEvenementId>{
 
+    /**
+     * Recherche l’action (INSCRIRE / INTERESSER) d’un utilisateur sur un événement.
+     */
+    Optional<ActionEvenement> findByUtilisateurAndEvenement(
+        Utilisateur utilisateur, Evenement evenement
+    );
 }

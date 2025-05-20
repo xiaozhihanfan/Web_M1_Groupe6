@@ -53,16 +53,20 @@ public class GroupeService {
     }
 
     public void ajouterMembreAuGroupe(Utilisateur utilisateur, Groupe groupe) {
-        
-        if (groupeMembreRepository.existsById(new GroupeMembreId(utilisateur.getIdU(), groupe.getIdGroupe()))) {
+        GroupeMembreId id = new GroupeMembreId(groupe.getIdGroupe(), utilisateur.getIdU());
+
+        if (groupeMembreRepository.existsById(id)) {
             return;
         }
 
         GroupeMembre membre = new GroupeMembre();
+        membre.setId(id);
         membre.setGroupe(groupe);
         membre.setUtilisateur(utilisateur);
         membre.setRole(MembreRole.MEMBRE); 
         membre.setDateAdhesion(LocalDateTime.now());
+
+        // groupe.getMembres().add(membre);
 
         groupeMembreRepository.save(membre);
     }

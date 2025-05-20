@@ -1,9 +1,14 @@
 package miage.groupe6.reseausocial.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
@@ -55,42 +61,76 @@ public class GroupeController {
 
         groupeService.creerGroupe(groupe, utilisateur);
 
-        return "index"; //跳转到 /groupes/liste 以后展示列表
+        return "redirect:/utilisateurs/" + utilisateur.getIdU() + "/profile-groups"; 
     }
 
     // -------------- us 3.2 inviter mes amis dans une groupe ------------------
-    @GetMapping("/{idGroupe}/inviter")
-    public String afficherAmisInvitables(@PathVariable Long idGroupe, HttpSession session, Model model) {
-        Utilisateur u1 = (Utilisateur) session.getAttribute("utilisateur");
+    // @GetMapping("/{idGroupe}/inviter")
+    // public String afficherAmisInvitables(@PathVariable Long idGroupe, HttpSession session, Model model) {
+    //     Utilisateur u1 = (Utilisateur) session.getAttribute("utilisateur");
 
-        Groupe groupe = groupeService.getGroupeById(idGroupe).orElse(null);
-        if(groupe == null || u1 == null) {
-            return "redirect:/";
+    //     Groupe groupe = groupeService.getGroupeById(idGroupe).orElse(null);
+    //     if(groupe == null || u1 == null) {
+    //         return "redirect:/";
+    //     }
+
+    //     List<Utilisateur> mesAmis = relationAmisService.listerAmis(u1);
+    //     List<Utilisateur> membresAmis = groupeService.listerMembres(groupe);
+
+    //     mesAmis.removeAll(membresAmis);
+
+    //     model.addAttribute("groupe", groupe);
+    //     model.addAttribute("mesAmis", mesAmis);
+
+    //     return "inviterGroupe";
+    // }
+
+    @GetMapping("/{idGroupe}/amis-invitables")
+    @ResponseBody
+    public Map<String, Object> getInvitablesJson(@PathVariable Long idGroupe, HttpSession session) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        Optional<Groupe> optGroupe = groupeService.getGroupeById(idGroupe);
+
+        if (utilisateur == null || optGroupe.isEmpty()) {
+            return Map.of("status", "error");
         }
 
-        List<Utilisateur> mesAmis = relationAmisService.listerAmis(u1);
-        List<Utilisateur> membresAmis = groupeService.listerMembres(groupe);
+        Groupe groupe = optGroupe.get();
+        List<Utilisateur> mesAmis = relationAmisService.listerAmis(utilisateur);
+        List<Utilisateur> membres = groupeService.listerMembres(groupe);
 
-        mesAmis.removeAll(membresAmis);
+        mesAmis.removeAll(membres);
 
-        model.addAttribute("groupe", groupe);
-        model.addAttribute("mesAmis", mesAmis);
+        List<Map<String, Object>> amis = mesAmis.stream()
+            .map(ami -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", ami.getIdU());
+                map.put("nom", ami.getPrenomU() + " " + ami.getNomU());
+                return map;
+            })
+            .collect(Collectors.toList());
 
-        return "inviterGroupe";
+        return Map.of(
+            "status", "ok",
+            "nom", groupe.getNomGroupe(),
+            "description", groupe.getDescription(),
+            "amis", amis
+        );
     }
 
     @PostMapping("/{idGroupe}/inviter/{idUtilisateur}")
-    public String inviterAmi(@PathVariable Long idGroupe,
-                            @PathVariable Long idUtilisateur,
-                            RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public ResponseEntity<String> inviterAmis(@PathVariable Long idGroupe,
+                                                @PathVariable Long idUtilisateur,
+                                                HttpSession session) {
         Optional<Groupe> groupeOpt = groupeService.getGroupeById(idGroupe);
         Optional<Utilisateur> utilisateurOpt = utilisateurService.getUtilisateurById(idUtilisateur);
 
         if (groupeOpt.isPresent() && utilisateurOpt.isPresent()) {
             groupeService.ajouterMembreAuGroupe(utilisateurOpt.get(), groupeOpt.get());
-            redirectAttributes.addFlashAttribute("message", "Des amis ont rejoint le groupe ！");
+            return ResponseEntity.ok("success");
         }
 
-        return "redirect:/groupes/" + idGroupe + "/inviter";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error");
     }
 }

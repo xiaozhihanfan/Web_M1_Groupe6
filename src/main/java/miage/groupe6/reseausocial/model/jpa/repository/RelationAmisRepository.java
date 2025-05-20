@@ -50,6 +50,5 @@ public interface RelationAmisRepository extends JpaRepository<RelationAmis, Rela
      */
     List<RelationAmis> findByUtilisateurDemandeAndStatut(Utilisateur utilisateurDemande, StatutRelation statut);
 
-
     
 } 

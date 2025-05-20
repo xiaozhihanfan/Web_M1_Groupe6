@@ -112,7 +112,7 @@ class RelationAmisRepositoryTest {
         RelationAmis rel2 = new RelationAmis(u2, u1, new Date(), StatutRelation.ACCEPTEE);
         em.persist(rel2);
         // rel3 : refusée, u3->u1, ne doit pas être retournée
-        RelationAmis rel3 = new RelationAmis(u3, u1, new Date(), StatutRelation.REFUSEE);
+        RelationAmis rel3 = new RelationAmis(u3, u1, new Date(), StatutRelation.TRAITEE);
         em.persist(rel3);
 
         em.flush();

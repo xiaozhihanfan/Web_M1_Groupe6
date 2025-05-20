@@ -78,6 +78,16 @@ public class Post {
     @OrderBy("tempsC DESC")
     private List<Commentaire> commentaires = new ArrayList<>();
 
+    /** Le post original repris, s’il s’agit d’un repost */
+    @ManyToOne
+    @JoinColumn(name = "original_post_id")
+    private Post originalPost;
+
+
+    /** Tous les reposts de ce post (facultatif) */
+    @OneToMany(mappedBy = "originalPost", cascade = CascadeType.ALL)
+    private List<Post> reposts = new ArrayList<>();
+
 
 
 
@@ -244,6 +254,22 @@ public class Post {
 
     public void setNombreLikes(int nombreLikes) {
         this.nombreLikes = nombreLikes;
+    }
+
+    public Post getOriginalPost() {
+        return originalPost;
+    }
+
+    public void setOriginalPost(Post originalPost) {
+        this.originalPost = originalPost;
+    }
+
+    public List<Post> getReposts() {
+        return reposts;
+    }
+
+    public void setReposts(List<Post> reposts) {
+        this.reposts = reposts;
     }
 
     

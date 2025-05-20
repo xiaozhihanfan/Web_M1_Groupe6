@@ -630,10 +630,19 @@ Header END -->
   <!-- Card body START -->
   <div class="card-body">
     <p th:text="${post.contenuP}">Contenue de post</p>
-    <img class="card-img"
-        th:if="${post.imageP != null}"
-        th:src="${post.imageP}"
-        alt="Post image">  
+    <img class="card-img" th:if="${post.imageP != null}" th:src="${post.imageP}" alt="Post image">
+    <!-- Si c’est un repost, afficher l’original -->
+    <div class="repost-of" th:if="${post.originalPost != null}">
+      Repris de
+      <strong th:text="${post.originalPost.auteur.nom}">Auteur</strong> :
+      <span th:text="${post.originalPost.contenuP}">Contenu original</span>
+    </div>
+
+    <!-- Formulaire de repost -->
+    <form th:action="@{/repost}" method="post" style="display:inline">
+      <input type="hidden" name="idP" th:value="${post.idP}" />
+      <button type="submit">Reposter</button>
+    </form>  
   <!-- Feed react START -->
   <ul class="nav nav-stack py-3 small">
     <li class="nav-item">

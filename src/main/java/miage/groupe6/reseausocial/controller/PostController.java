@@ -84,6 +84,16 @@ public class PostController {
     
         return "redirect:/utilisateurs/" + idU + "/profile-post";
     }
+
+    @PostMapping("/repost")
+    public String repost(@RequestParam("idP") Long originalPostId, HttpSession session) {
+        Utilisateur reposter = (Utilisateur) session.getAttribute("utilisateur");
+        if (reposter == null) {
+            return "redirect:/utilisateurs/signin";
+        }
+        ps.repostPost(originalPostId, reposter.getIdU());
+        return "redirect:/";
+    }
     
     
 

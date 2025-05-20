@@ -25,7 +25,9 @@ public class UtilisateurService {
     private UtilisateurRepository ur;
 
     @Autowired
-    private PostService ps;
+    public void setPostService(PostService postService) {
+        this.postService = postService;
+    }
 
     public Utilisateur save(Utilisateur utilisateur) {
         return ur.save(utilisateur);

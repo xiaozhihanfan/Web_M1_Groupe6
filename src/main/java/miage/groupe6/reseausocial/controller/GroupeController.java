@@ -41,6 +41,6 @@ public class GroupeController {
 
         groupeService.creerGroupe(groupe, utilisateur);
 
-        return "index";
+        return "index"; //跳转到 /groupes/liste 以后展示列表
     }
 }

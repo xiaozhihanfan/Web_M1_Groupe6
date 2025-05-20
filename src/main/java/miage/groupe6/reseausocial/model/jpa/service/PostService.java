@@ -1,9 +1,11 @@
 package miage.groupe6.reseausocial.model.jpa.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import miage.groupe6.reseausocial.model.entity.Post;
@@ -22,6 +24,10 @@ public class PostService {
 
     @Autowired
     private PostRepository pr;
+
+    @Autowired
+    @Lazy
+    private UtilisateurService us;
 
     /**
      * Compte le nombre de publications (posts) rédigées par l’utilisateur spécifié.
@@ -90,7 +96,31 @@ public class PostService {
     }
 
     public List<Post> findAllPostsWithCommentaires() {
-    return pr.findAllWithCommentaires();
-}
+        return pr.findAllWithCommentaires();
+    }
+
+    public Post repostPost(Long originalPostId, Long idU) {
+
+        Optional<Post> optOriginal = pr.findById(originalPostId);
+        if (!optOriginal.isPresent()) {
+            throw new RuntimeException("Post original introuvable, ID=" + originalPostId);
+        }
+        Post original = optOriginal.get();
+
+        Optional<Utilisateur> optUtilisateur = us.getUtilisateurById(idU);
+        if (!optUtilisateur.isPresent()) {
+            throw new RuntimeException("Utilisateur introuvable, ID=" + idU);
+        }
+        Utilisateur user = optUtilisateur.get();
+
+        Post repost = new Post();
+        repost.setContenuP(original.getContenuP());
+        repost.setImageP(original.getImageP());
+        repost.setOriginalPost(original);
+        repost.setAuteur(user);
+        repost.setDateP(new Date());
+
+        return pr.save(repost);
+    }
 
 }

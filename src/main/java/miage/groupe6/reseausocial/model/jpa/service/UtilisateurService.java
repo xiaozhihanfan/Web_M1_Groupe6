@@ -24,9 +24,6 @@ public class UtilisateurService {
     @Autowired
     private UtilisateurRepository ur;
 
-    @Autowired
-    private PostService ps;
-
     public Utilisateur save(Utilisateur utilisateur) {
         return ur.save(utilisateur);
     }

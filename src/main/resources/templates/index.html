@@ -1622,38 +1622,30 @@ Header END -->
 <!-- Title -->
 <div class="col-12">
 <label class="form-label">Title</label>
-<input class="form-control" placeholder="Event name here" type="email"/>
+<input id="titreE" class="form-control" placeholder="Event name here" type="text" required/>
 </div>
 <!-- Description -->
 <div class="col-12">
 <label class="form-label">Description</label>
-<textarea class="form-control" placeholder="Ex: topics, schedule, etc." rows="2"></textarea>
+<textarea id="descriptionE" class="form-control" placeholder="Ex: topics, schedule, etc." rows="2" required></textarea>
 </div>
 <!-- Date -->
 <div class="col-sm-4">
-<label class="form-label">Date</label>
-<input class="form-control flatpickr" placeholder="Select date" type="text"/>
+<label class="form-label">Date de début</label>
+<input id="dateDebutE" class="form-control flatpickr" placeholder="Select date" type="text" required/>
 </div>
-<!-- Time -->
+
 <div class="col-sm-4">
-<label class="form-label">Time</label>
-<input class="form-control flatpickr" data-enabletime="true" data-nocalendar="true" placeholder="Select time" type="text"/>
-</div>
-<!-- Duration -->
-<div class="col-sm-4">
-<label class="form-label">Duration</label>
-<input class="form-control" placeholder="1hr 23m" type="email"/>
-</div>
+<label class="form-label">Date de fin</label>
+<input id="dateFinE" class="form-control flatpickr" placeholder="Select date" type="text" required/></div>
+
 <!-- Location -->
 <div class="col-12">
 <label class="form-label">Location</label>
-<input class="form-control" placeholder="Logansport, IN 46947" type="email"/>
+<input id="LocationE" class="form-control" placeholder="Logansport, IN 46947" type="text" required/>
 </div>
-<!-- Add guests -->
-<div class="col-12">
-<label class="form-label">Add guests</label>
-<input class="form-control" placeholder="Guest email" type="email"/>
-</div>
+
+
 <!-- Avatar group START -->
 <div class="col-12 mt-3">
 <ul class="avatar-group list-unstyled align-items-center mb-0">
@@ -1684,17 +1676,7 @@ Header END -->
 </ul>
 </div>
 <!-- Upload Photos or Videos -->
-<!-- Dropzone photo START -->
-<div>
-<label class="form-label">Upload attachment</label>
-<div class="dropzone dropzone-default card shadow-none" data-dropzone='{"maxFiles":2}'>
-<div class="dz-message">
-<i class="bi bi-file-earmark-text display-3"></i>
-<p>Drop presentation and document here or click to upload.</p>
-</div>
-</div>
-</div>
-<!-- Dropzone photo END -->
+
 </form>
 <!-- Form END -->
 </div>
@@ -1703,7 +1685,7 @@ Header END -->
 <!-- Button -->
 <div class="modal-footer">
 <button class="btn btn-danger-soft me-2" data-bs-dismiss="modal" type="button"> Cancel</button>
-<button class="btn btn-success-soft" type="button">Create now</button>
+<button id="createEvenementButton" class="btn btn-success-soft" type="button">Create now</button>
 </div>
 </div>
 </div>
@@ -1723,5 +1705,38 @@ JS libraries, plugins and custom scripts -->
 <script th:src="@{/assets/vendor/dropzone/dist/min/dropzone.min.js}"></script>
 <!-- Template Functions -->
 <script th:src="@{/assets/js/functions.js}"></script>
+
+<script th:inline="javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('createEvenementButton').addEventListener('click', function() {
+        var eventData = {
+            titre: document.getElementById('titreE').value.trim(),
+            descriptionE: document.getElementById('descriptionE').value.trim(),
+            dateDebut: document.getElementById('dateDebutE').value.trim(),
+            dateFin: document.getElementById('dateFinE').value.trim(),
+            lieu: document.getElementById('LocationE').value.trim()
+        };
+
+        fetch('/Evenement', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(eventData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalCreateEvents'));
+            modal.hide();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+
+
 </body>
 </html>

@@ -37,4 +37,6 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long>{
     List<Evenement> findByParticipantAndStatut(
         @Param("participant") Utilisateur participant,
         @Param("statut") StatutActionEvenement statut);
+
+
 }

@@ -1531,7 +1531,7 @@ Header END -->
 </div>
 <!-- Feed box  -->
 <form class="w-100">
-<textarea class="form-control pe-4 fs-3 lh-1 border-0" placeholder="Share your thoughts..." rows="2"></textarea>
+<textarea id="photo-post-contenu" class="form-control pe-4 fs-3 lh-1 border-0" placeholder="Share your thoughts..." rows="2"></textarea>
 </form>
 </div>
 <!-- Dropzone photo START -->
@@ -1551,7 +1551,7 @@ Header END -->
 <div class="modal-footer">
 <!-- Button -->
 <button class="btn btn-danger-soft me-2" data-bs-dismiss="modal" type="button">Cancel</button>
-<button class="btn btn-success-soft" type="button">Post</button>
+<button id="photo-post-btn" class="btn btn-success-soft" type="button">Post</button>
 </div>
 <!-- Modal feed footer -->
 </div>
@@ -1717,7 +1717,7 @@ document.addEventListener('DOMContentLoaded', function() {
             lieu: document.getElementById('LocationE').value.trim()
         };
 
-        fetch('/Evenement', {
+        fetch('/evenements', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1729,11 +1729,41 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Success:', data);
             const modal = bootstrap.Modal.getInstance(document.getElementById('modalCreateEvents'));
             modal.hide();
+            window.location.reload()
         })
         .catch((error) => {
             console.error('Error:', error);
         });
     });
+
+    document.getElementById("photo-post-btn").addEventListener('click', function() {
+      let contenu = document.getElementById("photo-post-contenu").value
+      const imgUrl = document.querySelector('.dz-preview .dz-image img[data-dz-thumbnail]').getAttribute('src')
+      console.log(contenu)
+      console.log(imgUrl)
+      let post = {
+        contenuP: contenu,
+        imageP: imgUrl
+      }
+
+      fetch('/posts/creerPost', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(post)
+      })
+      .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            const modal = bootstrap.Modal.getInstance(document.getElementById('feedActionPhoto'));
+            modal.hide();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    })
+
 });
 </script>
 

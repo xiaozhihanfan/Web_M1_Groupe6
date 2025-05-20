@@ -5,11 +5,13 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,14 +38,16 @@ public class PostController {
 
 
     @PostMapping("/creerPost")
-
-    public String creerPost(@ModelAttribute Post newPost, HttpSession session, @RequestParam(value="imageFile", required=false) MultipartFile imageFile)throws IOException{
+    public ResponseEntity<Post> creerPost(@RequestBody Post newPost, HttpSession session)throws IOException{
         System.out.println(newPost.getContenuP());
+        System.out.println(newPost.getImageP());
         Utilisateur poster = (Utilisateur) session.getAttribute("utilisateur");
         newPost.setAuteur(poster);
         newPost.setDateP(new Date());
         ps.save(newPost);
-        return "redirect:/";
+        Post postResponse = new Post();
+        postResponse.setIdP(newPost.getIdP());
+        return ResponseEntity.ok(postResponse);
     }
 
 

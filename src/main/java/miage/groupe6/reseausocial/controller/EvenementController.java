@@ -28,13 +28,14 @@ import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
 
 @RestController
+@RequestMapping("/evenements")
 public class EvenementController {
 
     @Autowired
     private EvenementsService es;
 
 
-    @PostMapping("/Evenement")
+    @PostMapping("/")
     public ResponseEntity<Evenement> createEvenement(@RequestBody Evenement evenement, HttpSession session) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         evenement.setUtilisateur(utilisateur);

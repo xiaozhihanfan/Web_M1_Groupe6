@@ -19,7 +19,6 @@ import jakarta.persistence.Table;
  * Chaque groupe est créé par un utilisateur et peut contenir plusieurs membres.
  * Il contient des informations de base telles que le nom, la description et le créateur du groupe.
  * 
- * Auteur : Mengyi YANG
  */
 
 @Entity

@@ -83,11 +83,11 @@ public class UtilisateurService {
             Utilisateur utilisateur = utilisateurOpt.get();
             if (utilisateur.getMpU().equals(mp)) {
                 if (utilisateur.getNomU() == null && utilisateur.getPrenomU() == null) {
-                    utilisateur.setPrenomU("modier votre");
-                    utilisateur.setNomU("profil");
+                    utilisateur.setPrenomU("");
+                    utilisateur.setNomU("");
                 }
                 if(utilisateur.getDescriptionU() == null || utilisateur.getDescriptionU().isEmpty()){
-                    utilisateur.setDescriptionU("Voici la description par défaut...");
+                    utilisateur.setDescriptionU("");
                 }
                 if (utilisateur.getAvatarU() == null || utilisateur.getAvatarU().isEmpty()) {
                     utilisateur.setAvatarU("/assets/images/avatar/placeholder.jpg");

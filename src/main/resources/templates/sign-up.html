@@ -124,10 +124,10 @@
                     placeholder="INE"
                     required
                     th:value="${ine}"
-                    pattern="[0-9]{9}[A-Z]{2}"
                     maxlength="11"
                     title="Le INE doit comporter 9 chiffres suivis de 2 lettres majuscules (ex : 123456789AB)"
-                    style="text-transform:uppercase;"/>  
+                    style="text-transform:uppercase;"
+                    oninput="this.value = this.value.toUpperCase();" /> 
             </div>
 
             <!-- Button -->

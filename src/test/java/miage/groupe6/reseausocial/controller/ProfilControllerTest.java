@@ -1,5 +1,6 @@
 package miage.groupe6.reseausocial.controller;
 
+import miage.groupe6.reseausocial.model.entity.Evenement;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
@@ -168,5 +169,49 @@ class ProfilControllerTest {
         verify(profilService).getProfileById(99L);
         verifyNoInteractions(relationAmisService);
     }
+
+    /**
+     * 测试 GET /utilisateurs/{id}/profile-events
+     * 应渲染 my-profile-events 视图，并且把三类列表都放到 model。
+     */
+    @Test
+    void afficherProfileEvents_rendersEventsPage() throws Exception {
+        // --- 新增：先构造一个“完整”的 Utilisateur 给模板用 ---
+        Utilisateur user = new Utilisateur();
+        user.setIdU(3L);
+        user.setPrenomU("Test");
+        user.setNomU("User");
+        user.setAvatarU("assets/images/avatar/01.jpg");
+        user.setUniversite("Université de Test");
+        // …如果模板里还引用了别的字段（emailU、telephone…），也一并 setXXX …
+
+        // 模拟 profilService.getProfileById(...) 
+        when(profilService.getProfileById(3L)).thenReturn(user);
+        // --------------------------------------------------------------
+
+        // 三类活动列表照旧模拟
+        List<Evenement> crees      = List.of();
+        List<Evenement> inscrits   = List.of();
+        List<Evenement> interesses = List.of();
+
+        when(profilService.getEvenementsCrees(3L)).thenReturn(crees);
+        when(profilService.getEvenementsInscrits(3L)).thenReturn(inscrits);
+        when(profilService.getEvenementsInteresses(3L)).thenReturn(interesses);
+
+        mockMvc.perform(get("/utilisateurs/{id}/profile-events", 3L)
+                .sessionAttr("utilisateur", user))
+            .andExpect(status().isOk())
+            .andExpect(view().name("my-profile-events"))
+            .andExpect(model().attribute("utilisateur", user))
+            .andExpect(model().attribute("evenementsCrees", crees))
+            .andExpect(model().attribute("evenementsInscrits", inscrits))
+            .andExpect(model().attribute("evenementsIntereses", interesses));
+
+        verify(profilService).getProfileById(3L);
+        verify(profilService).getEvenementsCrees(3L);
+        verify(profilService).getEvenementsInscrits(3L);
+        verify(profilService).getEvenementsInteresses(3L);
+    }
+
 }
 

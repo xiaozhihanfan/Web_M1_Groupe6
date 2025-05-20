@@ -317,7 +317,7 @@ Header END -->
                 <!-- Avatar -->
                 <div class="avatar avatar-xxl mt-n5 mb-3">
                   <img class="avatar-img rounded-circle border border-white border-3"
-                    th:src="@{${utilisateur.avatarU}}"
+                    th:src="@{${utilisateur.avatar}}"
                     alt="Avatar" />
                 </div>
                 
@@ -376,11 +376,13 @@ Header END -->
           <div class="card-header d-sm-flex align-items-center justify-content-between border-0 pb-0">
             <h5 class="card-title mb-sm-0">Mes Groupes</h5>
             <!-- Button modal -->
-            <a th:if="${estProprietaire}"
-              class="btn btn-primary-soft btn-sm"
-              th:href="@{/groupes/creer}">
-              <i class="fa-solid fa-plus pe-1"></i> Créer un groupe
-            </a>
+              <a th:if="${estProprietaire}"
+                class="btn btn-primary-soft btn-sm"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#modalCreateGroup">
+                <i class="fa-solid fa-plus pe-1"></i> Créer un groupe
+              </a>
           </div>
           <!-- Card header END -->
 
@@ -397,12 +399,13 @@ Header END -->
                 <div th:if="${groupesAdmin.empty}" class="text-muted mb-3">
                   Aucun groupe administré.
                 </div>
+
                 <div th:each="groupe : ${groupesAdmin}"
                     class="d-sm-flex align-items-center mb-4">
                   <!-- Avatar-->
                   <div class="avatar avatar-xl">
                     <img class="avatar-img rounded border border-white border-3"
-                        th:src="${groupe.avatarG}"
+                        th:src="@{${groupe.avatarG}}"
                         th:alt="${groupe.nomGroupe}" />
                   </div>
                   <div class="ms-sm-4 mt-2 mt-sm-0">
@@ -419,13 +422,21 @@ Header END -->
                   </div>
 
 
-
-
                   <!-- Button -->
-                  <div class="ms-md-auto d-flex">
-                    <button th:if="${estProprietaire}" class="btn btn-danger-soft btn-sm mb-0 me-2"> Inviter Amis </button>
-                    <button th:if="${estProprietaire}" class="btn btn-primary btn-sm mb-0"> Messager </button>
+                  <div class="ms-auto d-flex gap-2">
+                  <button th:if="${estProprietaire}"
+                          class="btn btn-danger-soft btn-sm mb-0 me-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalInviterAmis"
+                          th:attr="data-id=${groupe.idGroupe}"
+                          onclick="chargerAmisInvitables(this)">
+                    Inviter Amis
+                  </button>
+                  <button th:if="${estProprietaire}" class="btn btn-primary btn-sm mb-0"> Messager </button>
                   </div>
+
+
+                  
 
 
 
@@ -460,11 +471,18 @@ Header END -->
 
 
                   <!-- Button -->
-                  <div class="ms-md-auto d-flex">
-                    <button th:if="${estProprietaire}" class="btn btn-danger-soft btn-sm mb-0 me-2"> Invite </button>
-                    <button th:if="${estProprietaire}" class="btn btn-primary btn-sm mb-0"> Message </button>
-                  </div>
                   
+                  <div class="ms-auto d-flex gap-2">
+                  <button th:if="${estProprietaire}"
+                          class="btn btn-danger-soft btn-sm mb-0 me-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalInviterAmis"
+                          th:attr="data-id=${groupe.idGroupe}"
+                          onclick="chargerAmisInvitables(this)">
+                    Inviter Amis
+                  </button>
+                  <button th:if="${estProprietaire}" class="btn btn-primary btn-sm mb-0"> Messager </button>
+                  </div>
 
 
                 </div>
@@ -569,6 +587,80 @@ Header END -->
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
  
+<!-- Modal create group -->
+<div class="modal fade" id="modalCreateGroup" tabindex="-1" aria-labelledby="modalLabelCreateGroup" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelCreateGroup">Créer un groupe</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form id="form-creer-groupe" th:action="@{/groupes/creer}" th:object="${groupe}" method="post">
+          <div class="mb-3">
+            <label for="nomGroupe">Nom du groupe</label>
+            <input type="text" class="form-control" th:field="*{nomGroupe}" placeholder="Nom..." required />
+          </div>
+          <div class="mb-3">
+            <label for="description">Description</label>
+            <textarea class="form-control" th:field="*{description}" placeholder="Description..." rows="3" required></textarea>
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success-soft" onclick="document.getElementById('form-creer-groupe').submit();">
+          Créer maintenant
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal create group END -->
+
+<!-- Modal Inviter Amis -->
+<div class="modal fade" id="modalInviterAmis" tabindex="-1" aria-labelledby="modalLabelInviterAmis" aria-hidden="true">
+  <div class="modal-dialog modal-lg"> <!-- Optional: larger size -->
+    <div class="modal-content">
+
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelInviterAmis">Inviter des amis au groupe</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <!-- Groupe info -->
+        <div class="mb-4 p-3 border bg-light">
+          <h4 id="nomGroupe">Nom du groupe</h4>
+          <p id="descriptionGroupe">Description du groupe</p>
+        </div>
+
+        <!-- Message flash -->
+        <div id="messageSuccess" class="alert alert-success d-none"></div>
+
+        <!-- Liste des amis -->
+        <h6>Mes amis pouvant être invités :</h6>
+        <div id="listeAmisContainer">
+          <p class="text-muted">Chargement...</p>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Modal: Inviter des amis End-->
+
 <!-- =======================
 JS libraries, plugins and custom scripts -->
 
@@ -581,5 +673,75 @@ JS libraries, plugins and custom scripts -->
 <!-- Template Functions -->
 <script th:src="@{/assets/js/functions.js}"></script>
 
+<!-- JS inviter amis -->
+<script>
+function chargerAmisInvitables(btn) {
+  const idGroupe = btn.getAttribute("data-id");
+  const nomElem = document.getElementById("nomGroupe");
+  const descElem = document.getElementById("descriptionGroupe");
+  const container = document.getElementById("listeAmisContainer");
+  const message = document.getElementById("messageSuccess");
+
+  nomElem.innerText = "Chargement...";
+  descElem.innerText = "";
+  container.innerHTML = "<p class='text-muted'>Chargement...</p>";
+  message.classList.add("d-none");
+
+  fetch(`/groupes/${idGroupe}/amis-invitables`)
+    .then(resp => resp.json())
+    .then(data => {
+      if (data.status !== "ok") {
+        container.innerHTML = "<p class='text-danger'>Erreur lors du chargement des données.</p>";
+        return;
+      }
+
+      nomElem.innerText = data.nom;
+      descElem.innerText = data.description;
+
+      if (data.amis.length === 0) {
+        container.innerHTML = "<p class='text-muted'>Tous vos amis sont déjà dans ce groupe.</p>";
+        return;
+      }
+
+      const ul = document.createElement("ul");
+      ul.className = "list-group";
+
+      data.amis.forEach(ami => {
+        const li = document.createElement("li");
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+
+        const span = document.createElement("span");
+        span.innerText = ami.nom;
+
+        const btn = document.createElement("button");
+        btn.className = "btn btn-primary btn-sm";
+        btn.type = "submit";
+        btn.innerText = "Inviter";
+        btn.onclick = () => {
+        fetch(`/groupes/${idGroupe}/inviter/${ami.id}`, {
+          method: "POST",
+          headers: {
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        })
+        .then(res => {
+          if (!res.ok) throw new Error("Échec");
+          li.remove(); 
+          message.innerText = "Invitation envoyée avec succès !";
+          message.classList.remove("d-none");
+        })
+        .catch(err => alert("Erreur lors de l'invitation"));
+        };
+
+        li.appendChild(span);
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+
+      container.innerHTML = "";
+      container.appendChild(ul);
+    });
+}
+</script>
 </body>
 </html>

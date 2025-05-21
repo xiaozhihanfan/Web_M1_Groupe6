@@ -38,6 +38,20 @@ public class PostController {
 
 
     @PostMapping("/creerPost")
+    public String creerPost(String contenuP, HttpSession session)throws IOException{
+        Utilisateur poster = (Utilisateur) session.getAttribute("utilisateur");
+        Post newPost = new Post();
+        newPost.setContenuP(contenuP);
+        newPost.setAuteur(poster);
+        newPost.setDateP(new Date());
+        ps.save(newPost);
+        
+        return "redirect:/";
+    }
+
+
+
+    @PostMapping("/creerPostImage")
     public ResponseEntity<Post> creerPost(@RequestBody Post newPost, HttpSession session)throws IOException{
         System.out.println(newPost.getContenuP());
         System.out.println(newPost.getImageP());
@@ -98,6 +112,8 @@ public class PostController {
         ps.repostPost(originalPostId, reposter.getIdU());
         return "redirect:/";
     }
+
+    
     
     
 

@@ -443,7 +443,7 @@ Header END -->
                 <div class="d-flex mb-2">
                     <div class="flex-shrink-0 avatar me-2">
                       <!-- avatar de chat de groupe -->
-                       <img th:if="${groupe != null}" class="avatar-img rounded-circle" th:src="@{${groupe.avatarG}}" alt="group avatar" width="40">
+                      <img th:if="${groupe != null}" class="avatar-img rounded-circle" th:src="@{${groupe.avatarG}}" alt="group avatar" width="40">
                       <!-- avatar de chat prive -->
                       <img th:if="${groupe == null}" class="avatar-img rounded-circle" th:src="@{${recpteur.avatar}}" alt="avatar" width="40">
                     </div>
@@ -472,12 +472,19 @@ Header END -->
 
                         <!-- RIGHT: Message from self -->
                         <div th:if="${msg.envoyeur != null and envoyeur != null and msg.envoyeur.idU == envoyeur.idU}" class="d-flex justify-content-end text-end mb-1">
-                            <div class="flex-grow-1">
+                                 
+                          <div class="flex-grow-1 me-2">
+                                <div class="fw-bold small mb-2" th:text="${msg.envoyeur.prenomU + ' ' + msg.envoyeur.nomU}">Nom Prénom</div>
                                 <div class="bg-primary text-white p-2 px-3 rounded-2" th:text="${msg.text}">Message content</div>
                                 <div class="d-flex justify-content-end mt-1">
                                     <span class="small text-muted" th:text="${#dates.format(msg.temps, 'HH:mm')}"></span>
                                 </div>
-                            </div>
+                          </div>
+
+                          <div class="flex-shrink-0 avatar avatar-xs me-2">
+                                    <img th:src="@{${msg.envoyeur.avatar}}" class="avatar-img rounded-circle" alt="avatar">
+                          </div>
+
                         </div>
                     </div>
                 </div>

@@ -93,4 +93,16 @@ public class RelationAmisController {
         }
         return "redirect:/";
     }
+    
+    @GetMapping("/remove/{idUtilisateur}")
+    public String removeAmi(@PathVariable("idUtilisateur") Long idUtilisateur,HttpSession session) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if(relationAmisService.findRelationByIds(idUtilisateur, utilisateur.getIdU())!=null){
+        	relationAmisService.deleteRelationByIds(idUtilisateur, utilisateur.getIdU());
+        }
+    
+        return "redirect:/utilisateurs/" + utilisateur.getIdU() + "/profile-connections";
+    }
+    
+    
 }

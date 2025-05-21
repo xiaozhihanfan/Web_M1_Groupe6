@@ -75,4 +75,15 @@ public class GroupeService {
         return groupeRepository.findById(idGroupe);
     }
 
+    // --------------- us 4.2 chat de gourpe ----------------------------
+    public List<Groupe> getGroupesOuEtreMembre(Utilisateur utilisateur) {
+        List<GroupeMembre> membres = groupeMembreRepository.findByUtilisateur(utilisateur);
+        List<Groupe> groupes = new ArrayList<>();
+
+        for(GroupeMembre membre : membres) {
+            groupes.add(membre.getGroupe());
+        }
+
+        return groupes;
+    }
 }

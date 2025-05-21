@@ -1,6 +1,7 @@
 package miage.groupe6.reseausocial.model.jpa.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -61,4 +62,27 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long>{
     List<Evenement> findExploreEvents(@Param("utilisateur") Utilisateur utilisateur);
 
 
+
+    /**
+     * Récupère un événement avec tous ses participants et commentaires.
+     * <p>
+     * La requête utilise des FETCH JOIN pour hydrater les collections
+     * participants et commentaires dans l’entité {@code Evenement}.
+     * </p>
+     *
+     * @param id l’identifiant de l’événement à charger
+     * @return un {@link Optional} contenant l’événement détaillé si trouvé,
+     *         sinon un Optional vide
+     */
+    @Query("""
+      SELECT e
+      FROM Evenement e
+      LEFT JOIN FETCH e.utilisateur
+      LEFT JOIN FETCH e.actionEvenement ae
+      LEFT JOIN FETCH ae.utilisateur
+      WHERE e.idE = :id
+      """)
+    Optional<Evenement> findByIdWithDetails(@Param("id") Long id);
+
+    
 }

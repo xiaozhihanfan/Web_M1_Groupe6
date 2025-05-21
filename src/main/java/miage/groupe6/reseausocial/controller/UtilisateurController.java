@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.Evenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
+import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
@@ -49,6 +51,9 @@ public class UtilisateurController {
 
     @Autowired
     private RelationAmisService ras;
+
+    @Autowired
+    private EvenementsService es;
 
 
 
@@ -180,6 +185,9 @@ public class UtilisateurController {
 
         List<Utilisateur> utilisateurs;
 
+        List<Evenement> exploreEvents = es.findAll();
+        model.addAttribute("exploreEvents", exploreEvents);
+
         if (query.contains("@")) {
             Utilisateur u = us.rechercherParEmail(query);
             utilisateurs = u != null ? new java.util.ArrayList<>(List.of(u)) : new java.util.ArrayList<>();
@@ -205,6 +213,7 @@ public class UtilisateurController {
         model.addAttribute("query", query);
         model.addAttribute("utilisateurs", utilisateurs);
         model.addAttribute("nbPostsParUtilisateur", nbPostsParUtilisateur);
+
         return "resultatsRechercherUtilisateurs";
     }
 

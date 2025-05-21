@@ -93,26 +93,34 @@ public class ActionEvenementService {
 
 
     public void ajouterAction(Long idUtilisateur, Long idEvenement, StatutActionEvenement statut) {
-    ActionEvenementId id = new ActionEvenementId(idUtilisateur, idEvenement);
+        ActionEvenementId id = new ActionEvenementId(idUtilisateur, idEvenement);
 
-    if (!aer.existsById(id)) {
-        ActionEvenement action = new ActionEvenement();
-        action.setId(id);
-        action.setStatut(statut);
+        if (!aer.existsById(id)) {
+            ActionEvenement action = new ActionEvenement();
+            action.setId(id);
+            action.setStatut(statut);
 
-        Date dateAction = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
-        action.setDateActionEvenemnt(dateAction);
+            Date dateAction = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+            action.setDateActionEvenemnt(dateAction);
 
-        Evenement evt = er.findById(idEvenement)
-            .orElseThrow(() -> new RuntimeException("Evenement introuvable : " + idEvenement));
-        action.setEvenement(evt);
+            Evenement evt = er.findById(idEvenement)
+                .orElseThrow(() -> new RuntimeException("Evenement introuvable : " + idEvenement));
+            action.setEvenement(evt);
 
-        Utilisateur user = ur.findById(idUtilisateur)
-            .orElseThrow(() -> new RuntimeException("Utilisateur introuvable : " + idUtilisateur));
-        action.setUtilisateur(user);
+            Utilisateur user = ur.findById(idUtilisateur)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable : " + idUtilisateur));
+            action.setUtilisateur(user);
 
-        aer.save(action);
+            aer.save(action);
+        }
     }
-}
+
+    public long countInscriptions(Long idEvenement) {
+        return aer.countByEvenementIdEAndStatut(idEvenement, StatutActionEvenement.INSCRIRE);
+    }
+
+    public long countInteresses(Long idEvenement) {
+        return aer.countByEvenementIdEAndStatut(idEvenement, StatutActionEvenement.INTERESSER);
+    }
 
 }

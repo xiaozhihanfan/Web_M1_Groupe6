@@ -62,22 +62,16 @@ public class ProfilController {
                                 HttpSession session,
                                 Model model) {
         try {
-            // --- NOUVEAU : déterminer si on est propriétaire du profil ---
-            Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
-            boolean estProprietaire = sessionUser != null && sessionUser.getIdU().equals(id);
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            boolean estProprietaire = utilisateur != null && utilisateur.getIdU().equals(id);
             model.addAttribute("estProprietaire", estProprietaire);
-            // ---------------------------------------------------------------
 
-            Utilisateur utilisateur = profilService.getProfileById(id);
-            model.addAttribute("utilisateur", utilisateur);
+            Utilisateur profilUtilisateur = profilService.getProfileById(id);
+            model.addAttribute("profilUtilisateur", profilUtilisateur);
 
             return "my-profile-about";
         } catch (RuntimeException ex) {
-            throw new ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                ex.getMessage(),
-                ex
-            );
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
     }
 
@@ -101,15 +95,15 @@ public class ProfilController {
                                     Model model) {
         try {
             // --- NOUVEAU : déterminer si on est propriétaire du profil ---
-            Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
-            boolean estProprietaire = sessionUser != null && sessionUser.getIdU().equals(id);
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            boolean estProprietaire = utilisateur != null && utilisateur.getIdU().equals(id);
             model.addAttribute("estProprietaire", estProprietaire);
             // ---------------------------------------------------------------
 
-            Utilisateur utilisateur = profilService.getProfileById(id);
+            Utilisateur profilUtilisateur = profilService.getProfileById(id);
             List<Post> posts = postService.findByAuteurOrderByDateDesc(utilisateur);
 
-            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("profilUtilisateur", profilUtilisateur);
             model.addAttribute("posts", posts);
 
             return "my-profile-post";
@@ -133,18 +127,18 @@ public class ProfilController {
             Model model) {
         try {
 
-            Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
 
             boolean estProprietaire = false;
-            if (sessionUser != null && sessionUser.getIdU().equals(idU)) {
+            if (utilisateur != null && utilisateur.getIdU().equals(idU)) {
                 estProprietaire = true;
             }
+            model.addAttribute("estProprietaire", estProprietaire);
 
-            Utilisateur utilisateur = profilService.getProfileById(idU);
+            Utilisateur profilUtilisateur = profilService.getProfileById(idU);
             List<Utilisateur> amis = relationAmisService.listerAmis(utilisateur);
 
-            model.addAttribute("estProprietaire", estProprietaire);
-            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("profilUtilisateur", profilUtilisateur);
             model.addAttribute("amis", amis);
 
             return "my-profile-connections";
@@ -170,19 +164,20 @@ public class ProfilController {
             HttpSession session,
             Model model) {
 
-        Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
-        boolean estProprietaire = sessionUser != null && sessionUser.getIdU().equals(id);
+        Utilisateur utilisatuer = (Utilisateur) session.getAttribute("utilisateur");
+        boolean estProprietaire = utilisatuer != null && utilisatuer.getIdU().equals(id);
         model.addAttribute("estProprietaire", estProprietaire);
 
-        // Chargement des trois catégories
-        List<Evenement> crees      = profilService.getEvenementsCrees(id);
-        List<Evenement> inscrits   = profilService.getEvenementsInscrits(id);
+        Utilisateur profilUtilisateur = profilService.getProfileById(id);
+        model.addAttribute("profilUtilisateur", profilUtilisateur);
+
+        List<Evenement> crees = profilService.getEvenementsCrees(id);
+        List<Evenement> inscrits = profilService.getEvenementsInscrits(id);
         List<Evenement> interesses = profilService.getEvenementsInteresses(id);
 
         model.addAttribute("evenementsCrees",    crees);
         model.addAttribute("evenementsInscrits", inscrits);
         model.addAttribute("evenementsIntereses", interesses);
-        model.addAttribute("utilisateur", sessionUser);
 
         return "my-profile-events";
     }
@@ -202,14 +197,14 @@ public class ProfilController {
             HttpSession session,
             Model model) {
 
-        Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
-        boolean estProprietaire = sessionUser != null && sessionUser.getIdU().equals(id);
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        boolean estProprietaire = utilisateur != null && utilisateur.getIdU().equals(id);
         model.addAttribute("estProprietaire", estProprietaire);
 
-        Utilisateur utilisateur = profilService.getProfileById(id);
-        model.addAttribute("utilisateur", utilisateur);
+        Utilisateur profilUtilisateur = profilService.getProfileById(id);
+        model.addAttribute("profilUtilisateur", profilUtilisateur);
 
-        List<Groupe> groupesAdmin  = profilService.getGroupesAdmin(id);
+        List<Groupe> groupesAdmin = profilService.getGroupesAdmin(id);
         List<Groupe> groupesMembre = profilService.getGroupesMembre(id);
 
         model.addAttribute("groupesAdmin", groupesAdmin);

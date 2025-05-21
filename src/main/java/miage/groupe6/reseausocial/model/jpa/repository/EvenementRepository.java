@@ -39,4 +39,26 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long>{
         @Param("statut") StatutActionEvenement statut);
 
 
+    /**
+     * Récupère tous les événements que l’utilisateur n’a ni créés
+     * ni rejoints (avec statut INSCRIRE ou INTERESSER),
+     * triés par date de début décroissante.
+     *
+     * @param utilisateur l’utilisateur courant
+     * @return la liste des événements à découvrir
+     */
+    @Query("""
+      SELECT e
+      FROM Evenement e
+      WHERE e.utilisateur <> :utilisateur
+        AND e.idE NOT IN (
+          SELECT ae.evenement.idE
+          FROM ActionEvenement ae
+          WHERE ae.utilisateur = :utilisateur
+        )
+      ORDER BY e.dateDebut DESC
+      """)
+    List<Evenement> findExploreEvents(@Param("utilisateur") Utilisateur utilisateur);
+
+
 }

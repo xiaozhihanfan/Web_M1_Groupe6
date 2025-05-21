@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import miage.groupe6.reseausocial.model.entity.ActionPost;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.StatutActionPost;
@@ -34,4 +35,14 @@ public class ActionPostService {
     public int countLikes(Post post) {
         return apr.countByPostAndStatut(post, StatutActionPost.LIKE);
     }
+    
+    public Optional<ActionPost> findByUtilisateurAndPostAndStatut(Utilisateur utilisateur, Post post, StatutActionPost statut){
+		return apr.findByUtilisateurAndPostAndStatut(utilisateur, post, statut);
+    }
+    @Transactional
+    public void deleteByUtilisateurAndPostAndStatut(Utilisateur utilisateur, Post post ,StatutActionPost statut) {
+        apr.deleteByUtilisateurAndPostAndStatut(utilisateur,post,statut);
+    }
+    
+
 }

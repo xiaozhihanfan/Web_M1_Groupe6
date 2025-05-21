@@ -59,15 +59,5 @@ public class EvenementController {
         return ResponseEntity.ok(ae);
     }
 
-
-
-
-
-
-
-
-
-
-
   
 }

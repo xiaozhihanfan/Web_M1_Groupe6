@@ -94,8 +94,6 @@ public class IndexController {
 
         model.addAttribute("nbPost", nbPost);
 
-        session.setAttribute("sessionUser", utilisateur);
-
         return "index";
     }
 

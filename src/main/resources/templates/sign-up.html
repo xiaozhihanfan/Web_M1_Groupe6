@@ -111,6 +111,13 @@
                     placeholder="Ville" required
                     th:value="${ville}">
             </div>
+            <!-- Date de naissance -->
+            <div class="mb-3 input-group-lg">
+              <input type="date" name="birthday" class="form-control"
+                    required th:value="${birthday}" placeholder="Date de naissance">
+                <small>Your birthday</small>
+            </div>
+            
             <!-- Code INE -->
             <div class="mb-3 input-group-lg">
               <input type="text"

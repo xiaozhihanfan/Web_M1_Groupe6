@@ -364,11 +364,20 @@ Header END -->
     </div>
     <!-- Divider -->
     <div class="vr"></div>
+
+
+
+
     <!-- User stat item -->
-    <!-- <div>
+    <div>
     <h6 class="mb-0" th:text="${nbFollowing}"></h6>
-    <small>Following</small>
-    </div> -->
+    <small>Evenement</small>
+    </div>
+
+
+
+    
+
     </div>
     <!-- User stat END -->
     </div>
@@ -877,7 +886,7 @@ Header END -->
               <span th:text="${evt.lieu}">Lieu</span>
             </small>
           </div>
-          <!-- Button --><!-- 要改的地方 -->
+          <!-- Button -->
           <div class="btn-group-vertical" role="group" aria-label="Actions">
             <form th:action="@{/evenements/{id}/action(id=${evt.idE})}" method="post">
               <input type="hidden" name="statut" value="INSCRIRE"/>

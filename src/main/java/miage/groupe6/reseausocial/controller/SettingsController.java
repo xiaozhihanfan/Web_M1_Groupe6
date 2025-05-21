@@ -55,7 +55,7 @@ public class SettingsController {
     public String afficherFormulaireModification(@PathVariable Long id,Model model) {
         Utilisateur utilisateur = settingsService.getUtilisateurById(id)
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable avec l'id : " + id));
-
+    
         // Si pas d'avatar défini, utiliser le placeholder
         if (utilisateur.getAvatarU() == null || utilisateur.getAvatarU().trim().isEmpty()) {
             utilisateur.setAvatarU("/assets/images/avatar/placeholder.jpg");
@@ -65,7 +65,7 @@ public class SettingsController {
         model.addAttribute("passwordForm", new PasswordChangeForm());
         return "settingsInfo";
     }
-  
+    
 
     /**
      * Affiche le formulaire de modification du mot de passe

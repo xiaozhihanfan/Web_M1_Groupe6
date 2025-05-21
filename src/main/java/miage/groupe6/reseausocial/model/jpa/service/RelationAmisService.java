@@ -162,4 +162,17 @@ public class RelationAmisService {
 
         return new ArrayList<>(amis);
     }
+    
+    
+    public RelationAmis findRelationByIds(Long idU1,Long idU2) {
+        return rar.findRelationByIds(idU1, idU2);
+    }
+    
+    @Transactional
+    public void deleteRelationByIds(Long idU1,Long idU2) {
+    	rar.deleteRelationByIds(idU1, idU2);
+    }
+    
+    
+    
 }

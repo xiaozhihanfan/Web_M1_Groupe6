@@ -79,14 +79,14 @@ public class PostController {
         if (liker == null) {
             return "redirect:/utilisateurs/signin";
         }
-        
+
         Optional<Post> optPost = ps.findById(Long.parseLong(id));
         if (!optPost.isPresent()) {
             return "redirect:/";
         }
         Optional<ActionPost> optActionPost = aps.findByUtilisateurAndPostAndStatut(liker, optPost.get(),StatutActionPost.LIKE);
         if(!optActionPost.isPresent()) {
-            aps.likePost(liker, optPost.get());
+        aps.likePost(liker, optPost.get());
         }else
         	aps.deleteByUtilisateurAndPostAndStatut(liker, optPost.get(),StatutActionPost.LIKE);
         
@@ -120,9 +120,9 @@ public class PostController {
         ps.repostPost(originalPostId, reposter.getIdU());
         return "redirect:/";
     }
+    
+    
 
-    
-    
     
 
 }

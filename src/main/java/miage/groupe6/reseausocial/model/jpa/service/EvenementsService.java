@@ -14,7 +14,7 @@ import miage.groupe6.reseausocial.model.jpa.repository.EvenementRepository;
 @Service
 public class EvenementsService {
 
-    @Autowired
+	@Autowired
     private ActionEvenementRepository actionEvenementRepository;
 
 	private final EvenementRepository evenementRepository;
@@ -28,7 +28,7 @@ public class EvenementsService {
 	public Evenement save(Evenement newEvenement) {
 		return evenementRepository.save(newEvenement);
 	}
-
+	
 	/**
      * Renvoie la liste des événements à découvrir pour un utilisateur,
      * c’est-à-dire qu’il n’a ni organisés ni rejoints.

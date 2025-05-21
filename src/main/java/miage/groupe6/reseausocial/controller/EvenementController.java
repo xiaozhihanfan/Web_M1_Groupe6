@@ -1,5 +1,10 @@
 package miage.groupe6.reseausocial.controller;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,7 @@ import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
 import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
+import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
 
 @RestController
@@ -32,7 +38,7 @@ public class EvenementController {
     private ActionEvenementService aes;
 
 
-  
+
     @PostMapping
     public ResponseEntity<Evenement> createEvenement(@RequestBody Evenement evenement, HttpSession session) {
 

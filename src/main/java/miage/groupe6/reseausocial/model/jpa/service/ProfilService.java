@@ -9,10 +9,14 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 import miage.groupe6.reseausocial.model.entity.Evenement;
+import miage.groupe6.reseausocial.model.entity.Groupe;
+import miage.groupe6.reseausocial.model.entity.GroupeMembre;
+import miage.groupe6.reseausocial.model.entity.MembreRole;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.EvenementRepository;
+import miage.groupe6.reseausocial.model.jpa.repository.GroupeMembreRepository;
 import miage.groupe6.reseausocial.model.jpa.repository.PostRepository;
 import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 
@@ -26,6 +30,7 @@ public class ProfilService {
 
     private final UtilisateurRepository utilisateurRepository;
     private final EvenementRepository   evenementRepository;
+    private final GroupeMembreRepository groupeMembreRepository;
 
     /**
      * Constructeur par injection de dépendance du repository Utilisateur.
@@ -34,9 +39,10 @@ public class ProfilService {
      * @param evenementRepository le repository JPA pour l’entité Utilisateur
      */
     @Autowired
-    public ProfilService(UtilisateurRepository utilisateurRepository, EvenementRepository evenementRepository) {
+    public ProfilService(UtilisateurRepository utilisateurRepository, EvenementRepository evenementRepository, GroupeMembreRepository groupeMembreRepository) {
         this.utilisateurRepository = utilisateurRepository;
         this.evenementRepository = evenementRepository;
+        this.groupeMembreRepository = groupeMembreRepository;
     }
 
     /**
@@ -100,5 +106,45 @@ public class ProfilService {
                 "Utilisateur non trouvé : " + idUtilisateur
             ));
         return evenementRepository.findByParticipantAndStatut(u, StatutActionEvenement.INTERESSER);
+    }
+
+    /**
+     * Récupère la liste des groupes que l’utilisateur administre.
+     *
+     * @param idUtilisateur identifiant de l’utilisateur
+     * @return liste des Groupes où il a le rôle ADMIN
+     * @throws ResponseStatusException si l’utilisateur n’existe pas
+     */
+    public List<Groupe> getGroupesAdmin(Long idUtilisateur) {
+        Utilisateur u = utilisateurRepository.findById(idUtilisateur)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Utilisateur non trouvé : " + idUtilisateur
+            ));
+        return groupeMembreRepository
+            .findByUtilisateurAndRole(u, MembreRole.ADMIN)
+            .stream()
+            .map(GroupeMembre::getGroupe)
+            .toList();
+    }
+
+    /**
+     * Récupère la liste des groupes où l’utilisateur est simple membre.
+     *
+     * @param idUtilisateur identifiant de l’utilisateur
+     * @return liste des Groupes où il a le rôle MEMBRE
+     * @throws ResponseStatusException si l’utilisateur n’existe pas
+     */
+    public List<Groupe> getGroupesMembre(Long idUtilisateur) {
+        Utilisateur u = utilisateurRepository.findById(idUtilisateur)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Utilisateur non trouvé : " + idUtilisateur
+            ));
+        return groupeMembreRepository
+            .findByUtilisateurAndRole(u, MembreRole.MEMBRE)
+            .stream()
+            .map(GroupeMembre::getGroupe)
+            .toList();
     }
 }

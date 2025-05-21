@@ -1,18 +1,20 @@
 package miage.groupe6.reseausocial.controller;
 
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Evenement;
+import miage.groupe6.reseausocial.model.entity.Groupe;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
@@ -183,6 +185,38 @@ public class ProfilController {
         model.addAttribute("utilisateur", sessionUser);
 
         return "my-profile-events";
+    }
+
+    /**
+     * Affiche la page des groupes d’un utilisateur,
+     * séparés selon qu’il en est admin ou simple membre.
+     *
+     * @param id      identifiant de l’utilisateur
+     * @param session session HTTP pour vérifier le propriétaire
+     * @param model   modèle Thymeleaf
+     * @return vue "my-profile-groups"
+     */
+    @GetMapping("/{id}/profile-groups")
+    public String afficherProfileGroups(
+            @PathVariable Long id,
+            HttpSession session,
+            Model model) {
+
+        Utilisateur sessionUser = (Utilisateur) session.getAttribute("utilisateur");
+        boolean estProprietaire = sessionUser != null && sessionUser.getIdU().equals(id);
+        model.addAttribute("estProprietaire", estProprietaire);
+
+        Utilisateur utilisateur = profilService.getProfileById(id);
+        model.addAttribute("utilisateur", utilisateur);
+
+        List<Groupe> groupesAdmin  = profilService.getGroupesAdmin(id);
+        List<Groupe> groupesMembre = profilService.getGroupesMembre(id);
+
+        model.addAttribute("groupesAdmin", groupesAdmin);
+        model.addAttribute("groupesMembre", groupesMembre);
+
+        model.addAttribute("groupe", new Groupe());
+        return "my-profile-groups";
     }
 
 }

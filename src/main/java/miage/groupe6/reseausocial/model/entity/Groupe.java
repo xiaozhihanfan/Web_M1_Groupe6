@@ -38,6 +38,7 @@ public class Groupe {
      */
     private String nomGroupe;
     private String description;
+    private String avatarG;
 
 
     /**
@@ -75,11 +76,12 @@ public class Groupe {
      * @param evenement événement associé
      * @param membres membres du groupe
      */
-    public Groupe(Long idGroupe, String nomGroupe, String description, Utilisateur createur, Evenement evenement,
+    public Groupe(Long idGroupe, String nomGroupe, String description, String avatarG, Utilisateur createur, Evenement evenement,
             Set<GroupeMembre> membres) {
         this.idGroupe = idGroupe;
         this.nomGroupe = nomGroupe;
         this.description = description;
+        this.avatarG = avatarG;
         this.createur = createur;
         this.evenement = evenement;
         this.membres = membres;
@@ -139,6 +141,8 @@ public class Groupe {
         this.description = description;
     }
 
+    
+
     /**
      * Retourne l’utilisateur créateur du groupe.
      *
@@ -191,6 +195,14 @@ public class Groupe {
      */
     public void setMembres(Set<GroupeMembre> membres) {
         this.membres = membres;
+    }
+
+    public String getAvatarG() {
+        return avatarG;
+    }
+
+    public void setAvatarG(String avatarG) {
+        this.avatarG = avatarG;
     }
 
 }

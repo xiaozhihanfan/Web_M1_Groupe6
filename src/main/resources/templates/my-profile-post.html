@@ -320,7 +320,7 @@ Header END -->
                 <div class="avatar avatar-xxl mt-n5 mb-3">
                   <img 
                     class="avatar-img rounded-circle border border-white border-3"                      
-                    th:src="@{${utilisateur.avatarU}}"
+                    th:src="@{${session.utilisateur.avatarU}}"
                     alt="Avatar" />
                 </div>
               </div>
@@ -376,7 +376,7 @@ Header END -->
             <div class="d-flex mb-3">
               <!-- Avatar -->
               <div class="avatar avatar-xs me-2">
-                <a href="#"> <img class="avatar-img rounded-circle" th:src="@{${utilisateur.avatarU}}" alt=""> </a>
+                <a href="#"> <img class="avatar-img rounded-circle" th:src="@{${session.utilisateur.avatarU}}" alt=""> </a>
               </div>
               <!-- Post input -->
               <form class="w-100">
@@ -399,7 +399,7 @@ Header END -->
                   <div class="avatar avatar-story me-2">
                     <a th:href="@{/utilisateurs/{id}/profile-post(id=${profilUtilisateur.idU})}">
                       <img class="avatar-img rounded-circle"
-                           th:src="@{${utilisateur.avatarU}}"
+                           th:src="@{${session.utilisateur.avatarU}}"
                            alt="Avatar">
                     </a>
                   </div>

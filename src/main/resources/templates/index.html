@@ -342,7 +342,7 @@ Header END -->
     <!-- Avatar -->
     <div class="avatar avatar-lg mt-n5 mb-3">
       <a href="#!">
-        <img alt="" class="avatar-img rounded border border-white border-3" th:src="@{${utilisateur.avatarU}}"/>
+        <img alt="" class="avatar-img rounded border border-white border-3" th:src="@{${session.utilisateur.avatarU}}"/>
       </a>
     </div>
     <!-- Info -->
@@ -539,7 +539,7 @@ Header END -->
   <!-- Avatar -->
     <div class="avatar avatar-xs me-2">
       <a href="#"> 
-        <img th:src="${utilisateur.avatarU}" alt="avatar" class="avatar-img rounded-circle" />
+        <img th:src="${session.utilisateur.avatarU}" alt="avatar" class="avatar-img rounded-circle" />
       </a>
     </div>
   <!-- Post input -->
@@ -689,7 +689,7 @@ Header END -->
    <div class="d-flex mb-3">
     <!-- Avatar -->
     <div class="avatar avatar-xs me-2">
-      <a href="#!"> <img alt="" class="avatar-img rounded-circle" th:src="@{${utilisateur.avatarU}}" /> </a>
+      <a href="#!"> <img alt="" class="avatar-img rounded-circle" th:src="@{${session.utilisateur.avatarU}}" /> </a>
     </div>
     <!-- Comment form (inline) -->
     <form class="d-flex w-100" th:action="@{'/commentaires/creer/' + ${post.idP}}" method="post">

@@ -458,17 +458,16 @@ Header END -->
             <div class="card-body text-center pb-0">
             <!-- Avatar -->
             <div class="avatar avatar-xl mb-3">
-                <a th:href="@{'/utilisateurs/' + ${u.idU}}">
+                <a>
                 <img class="avatar-img rounded-circle" 
-                    th:src="@{${utilisateur.avatar}}" 
+                    th:src="@{${u.avatarU}}" 
                     alt="Avatar utilisateur">
                 </a>
             </div>
 
             <!-- Nom, Prénom, Email -->
             <h5 class="card-title mb-0">
-                <a th:href="@{'/utilisateurs/' + ${u.idU}}"
-                th:text="${u.prenomU} + ' ' + ${u.nomU}">Nom Prénom</a>
+                <a th:text="${u.prenomU} + ' ' + ${u.nomU}">Nom Prénom</a>
             </h5>
             <p class="mb-2 small" th:text="${u.emailU}">email@example.com</p>
             </div>

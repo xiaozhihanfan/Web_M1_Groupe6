@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.ActionPost;
 import miage.groupe6.reseausocial.model.entity.Post;
+import miage.groupe6.reseausocial.model.entity.StatutActionPost;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
@@ -77,12 +79,18 @@ public class PostController {
         if (liker == null) {
             return "redirect:/utilisateurs/signin";
         }
-
+        
         Optional<Post> optPost = ps.findById(Long.parseLong(id));
         if (!optPost.isPresent()) {
             return "redirect:/";
         }
-        aps.likePost(liker, optPost.get());
+        Optional<ActionPost> optActionPost = aps.findByUtilisateurAndPostAndStatut(liker, optPost.get(),StatutActionPost.LIKE);
+        if(!optActionPost.isPresent()) {
+            aps.likePost(liker, optPost.get());
+        }else
+        	aps.deleteByUtilisateurAndPostAndStatut(liker, optPost.get(),StatutActionPost.LIKE);
+        
+        
         return "redirect:/";
     }
 

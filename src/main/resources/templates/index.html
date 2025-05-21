@@ -208,7 +208,7 @@ Header START -->
                   <li th:each="demande : ${demandesAmis}">
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatar}}" alt="avatar" />
+                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatarU}}" alt="avatar" />
                       </div>
                       <div class="ms-sm-3 w-100">
                         <div class="d-flex justify-content-between align-items-center">
@@ -342,7 +342,7 @@ Header END -->
     <!-- Avatar -->
     <div class="avatar avatar-lg mt-n5 mb-3">
       <a href="#!">
-        <img alt="" class="avatar-img rounded border border-white border-3" th:src="${utilisateur.avatarU}"/>
+        <img alt="" class="avatar-img rounded border border-white border-3" th:src="@{${utilisateur.avatarU}}"/>
       </a>
     </div>
     <!-- Info -->
@@ -539,7 +539,7 @@ Header END -->
   <!-- Avatar -->
     <div class="avatar avatar-xs me-2">
       <a href="#"> 
-        <img th:src="@{${utilisateur.avatar}}" alt="avatar" class="avatar-img rounded-circle" />
+        <img th:src="${utilisateur.avatarU}" alt="avatar" class="avatar-img rounded-circle" />
       </a>
     </div>
   <!-- Post input -->
@@ -596,8 +596,7 @@ Header END -->
     <div class="avatar avatar-story me-2">
       <a th:href="@{/utilisateurs/{id}/profile-post(id=${post.auteur.idU})}">
         <img class="avatar-img rounded-circle"
-            th:src="@{${post.auteur.avatarU}}"
-            src="assets/images/avatar/default.jpg"
+            th:src="${post.auteur.avatarU}"
             alt="Avatar">
       </a>
     </div>
@@ -690,7 +689,7 @@ Header END -->
    <div class="d-flex mb-3">
     <!-- Avatar -->
     <div class="avatar avatar-xs me-2">
-      <a href="#!"> <img alt="" class="avatar-img rounded-circle" th:src="@{${utilisateur.avatar}}" /> </a>
+      <a href="#!"> <img alt="" class="avatar-img rounded-circle" th:src="@{${utilisateur.avatarU}}" /> </a>
     </div>
     <!-- Comment form (inline) -->
     <form class="d-flex w-100" th:action="@{'/commentaires/creer/' + ${post.idP}}" method="post">
@@ -747,6 +746,28 @@ Header END -->
 
   <!-- Load more button END -->
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards   = document.querySelectorAll('[data-post]');
+      const btn     = document.getElementById('loadMoreBtn');
+      let   visible = 5;
+  
+      cards.forEach((c, i) => {
+        if (i < visible) c.classList.remove('d-none');
+      });
+  
+      btn.addEventListener('click', () => {
+        const next = visible + 5;
+        for (let i = visible; i < next && i < cards.length; i++) {
+          cards[i].classList.remove('d-none');
+        }
+        visible = next;
+        if (visible >= cards.length) {
+          btn.style.display = 'none';
+        }
+      });
+    });
+  </script>
 
 
   </div>
@@ -1743,7 +1764,7 @@ document.addEventListener('DOMContentLoaded', function() {
         imageP: imgUrl
       }
 
-      fetch('/posts/creerPost', {
+      fetch('/posts/creerPostImage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1755,6 +1776,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Success:', data);
             const modal = bootstrap.Modal.getInstance(document.getElementById('feedActionPhoto'));
             modal.hide();
+            location.reload()
         })
         .catch((error) => {
             console.error('Error:', error);

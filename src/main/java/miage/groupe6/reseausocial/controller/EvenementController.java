@@ -35,7 +35,7 @@ public class EvenementController {
     private EvenementsService es;
 
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Evenement> createEvenement(@RequestBody Evenement evenement, HttpSession session) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         evenement.setUtilisateur(utilisateur);

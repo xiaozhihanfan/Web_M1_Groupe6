@@ -277,6 +277,7 @@ public class Evenement {
     }
 
     public String getAvatarE() {
+
         return avatarE;
     }
 

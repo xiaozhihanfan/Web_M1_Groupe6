@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import miage.groupe6.reseausocial.model.entity.ActionEvenement;
 import miage.groupe6.reseausocial.model.entity.ActionEvenementId;
 import miage.groupe6.reseausocial.model.entity.Evenement;
+import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 
 /**
@@ -24,4 +25,6 @@ public interface ActionEvenementRepository extends JpaRepository<ActionEvenement
     Optional<ActionEvenement> findByUtilisateurAndEvenement(
         Utilisateur utilisateur, Evenement evenement
     );
+
+    int countByUtilisateurAndStatut(Utilisateur utilisateur, StatutActionEvenement statut);
 }

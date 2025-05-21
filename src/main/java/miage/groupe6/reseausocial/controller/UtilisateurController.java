@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
+import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
@@ -49,6 +50,9 @@ public class UtilisateurController {
 
     @Autowired
     private RelationAmisService ras;
+
+    @Autowired
+    private EvenementsService evenementsService;
 
 
 
@@ -195,16 +199,26 @@ public class UtilisateurController {
             nbPostsParUtilisateur.put(u.getIdU(), nbPost);
         }
 
+        Map<Long, Integer> nbEvenementsParUtilisateur = new HashMap<>();
+        for (Utilisateur u : utilisateurs) {
+            int nbEvenement = evenementsService.countEvenements(u);
+            nbEvenementsParUtilisateur.put(u.getIdU(), nbEvenement);
+        }
+
         int nbPost = ps.countPostByUtilisateur(utilisateurSession);
         int nbAmis = ras.countAmis(utilisateurSession);
+        int nbEvenement = evenementsService.countEvenements(utilisateurSession);
         
 
         model.addAttribute("utilisateur", utilisateurSession);
         model.addAttribute("nbPost", nbPost);
         model.addAttribute("nbAmis",nbAmis);
+        model.addAttribute("nbEvenement", nbEvenement);
         model.addAttribute("query", query);
         model.addAttribute("utilisateurs", utilisateurs);
         model.addAttribute("nbPostsParUtilisateur", nbPostsParUtilisateur);
+        model.addAttribute("nbEvenementsParUtilisateur", nbEvenementsParUtilisateur);
+        
         return "resultatsRechercherUtilisateurs";
     }
 

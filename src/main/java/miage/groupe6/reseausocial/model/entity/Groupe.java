@@ -198,6 +198,7 @@ public class Groupe {
     }
 
     public String getAvatarG() {
+
         return avatarG;
     }
 

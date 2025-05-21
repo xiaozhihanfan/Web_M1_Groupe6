@@ -60,5 +60,6 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long>{
       """)
     List<Evenement> findExploreEvents(@Param("utilisateur") Utilisateur utilisateur);
 
+    int countByUtilisateur(Utilisateur utilisateur);
 
 }

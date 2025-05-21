@@ -230,11 +230,11 @@ public class Utilisateur {
     }
 
     public String getAvatar() {
-    if (this.avatarU == null || this.avatarU.isEmpty()) {
-        return "/assets/images/avatar/placeholder.jpg"; 
+        if (this.avatarU == null || this.avatarU.isEmpty()) {
+            return "/assets/images/avatar/placeholder.jpg"; 
+        }
+        return this.avatarU;
     }
-    return this.avatarU;
-}
 
     /**
      * Définit l'avatar de l'utilisateur.

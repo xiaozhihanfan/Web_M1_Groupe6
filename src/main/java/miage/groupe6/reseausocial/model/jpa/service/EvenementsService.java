@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import miage.groupe6.reseausocial.model.entity.Evenement;
+import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.ActionEvenementRepository;
 import miage.groupe6.reseausocial.model.jpa.repository.EvenementRepository;
 
 @Service
 public class EvenementsService {
+
+    @Autowired
+    private ActionEvenementRepository actionEvenementRepository;
 
 	private final EvenementRepository evenementRepository;
 
@@ -33,6 +38,13 @@ public class EvenementsService {
      */
     public List<Evenement> findExploreEvents(Utilisateur utilisateur) {
         return evenementRepository.findExploreEvents(utilisateur);
+    }
+
+    public int countEvenements(Utilisateur utilisateur) {
+        int creeE = evenementRepository.countByUtilisateur(utilisateur);
+        int inscrireE = actionEvenementRepository.countByUtilisateurAndStatut(utilisateur, StatutActionEvenement.INSCRIRE);
+
+        return creeE + inscrireE;
     }
 	
 	

@@ -277,6 +277,9 @@ public class Evenement {
     }
 
     public String getAvatarE() {
+        if (this.avatarE == null || this.avatarE.isEmpty()) {
+            return "/assets/images/avatar/placeholder.jpg"; 
+        }
         return avatarE;
     }
 

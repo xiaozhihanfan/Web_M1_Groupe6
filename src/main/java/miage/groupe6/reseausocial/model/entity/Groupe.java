@@ -198,6 +198,9 @@ public class Groupe {
     }
 
     public String getAvatarG() {
+        if (this.avatarG == null || this.avatarG.isEmpty()) {
+            return "/assets/images/avatar/placeholder.jpg"; 
+        }
         return avatarG;
     }
 

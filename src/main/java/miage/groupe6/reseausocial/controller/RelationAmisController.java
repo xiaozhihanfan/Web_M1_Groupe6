@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
@@ -27,6 +28,9 @@ public class RelationAmisController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private EvenementsService evenementsService;
 
 
     // ----------------------- us 1.4 Envoyer une demande d’ami ---------------------
@@ -69,10 +73,14 @@ public class RelationAmisController {
         int nbPost = postService.countPostByUtilisateur(receveur);
 
         int nbAmis = relationAmisService.countAmis(receveur);
+
+        int nbEvenement = evenementsService.countEvenements(receveur);
+
         redirectAttributes.addFlashAttribute("nbAmis", nbAmis);
 
         redirectAttributes.addFlashAttribute("nbPost", nbPost);
 
+        redirectAttributes.addFlashAttribute("nbEvenement", nbEvenement);
         return "redirect:/";
     }
 

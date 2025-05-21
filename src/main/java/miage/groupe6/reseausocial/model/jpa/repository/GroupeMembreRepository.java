@@ -31,4 +31,5 @@ public interface GroupeMembreRepository extends JpaRepository<GroupeMembre, Grou
      */
     List<GroupeMembre> findByUtilisateurAndRole(Utilisateur utilisateur, MembreRole role);
 
+    List<GroupeMembre> findByUtilisateur(Utilisateur utilisateur);
 }

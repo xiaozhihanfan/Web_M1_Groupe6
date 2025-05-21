@@ -434,7 +434,7 @@ Header END -->
                           onclick="chargerAmisInvitables(this)">
                     Inviter Amis
                   </button>
-                  <button th:if="${estProprietaire}" class="btn btn-primary btn-sm mb-0"> Messager </button>
+                  <a th:href="@{'/messages/groupe/' + ${groupe.idGroupe}}" class="btn btn-primary-soft">Messager</a>
                   </div>
 
 
@@ -483,7 +483,7 @@ Header END -->
                           onclick="chargerAmisInvitables(this)">
                     Inviter Amis
                   </button>
-                  <button th:if="${estProprietaire}" class="btn btn-primary btn-sm mb-0"> Messager </button>
+                  <a th:href="@{'/messages/groupe/' + ${groupe.idGroupe}}" class="btn btn-primary-soft">Messager</a>
                   </div>
 
 

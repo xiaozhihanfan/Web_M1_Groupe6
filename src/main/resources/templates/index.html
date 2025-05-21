@@ -364,11 +364,20 @@ Header END -->
     </div>
     <!-- Divider -->
     <div class="vr"></div>
+
+
+
+
     <!-- User stat item -->
-    <!-- <div>
+    <div>
     <h6 class="mb-0" th:text="${nbFollowing}"></h6>
-    <small>Following</small>
-    </div> -->
+    <small>Evenement</small>
+    </div>
+
+
+
+    
+
     </div>
     <!-- User stat END -->
     </div>
@@ -760,6 +769,7 @@ Header END -->
     });
   </script>
 
+
   </div>
 
 <!-- Main content END -->
@@ -860,51 +870,82 @@ Header END -->
 </div>
 </div>
 <!-- Card follow START -->
-<!-- Card News START -->
-<div class="col-sm-6 col-lg-12">
-<div class="card">
-<!-- Card header START -->
-<div class="card-header pb-0 border-0">
-<h5 class="card-title mb-0">Today’s news</h5>
-</div>
-<!-- Card header END -->
-<!-- Card body START -->
-<div class="card-body">
-<!-- News item -->
-<div class="mb-3">
-<h6 class="mb-0"><a data-th-href="@{/blog-details.html}" href="blog-details.html" th:href="@{/blog-details.html}">Ten questions you should answer truthfully</a></h6>
-<small>2hr</small>
-</div>
-<!-- News item -->
-<div class="mb-3">
-<h6 class="mb-0"><a data-th-href="@{/blog-details.html}" href="blog-details.html" th:href="@{/blog-details.html}">Five unbelievable facts about money</a></h6>
-<small>3hr</small>
-</div>
-<!-- News item -->
-<div class="mb-3">
-<h6 class="mb-0"><a data-th-href="@{/blog-details.html}" href="blog-details.html" th:href="@{/blog-details.html}">Best Pinterest Boards for learning about business</a></h6>
-<small>4hr</small>
-</div>
-<!-- News item -->
-<div class="mb-3">
-<h6 class="mb-0"><a data-th-href="@{/blog-details.html}" href="blog-details.html" th:href="@{/blog-details.html}">Skills that you can learn from business</a></h6>
-<small>6hr</small>
-</div>
-<!-- Load more comments -->
-<a aria-pressed="true" class="btn btn-link btn-link-loader btn-sm text-secondary d-flex align-items-center" data-bs-toggle="button" href="#!" role="button">
-<div class="spinner-dots me-2">
-<span class="spinner-dot"></span>
-<span class="spinner-dot"></span>
-<span class="spinner-dot"></span>
-</div>
-                  View all latest news
-                </a>
-</div>
-<!-- Card body END -->
-</div>
-</div>
-<!-- Card News END -->
-</div>
+
+
+  <!-- Card Event START -->
+  <div class="col-sm-6 col-lg-12">
+    <div class="card">
+      <!-- Card header START -->
+      <div class="card-header pb-0 border-0">
+        <h5 class="card-title mb-0">Dicouvrir Evenements</h5>
+      </div>
+      <!-- Card header END -->
+      <!-- Card body START -->
+      <div class="card-body">
+        <!-- Sans Evenement -->
+        <div th:if="${exploreEvents.empty}" class="text-muted mb-3">
+          Aucun événement à découvrir.
+        </div>
+        <!-- List Events -->
+        <div th:each="evt, iterStat : ${exploreEvents}"
+            th:classappend="${iterStat.index >= 5} ? 'd-none' : ''"
+            class="mb-3 d-flex align-items-center justify-content-between event-item">
+          <!-- Info Event -->
+          <div>
+            <h6 class="mb-1">
+              <!-- 要改的地方 -->
+              <a th:href="@{/evenements/{id}(id=${evt.idE})}" th:text="${evt.titre}">Titre de l'événement</a>
+            </h6>
+            <small class="d-block">
+              <i class="bi bi-calendar-check pe-1"></i>
+              <span th:text="${#dates.format(evt.dateDebut,'dd MMM yyyy HH:mm')}"></span>
+              &nbsp;–&nbsp;
+              <span th:text="${#dates.format(evt.dateFin,'dd MMM yyyy HH:mm')}"></span>
+            </small>
+            <small class="d-block">
+              <i class="bi bi-geo-alt pe-1"></i>
+              <span th:text="${evt.lieu}">Lieu</span>
+            </small>
+          </div>
+          <!-- Button -->
+          <div class="btn-group-vertical" role="group" aria-label="Actions">
+            <form th:action="@{/evenements/{id}/action(id=${evt.idE})}" method="post">
+              <input type="hidden" name="statut" value="INSCRIRE"/>
+              <button type="submit" class="btn btn-sm btn-outline-primary">S'inscrire</button>
+            </form>
+            
+            <form th:action="@{/evenements/{id}/action(id=${evt.idE})}" method="post">
+              <input type="hidden" name="statut" value="INTERESSER"/>
+              <button type="submit" class="btn btn-sm btn-outline-success">Intéressé</button>
+            </form>
+            
+          </div>
+          
+          
+          
+
+        </div>
+
+
+        <!-- Card body END -->
+        <a th:if="${exploreEvents.size()} > 5"
+          class="btn btn-link btn-sm text-secondary d-flex align-items-center"
+          href="javascript:void(0);"
+          id="loadMoreEvents">
+          <div class="spinner-dots me-2">
+            <span class="spinner-dot"></span>
+            <span class="spinner-dot"></span>
+            <span class="spinner-dot"></span>
+          </div>
+          View more events
+       </a>
+       
+
+      </div>
+    </div>
+  </div>
+  <!-- Card Event END -->
+
 </div>
 <!-- Right sidebar END -->
 </div> <!-- Row END -->
@@ -1603,6 +1644,11 @@ Header END -->
 </div>
 </div>
 <!-- Modal create Feed video END -->
+
+
+
+
+
 <!-- Modal create events START -->
 <div aria-hidden="true" aria-labelledby="modalLabelCreateAlbum" class="modal fade" id="modalCreateEvents" tabindex="-1">
 <div class="modal-dialog modal-dialog-centered">
@@ -1613,72 +1659,44 @@ Header END -->
 <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 </div>
 <!-- Modal feed header END -->
+
+
 <!-- Modal feed body START -->
 <div class="modal-body">
-<!-- Form START -->
-<form class="row g-4">
-<!-- Title -->
-<div class="col-12">
-<label class="form-label">Title</label>
-<input id="titreE" class="form-control" placeholder="Event name here" type="text" required/>
-</div>
-<!-- Description -->
-<div class="col-12">
-<label class="form-label">Description</label>
-<textarea id="descriptionE" class="form-control" placeholder="Ex: topics, schedule, etc." rows="2" required></textarea>
-</div>
-<!-- Date -->
-<div class="col-sm-4">
-<label class="form-label">Date de début</label>
-<input id="dateDebutE" class="form-control flatpickr" placeholder="Select date" type="text" required/>
-</div>
+  <!-- Form START -->
+  <form class="row g-4">
+  <!-- Title -->
+  <div class="col-12">
+  <label class="form-label">Title</label>
+  <input id="titreE" class="form-control" placeholder="Event name here" type="text" required/>
+  </div>
+  <!-- Description -->
+  <div class="col-12">
+  <label class="form-label">Description</label>
+  <textarea id="descriptionE" class="form-control" placeholder="Ex: topics, schedule, etc." rows="2" required></textarea>
+  </div>
+  <!-- Date -->
+  <div class="col-sm-4">
+  <label class="form-label">Date de début</label>
+  <input id="dateDebutE" class="form-control flatpickr" placeholder="Select date" type="text" required/>
+  </div>
 
-<div class="col-sm-4">
-<label class="form-label">Date de fin</label>
-<input id="dateFinE" class="form-control flatpickr" placeholder="Select date" type="text" required/></div>
+  <div class="col-sm-4">
+  <label class="form-label">Date de fin</label>
+  <input id="dateFinE" class="form-control flatpickr" placeholder="Select date" type="text" required/></div>
 
-<!-- Location -->
-<div class="col-12">
-<label class="form-label">Location</label>
-<input id="LocationE" class="form-control" placeholder="Logansport, IN 46947" type="text" required/>
-</div>
+  <!-- Location -->
+  <div class="col-12">
+  <label class="form-label">Location</label>
+  <input id="LocationE" class="form-control" placeholder="Logansport, IN 46947" type="text" required/>
+  </div>
 
 
-<!-- Avatar group START -->
-<div class="col-12 mt-3">
-<ul class="avatar-group list-unstyled align-items-center mb-0">
-<li class="avatar avatar-xs">
-<img alt="avatar" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/01.jpg}" src="assets/images/avatar/01.jpg" th:src="@{/assets/images/avatar/01.jpg}"/>
-</li>
-<li class="avatar avatar-xs">
-<img alt="avatar" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/02.jpg}" src="assets/images/avatar/02.jpg" th:src="@{/assets/images/avatar/02.jpg}"/>
-</li>
-<li class="avatar avatar-xs">
-<img alt="avatar" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/03.jpg}" src="assets/images/avatar/03.jpg" th:src="@{/assets/images/avatar/03.jpg}"/>
-</li>
-<li class="avatar avatar-xs">
-<img alt="avatar" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/04.jpg}" src="assets/images/avatar/04.jpg" th:src="@{/assets/images/avatar/04.jpg}"/>
-</li>
-<li class="avatar avatar-xs">
-<img alt="avatar" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/05.jpg}" src="assets/images/avatar/05.jpg" th:src="@{/assets/images/avatar/05.jpg}"/>
-</li>
-<li class="avatar avatar-xs">
-<img alt="avatar" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/06.jpg}" src="assets/images/avatar/06.jpg" th:src="@{/assets/images/avatar/06.jpg}"/>
-</li>
-<li class="avatar avatar-xs">
-<img alt="avatar" class="avatar-img rounded-circle" data-th-src="@{/assets/images/avatar/07.jpg}" src="assets/images/avatar/07.jpg" th:src="@{/assets/images/avatar/07.jpg}"/>
-</li>
-<li class="ms-3">
-<small> +50 </small>
-</li>
-</ul>
-</div>
-<!-- Upload Photos or Videos -->
-
-</form>
-<!-- Form END -->
+  </form>
+  <!-- Form END -->
 </div>
 <!-- Modal feed body END -->
+
 <!-- Modal footer -->
 <!-- Button -->
 <div class="modal-footer">
@@ -1689,6 +1707,8 @@ Header END -->
 </div>
 </div>
 <!-- Modal create events END -->
+
+
 <!-- =======================
 JS libraries, plugins and custom scripts -->
 <!-- Bootstrap JS -->
@@ -1765,6 +1785,49 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards   = document.querySelectorAll('[data-post]');
+    const btn     = document.getElementById('loadMoreBtn');
+    let   visible = 5;
+
+    cards.forEach((c, i) => {
+      if (i < visible) c.classList.remove('d-none');
+    });
+
+    btn.addEventListener('click', () => {
+      const next = visible + 5;
+      for (let i = visible; i < next && i < cards.length; i++) {
+        cards[i].classList.remove('d-none');
+      }
+      visible = next;
+      if (visible >= cards.length) {
+        btn.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loadMoreBtn = document.getElementById("loadMoreEvents");
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener("click", function () {
+        const hiddenEvents = document.querySelectorAll(".event-item.d-none");
+
+        hiddenEvents.forEach((el) => el.classList.remove("d-none"));
+
+        // 再次检查是否还有隐藏的
+        const stillHidden = document.querySelectorAll(".event-item.d-none");
+        if (stillHidden.length === 0) {
+          loadMoreBtn.style.display = "none";
+        }
+      });
+    }
+  });
+</script>
+
 
 
 </body>

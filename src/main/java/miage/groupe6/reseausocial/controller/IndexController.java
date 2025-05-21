@@ -6,12 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.Evenement;
 import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.RelationAmis;
+import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.ActionEvenementRepository;
+import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
 import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
+import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 
@@ -27,10 +36,16 @@ public class IndexController {
     private PostService ps;
 
     @Autowired
+    private EvenementsService es;
+
+    @Autowired
     private ActionPostService aps;
 
     @Autowired
     private RelationAmisService relationAmisService;
+
+    @Autowired
+    private ActionEvenementService aes;
 
     /**
      * Point d’entrée principal de l’application.
@@ -55,6 +70,9 @@ public class IndexController {
         List<Post> allPosts = ps.findAllOrderedByDateDesc();
         model.addAttribute("posts", allPosts);
 
+        List<Evenement> exploreEvents = es.findExploreEvents(utilisateur);
+        model.addAttribute("exploreEvents", exploreEvents);
+        
         int nbPost = ps.countPostByUtilisateur(utilisateur);
         List<RelationAmis> demandes = relationAmisService.getDemandesRecues(utilisateur);
 
@@ -76,8 +94,24 @@ public class IndexController {
 
         model.addAttribute("nbPost", nbPost);
 
-
         return "index";
+    }
+
+
+
+    @PostMapping("/evenements/{id}/action")
+    public RedirectView enregistrerActionEvenement(@PathVariable Long id,
+                                                @RequestParam("statut") String statut,
+                                                HttpSession session) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateur == null) {
+            return new RedirectView("/utilisateurs/signin");
+        }
+
+        StatutActionEvenement statutEnum = StatutActionEvenement.valueOf(statut);
+        aes.ajouterAction(utilisateur.getIdU(), id, statutEnum);
+
+        return new RedirectView("/");
     }
 
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import miage.groupe6.reseausocial.model.entity.Groupe;
 import miage.groupe6.reseausocial.model.entity.Message;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 
@@ -19,5 +20,8 @@ import miage.groupe6.reseausocial.model.entity.Utilisateur;
  * 
  */
 public interface MessageRepository extends JpaRepository<Message, Long>{
+    
     List<Message> findByEnvoyeurAndRecepteurOrRecepteurAndEnvoyeurOrderByTempsAsc(Utilisateur u1, Utilisateur u2, Utilisateur u3, Utilisateur u4);
+    
+    List<Message> findByGroupeOrderByTempsAsc(Groupe groupe);
 }

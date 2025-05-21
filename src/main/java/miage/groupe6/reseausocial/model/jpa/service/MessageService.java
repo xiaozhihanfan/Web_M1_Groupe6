@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import miage.groupe6.reseausocial.model.entity.Groupe;
 import miage.groupe6.reseausocial.model.entity.Message;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.MessageRepository;
@@ -19,6 +20,9 @@ public class MessageService {
     
     @Autowired
     private MessageRepository messageRepository;
+
+
+    // --------------- us 4.1 chat privé ----------------------------
 
     /**
      * Récupère tous les messages échangés entre deux utilisateurs,
@@ -46,6 +50,22 @@ public class MessageService {
         messages.setRecepteur(recepteur);
         messages.setText(contenu);
         messages.setTemps(new Date());
+
+        return messageRepository.save(messages);
+    }
+
+    // --------------- us 4.2 chat de gourpe ----------------------------
+
+    public List<Message> getMessagesGroupe(Groupe groupe) {
+        return messageRepository.findByGroupeOrderByTempsAsc(groupe);
+    }
+
+    public Message envoyerMessageGroupe(String message, Utilisateur utilisateur, Groupe groupe) {
+        Message messages = new Message();
+        messages.setEnvoyeur(utilisateur);
+        messages.setGroupe(groupe);
+        messages.setTemps(new Date());
+        messages.setText(message);
 
         return messageRepository.save(messages);
     }

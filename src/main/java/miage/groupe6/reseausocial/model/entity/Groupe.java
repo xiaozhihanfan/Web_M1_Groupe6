@@ -201,7 +201,7 @@ public class Groupe {
         if (this.avatarG == null || this.avatarG.isEmpty()) {
             return "/assets/images/avatar/placeholder.jpg"; 
         }
-        return avatarG;
+        return this.avatarG;
     }
 
     public void setAvatarG(String avatarG) {

@@ -280,7 +280,7 @@ public class Evenement {
         if (this.avatarE == null || this.avatarE.isEmpty()) {
             return "/assets/images/avatar/placeholder.jpg"; 
         }
-        return avatarE;
+        return this.avatarE;
     }
 
     public void setAvatarE(String avatarE) {

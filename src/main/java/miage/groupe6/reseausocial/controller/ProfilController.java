@@ -136,7 +136,7 @@ public class ProfilController {
             model.addAttribute("estProprietaire", estProprietaire);
 
             Utilisateur profilUtilisateur = profilService.getProfileById(idU);
-            List<Utilisateur> amis = relationAmisService.listerAmis(utilisateur);
+            List<Utilisateur> amis = relationAmisService.listerAmis(profilUtilisateur);
 
             model.addAttribute("profilUtilisateur", profilUtilisateur);
             model.addAttribute("amis", amis);

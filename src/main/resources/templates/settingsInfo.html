@@ -31,7 +31,7 @@ Header START -->
 	<nav class="navbar navbar-expand-lg">
 		<div class="container">
 			<!-- Logo START -->
-			<a class="navbar-brand" th:href="@{/(id=${sessionUser.idU})}">
+			<a class="navbar-brand" th:href="@{/(id=${session.utilisateur.idU})}">
         <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
 				<img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
 			</a>
@@ -67,7 +67,7 @@ Header START -->
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="homeMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
 						<ul class="dropdown-menu" aria-labelledby="homeMenu">
-							<li> <a class="dropdown-item" th:href="@{/(id=${sessionUser.idU})}">Index</a></li>
+							<li> <a class="dropdown-item" th:href="@{/(id=${session.utilisateur.idU})}">Index</a></li>
 						</ul>
 					</li>
 					<!-- Nav item 2 Pages -->
@@ -81,11 +81,11 @@ Header START -->
 							<li class="dropdown-submenu dropend"> 
                 <a class="dropdown-item dropdown-toggle" href="#!">Profile</a>
 								<ul class="dropdown-menu" data-bs-popper="none">
-									<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-post(id=${sessionUser.idU})}">Post</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${sessionUser.idU})}">Profil</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${sessionUser.idU})}">Amis</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-group(id=${sessionUser.idU})}">Groupe</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-event(id=${sessionUser.idU})}">Evenements</a> </li>
+									<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-post(id=${session.utilisateur.idU})}">Post</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${session.utilisateur.idU})}">Profil</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${session.utilisateur.idU})}">Amis</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-groups(id=${session.utilisateur.idU})}">Groupe</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-events(id=${session.utilisateur.idU})}">Evenements</a> </li>
 								</ul>
 							</li>
 
@@ -128,7 +128,7 @@ Header START -->
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="postMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account </a>
 						<ul class="dropdown-menu" aria-labelledby="postMenu">
-              <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${sessionUser.idU})}">Settings</a> </li>
+              <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${session.utilisateur.idU})}">Settings</a> </li>
 
               <!-- dropdown submenu open left -->
                
@@ -155,7 +155,7 @@ Header START -->
           
 					<!-- Nav item 4 Mega menu -->
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${sessionUser.idU})}">Mes Amis</a>
+						<a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${session.utilisateur.idU})}">Mes Amis</a>
 					</li>
 				</ul>
 			</div>
@@ -170,7 +170,7 @@ Header START -->
 				</li>
 
         <li class="nav-item ms-2">
-					<a class="nav-link icon-md btn btn-light p-0" th:href="@{/utilisateurs/{id}/modifier-info(id=${sessionUser.idU})}">
+					<a class="nav-link icon-md btn btn-light p-0" th:href="@{/utilisateurs/{id}/modifier-info(id=${session.utilisateur.idU})}">
 						<i class="bi bi-gear-fill fs-6"> </i>
 					</a>
 				</li>
@@ -192,7 +192,7 @@ Header START -->
                   <li th:each="demande : ${demandesAmis}">
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatar}}" alt="avatar" />
+                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatarU}}" alt="avatar" />
                       </div>
                       <div class="ms-sm-3 w-100">
                         <div class="d-flex justify-content-between align-items-center">
@@ -229,7 +229,7 @@ Header START -->
 
         <li class="nav-item ms-2 dropdown">
 					<a class="nav-link btn icon-md p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-2" th:src="@{${sessionUser.avatarU}}" alt="">
+						<img class="avatar-img rounded-2" th:src="@{${session.utilisateur.avatarU}}" alt="">
             
 					</a>
           <ul class="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3" aria-labelledby="profileDropdown">
@@ -238,20 +238,20 @@ Header START -->
               <div class="d-flex align-items-center position-relative">
                 <!-- Avatar -->
                 <div class="avatar me-3">
-                  <img class="avatar-img rounded-circle" th:src="@{${sessionUser.avatarU}}" alt="avatar">
+                  <img class="avatar-img rounded-circle" th:src="@{${session.utilisateur.avatarU}}" alt="avatar">
                 </div>
                 <div>
-                  <a class="h6 stretched-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${sessionUser.idU})}">
-                    <strong th:text="${sessionUser.prenomU} + ' ' + ${sessionUser.nomU}"> ZHENG Shiwei </strong>
+                  <a class="h6 stretched-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${session.utilisateur.idU})}">
+                    <strong th:text="${session.utilisateur.prenomU} + ' ' + ${session.utilisateur.nomU}"> ZHENG Shiwei </strong>
                   </a>
-                  <p class="small m-0" th:text="${sessionUser.universite}">Universite</p>
-                  <p class="small m-0" th:text="${sessionUser.ville}">Ville</p>
+                  <p class="small m-0" th:text="${session.utilisateur.universite}">Universite</p>
+                  <p class="small m-0" th:text="${session.utilisateur.ville}">Ville</p>
                 </div>
               </div>
-              <a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" th:href="@{/utilisateurs/{id}/profile-post(id=${sessionUser.idU})}">Regarde Profil</a>
+              <a class="dropdown-item btn btn-primary-soft btn-sm my-2 text-center" th:href="@{/utilisateurs/{id}/profile-post(id=${session.utilisateur.idU})}">Regarde Profil</a>
             </li>
             <!-- Links -->
-            <li><a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${sessionUser.idU})}"><i class="bi bi-gear fa-fw me-2"></i>Settings & Privacy</a></li>
+            <li><a class="dropdown-item" th:href="@{/utilisateurs/{id}/modifier-info(id=${session.utilisateur.idU})}"><i class="bi bi-gear fa-fw me-2"></i>Settings & Privacy</a></li>
             <!-- <li> 
               <a class="dropdown-item" href="http://www.bootstrapmb.com" >
                 <i class="fa-fw bi bi-life-preserver me-2"></i>Support

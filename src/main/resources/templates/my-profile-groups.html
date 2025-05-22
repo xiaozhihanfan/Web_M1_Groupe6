@@ -602,11 +602,11 @@ Header END -->
         <form id="form-creer-groupe" th:action="@{/groupes/creer}" th:object="${groupe}" method="post">
           <div class="mb-3">
             <label for="nomGroupe">Nom du groupe</label>
-            <input type="text" class="form-control" th:field="*{nomGroupe}" placeholder="Nom..." required />
+            <input type="text" class="form-control" placeholder="Nom..." required />
           </div>
           <div class="mb-3">
             <label for="description">Description</label>
-            <textarea class="form-control" th:field="*{description}" placeholder="Description..." rows="3" required></textarea>
+            <textarea class="form-control" placeholder="Description..." rows="3" required></textarea>
           </div>
         </form>
       </div>
@@ -636,8 +636,8 @@ Header END -->
       <!-- Modal body -->
       <div class="modal-body">
         <!-- Groupe info -->
-        <div class="mb-4 p-3 border bg-light">
-          <h4 id="nomGroupe">Nom du groupe</h4>
+        <div class="mb-4">
+          <h5 id="nomGroupe">Nom du groupe</h5>
           <p id="descriptionGroupe">Description du groupe</p>
         </div>
 
@@ -678,6 +678,7 @@ JS libraries, plugins and custom scripts -->
 function chargerAmisInvitables(btn) {
   const idGroupe = btn.getAttribute("data-id");
   const nomElem = document.getElementById("nomGroupe");
+  console.log(nomElem)
   const descElem = document.getElementById("descriptionGroupe");
   const container = document.getElementById("listeAmisContainer");
   const message = document.getElementById("messageSuccess");
@@ -690,6 +691,7 @@ function chargerAmisInvitables(btn) {
   fetch(`/groupes/${idGroupe}/amis-invitables`)
     .then(resp => resp.json())
     .then(data => {
+      console.log(data)
       if (data.status !== "ok") {
         container.innerHTML = "<p class='text-danger'>Erreur lors du chargement des données.</p>";
         return;

@@ -109,16 +109,16 @@ public class RelationAmisService {
             relation.setStatut(StatutRelation.ACCEPTEE);
             rar.save(relation);
             
-            RelationAmisId miroirId = new RelationAmisId(idReceveur, idDemandeur);
-            if(!rar.existsById(miroirId)) {
-                RelationAmis miroir = new RelationAmis(
-                    relation.getUtilisateurRecu(),
-                    relation.getUtilisateurDemande(),
-                    new Date(),
-                    StatutRelation.ACCEPTEE
-                );
-                rar.save(miroir);
-            }
+            // RelationAmisId miroirId = new RelationAmisId(idReceveur, idDemandeur);
+            // if(!rar.existsById(miroirId)) {
+            //     RelationAmis miroir = new RelationAmis(
+            //         relation.getUtilisateurRecu(),
+            //         relation.getUtilisateurDemande(),
+            //         new Date(),
+            //         StatutRelation.ACCEPTEE
+            //     );
+            //     rar.save(miroir);
+            // }
             
             return true;
         }
@@ -164,7 +164,7 @@ public class RelationAmisService {
     }
     
     
-    public RelationAmis findRelationByIds(Long idU1,Long idU2) {
+    public List<RelationAmis> findRelationByIds(Long idU1,Long idU2) {
         return rar.findRelationByIds(idU1, idU2);
     }
     

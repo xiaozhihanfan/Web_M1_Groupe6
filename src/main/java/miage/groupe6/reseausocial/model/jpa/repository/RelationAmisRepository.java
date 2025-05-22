@@ -34,6 +34,7 @@ public interface RelationAmisRepository extends JpaRepository<RelationAmis, Rela
 
 
 
+
     /**
      * Récupère toutes les relations où l'utilisateur est receveur et le statut est ACCETPTEE.
      *
@@ -54,10 +55,10 @@ public interface RelationAmisRepository extends JpaRepository<RelationAmis, Rela
     List<RelationAmis> findByUtilisateurDemandeAndStatut(Utilisateur utilisateurDemande, StatutRelation statut);
     
     @Query("SELECT r FROM RelationAmis r WHERE (r.utilisateurDemande.idU = :idU1 AND r.utilisateurRecu.idU = :idU2) OR (r.utilisateurDemande.idU = :idU2 AND r.utilisateurRecu.idU = :idU1)")
-    RelationAmis findRelationByIds(Long idU1, Long idU2);    
+    List<RelationAmis> findRelationByIds(Long idU1, Long idU2);    
     
     
     @Modifying
     @Query("DELETE FROM RelationAmis r WHERE (r.utilisateurDemande.idU = :idU1 AND r.utilisateurRecu.idU = :idU2) OR (r.utilisateurDemande.idU = :idU2 AND r.utilisateurRecu.idU = :idU1)")
-    void deleteRelationByIds( Long idU1, Long idU2);
+    void deleteRelationByIds(Long idU1, Long idU2);
 } 

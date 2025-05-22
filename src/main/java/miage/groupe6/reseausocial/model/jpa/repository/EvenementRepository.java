@@ -62,4 +62,7 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long>{
 
     int countByUtilisateur(Utilisateur utilisateur);
 
+    Evenement save(Evenement newEvenement);
+    
+    List<Evenement> findAll();
 }

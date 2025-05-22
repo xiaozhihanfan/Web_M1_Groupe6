@@ -463,7 +463,7 @@ Header END -->
                             <div class="flex-shrink-0 avatar avatar-xs me-2">
                                 <img th:src="@{${msg.envoyeur.avatar}}" class="avatar-img rounded-circle" alt="avatar">
                             </div>
-                            <div class="flex-grow-1">
+                            <div>
                                 <div class="fw-bold small mb-1" th:text="${msg.envoyeur.prenomU + ' ' + msg.envoyeur.nomU}">Nom Prénom</div>
                                 <div class="bg-light text-secondary p-2 px-3 rounded-2" th:text="${msg.text}">Message content</div>
                                 <div class="small text-muted mt-1" th:text="${#dates.format(msg.temps, 'HH:mm')}"></div>
@@ -473,7 +473,7 @@ Header END -->
                         <!-- RIGHT: Message from self -->
                         <div th:if="${msg.envoyeur != null and envoyeur != null and msg.envoyeur.idU == envoyeur.idU}" class="d-flex justify-content-end text-end mb-1">
                                  
-                          <div class="flex-grow-1 me-2">
+                          <div class="me-2">
                                 <div class="fw-bold small mb-2" th:text="${msg.envoyeur.prenomU + ' ' + msg.envoyeur.nomU}">Nom Prénom</div>
                                 <div class="bg-primary text-white p-2 px-3 rounded-2" th:text="${msg.text}">Message content</div>
                                 <div class="d-flex justify-content-end mt-1">

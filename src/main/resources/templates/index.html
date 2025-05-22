@@ -97,11 +97,11 @@ Header START -->
 							<li class="dropdown-submenu dropend"> 
                 <a class="dropdown-item dropdown-toggle" href="#!">Profile</a>
 								<ul class="dropdown-menu" data-bs-popper="none">
-									<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-post(id=${sessionUser.idU})}">Post</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${sessionUser.idU})}">Profil</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${sessionUser.idU})}">Amis</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-group(id=${sessionUser.idU})}">Groupe</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/evenements/index}">Evenements</a> </li>
+									<li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-post(id=${session.utilisateur.idU})}">Post</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${session.utilisateur.idU})}">Profil</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${session.utilisateur.idU})}">Amis</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-groups(id=${session.utilisateur.idU})}">Groupe</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-events(id=${session.utilisateur.idU})}">Evenements</a> </li>
 								</ul>
 							</li>
 
@@ -390,7 +390,7 @@ Header END -->
           <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/earth-outline-filled.svg}" src="assets/images/icon/earth-outline-filled.svg" th:src="@{/assets/images/icon/earth-outline-filled.svg}"/><span>Post </span></a>
         </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${utilisateur.idU})}"> 
+        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${session.utilisateur.idU})}"> 
           <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/home-outline-filled.svg}" src="assets/images/icon/home-outline-filled.svg" th:src="@{/assets/images/icon/home-outline-filled.svg}"/><span>Profil </span></a>
       </li>
       <li class="nav-item">
@@ -402,7 +402,7 @@ Header END -->
           <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/chat-outline-filled.svg}" src="assets/images/icon/chat-outline-filled.svg" th:src="@{/assets/images/icon/chat-outline-filled.svg}"/><span>Groupes </span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/evenements/index}"> 
+        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-events(id=${session.utilisateur.idU})}"> 
           <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/calendar-outline-filled.svg}" src="assets/images/icon/calendar-outline-filled.svg" th:src="@{/assets/images/icon/calendar-outline-filled.svg}"/><span>Evenements </span></a>
       </li>
       <li class="nav-item">

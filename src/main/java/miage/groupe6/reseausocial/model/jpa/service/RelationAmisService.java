@@ -113,7 +113,7 @@ public class RelationAmisService {
             if(!rar.existsById(miroirId)) {
                 RelationAmis miroir = new RelationAmis(
                     relation.getUtilisateurRecu(),
-                    relation.getUtilisateurRecu(),
+                    relation.getUtilisateurDemande(),
                     new Date(),
                     StatutRelation.ACCEPTEE
                 );

@@ -397,7 +397,7 @@ Header END -->
                           <a th:href="@{'/messages/groupe/' + ${groupe.idGroupe}}" class="nav-link text-start">
                             <div class="d-flex">
                               <div class="flex-shrink-0 avatar avatar-story me-2 status-online">
-                                <img class="avatar-img rounded-circle" th:src="@{${groupe.avatarG}}" alt="avatar" />
+                                <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/group.jpg}" alt="avatar" />
                               </div>
                               <div class="flex-grow-1 d-block">
                                 <h6 class="mb-0 mt-1" th:text="${groupe.nomGroupe}">Nom Groupe</h6>
@@ -443,7 +443,7 @@ Header END -->
                 <div class="d-flex mb-2">
                     <div class="flex-shrink-0 avatar me-2">
                       <!-- avatar de chat de groupe -->
-                      <img th:if="${groupe != null}" class="avatar-img rounded-circle" th:src="@{${groupe.avatarG}}" alt="group avatar" width="40">
+                      <img th:if="${groupe != null}" class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/group.jpg}" alt="group avatar" width="40">
                       <!-- avatar de chat prive -->
                       <img th:if="${groupe == null}" class="avatar-img rounded-circle" th:src="@{${recpteur.avatar}}" alt="avatar" width="40">
                     </div>

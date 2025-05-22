@@ -205,4 +205,11 @@ public class Groupe {
         this.avatarG = avatarG;
     }
 
+    
+    @Override
+    public String toString() {
+        return "Groupe [idGroupe=" + idGroupe + ", nomGroupe=" + nomGroupe + ", description=" + description + "]";
+    }
+
+    
 }

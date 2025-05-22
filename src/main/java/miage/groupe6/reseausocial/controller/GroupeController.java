@@ -54,6 +54,8 @@ public class GroupeController {
 
     @PostMapping("/creer")
     public String soumettreFormulaireGroupe(@ModelAttribute Groupe groupe, HttpSession session) {
+        
+
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         if (utilisateur == null) {
             return "redirect:/utilisateurs/signin";
@@ -91,6 +93,7 @@ public class GroupeController {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         Optional<Groupe> optGroupe = groupeService.getGroupeById(idGroupe);
 
+        
         if (utilisateur == null || optGroupe.isEmpty()) {
             return Map.of("status", "error");
         }

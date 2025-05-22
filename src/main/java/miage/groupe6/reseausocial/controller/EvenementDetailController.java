@@ -1,16 +1,21 @@
 package miage.groupe6.reseausocial.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.ActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Evenement;
 import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
 import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
 
@@ -54,13 +59,35 @@ public class EvenementDetailController {
      */
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model m, HttpSession session) {
-        Evenement e = evenementService.getEvenementAvecDetails(id);
-        m.addAttribute("evenement", e);
-        
+        Evenement evenement = evenementService.getEvenementAvecDetails(id);
+
+        Utilisateur current = (Utilisateur) session.getAttribute("utilisateur");
+
+        Optional<ActionEvenement> actionOpt = aes.findByUserAndEvent(current.getIdU(), id);
+        StatutActionEvenement statut = actionOpt.map(ActionEvenement::getStatut).orElse(null);
+
+
+        // Créateur ou déjà INSCRIRE → on cache tout
+        boolean hideAll = evenement.getUtilisateur().getIdU().equals(current.getIdU()) || StatutActionEvenement.INSCRIRE.equals(statut); 
+
+        // S’inscrire :  
+        // si on ne cache pas tout, ET (aucune action OU on est seulement INTERESSER)
+        boolean showInscrire = !hideAll && (statut == null || StatutActionEvenement.INTERESSER.equals(statut));
+
+        // Intéresser :
+        // si on ne cache pas tout, ET aucune action n’a encore eu lieu
+        boolean showInteress = !hideAll && statut == null;
+
+        m.addAttribute("hideAll", hideAll);
+        m.addAttribute("showInscrire", showInscrire);
+        m.addAttribute("showInteress", showInteress);
+
+        m.addAttribute("evenement", evenement);
+        m.addAttribute("utilisateur", session.getAttribute("utilisateur"));
         m.addAttribute("nbInscriptions", aes.countInscriptions(id));
         m.addAttribute("nbInteresses", aes.countInteresses(id));
-
-        m.addAttribute("utilisateur", session.getAttribute("utilisateur"));
         return "event-details"; 
     }
+
+
 }

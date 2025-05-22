@@ -109,7 +109,7 @@ public class IndexController {
         }
 
         StatutActionEvenement statutEnum = StatutActionEvenement.valueOf(statut);
-        aes.ajouterAction(utilisateur.getIdU(), id, statutEnum);
+        aes.actOnEvent(utilisateur.getIdU(), id, statutEnum);
 
         return new RedirectView("/");
     }

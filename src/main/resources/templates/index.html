@@ -887,15 +887,13 @@ Header END -->
           </div>
           <!-- Button -->
           <div class="btn-group-vertical" role="group" aria-label="Actions">
-            <form th:action="@{/evenements/{id}/action(id=${evt.idE})}" method="post">
-              <input type="hidden" name="statut" value="INSCRIRE"/>
-              <button type="submit" class="btn btn-sm btn-outline-primary">S'inscrire</button>
-            </form>
-            
-            <form th:action="@{/evenements/{id}/action(id=${evt.idE})}" method="post">
-              <input type="hidden" name="statut" value="INTERESSER"/>
-              <button type="submit" class="btn btn-sm btn-outline-success">Intéressé</button>
-            </form>
+            <div class="text-end">
+              <a 
+                th:href="@{/evenements/{id}(id=${evt.idE})}" 
+                class="btn btn-sm btn-outline-primary">
+                voir plus
+              </a>
+            </div>
             
           </div>
           

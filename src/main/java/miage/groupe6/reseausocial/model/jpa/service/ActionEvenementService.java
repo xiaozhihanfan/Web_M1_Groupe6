@@ -123,4 +123,20 @@ public class ActionEvenementService {
         return aer.countByEvenementIdEAndStatut(idEvenement, StatutActionEvenement.INTERESSER);
     }
 
+    /**
+     * Recherche éventuelle d’une action d’un utilisateur sur un événement.
+     * @param idUtilisateur l’id de l’utilisateur
+     * @param idEvenement   l’id de l’événement
+     * @return Optional.empty() si aucune action trouvée sinon l’action
+     */
+    public Optional<ActionEvenement> findByUserAndEvent(Long idUtilisateur, Long idEvenement) {
+        Utilisateur u = ur.findById(idUtilisateur)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Utilisateur non trouvé : " + idUtilisateur));
+        Evenement e = er.findById(idEvenement)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Événement non trouvé : " + idEvenement));
+        return aer.findByUtilisateurAndEvenement(u, e);
+    }
+
 }

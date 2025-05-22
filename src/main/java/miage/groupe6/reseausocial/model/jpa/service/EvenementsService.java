@@ -47,5 +47,8 @@ public class EvenementsService {
         return creeE + inscrireE;
     }
 	
+    public List<Evenement> findAll(){
+    	return evenementRepository.findAll();
+    }
 	
 }

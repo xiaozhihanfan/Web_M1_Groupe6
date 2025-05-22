@@ -48,8 +48,8 @@ Header START -->
 		<div class="container">
 			<!-- Logo START -->
 			<a class="navbar-brand" th:href="@{/(id=${sessionUser.idU})}">
-        <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
-				<img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+        <img class="light-mode-item navbar-brand-item" th:src="@{assets/images/logo.svg}" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" th:src="@{assets/images/logo.svg}" alt="logo">
 			</a>
 			<!-- Logo END -->
 
@@ -101,7 +101,7 @@ Header START -->
                   <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${sessionUser.idU})}">Profil</a> </li>
                   <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${sessionUser.idU})}">Amis</a> </li>
                   <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-group(id=${sessionUser.idU})}">Groupe</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-event(id=${sessionUser.idU})}">Evenements</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/evenements/index}">Evenements</a> </li>
 								</ul>
 							</li>
 
@@ -258,7 +258,7 @@ Header START -->
                 </div>
                 <div>
                   <a class="h6 stretched-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${sessionUser.idU})}">
-                    <strong th:text="${sessionUser.prenomU} + ' ' + ${sessionUser.nomU}"> ZHENG Shiwei </strong>
+                    <strong th:text="${sessionUser.prenomU} + ' ' + ${sessionUser.nomU}">  </strong>
                   </a>
                   <p class="small m-0" th:text="${sessionUser.universite}">Universite</p>
                   <p class="small m-0" th:text="${sessionUser.ville}">Ville</p>
@@ -402,7 +402,7 @@ Header END -->
           <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/chat-outline-filled.svg}" src="assets/images/icon/chat-outline-filled.svg" th:src="@{/assets/images/icon/chat-outline-filled.svg}"/><span>Groupes </span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-events(id=${utilisateur.idU})}"> 
+        <a class="nav-link" th:href="@{/evenements/index}"> 
           <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/calendar-outline-filled.svg}" src="assets/images/icon/calendar-outline-filled.svg" th:src="@{/assets/images/icon/calendar-outline-filled.svg}"/><span>Evenements </span></a>
       </li>
       <li class="nav-item">
@@ -1735,14 +1735,14 @@ document.addEventListener('DOMContentLoaded', function() {
             lieu: document.getElementById('LocationE').value.trim()
         };
 
-        fetch('/evenements', {
+        fetch('/evenements/Creer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(eventData),
         })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
             const modal = bootstrap.Modal.getInstance(document.getElementById('modalCreateEvents'));
@@ -1818,6 +1818,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         hiddenEvents.forEach((el) => el.classList.remove("d-none"));
 
+        // 再次检查是否还有隐藏的
         const stillHidden = document.querySelectorAll(".event-item.d-none");
         if (stillHidden.length === 0) {
           loadMoreBtn.style.display = "none";

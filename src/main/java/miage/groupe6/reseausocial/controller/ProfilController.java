@@ -101,7 +101,7 @@ public class ProfilController {
             // ---------------------------------------------------------------
 
             Utilisateur profilUtilisateur = profilService.getProfileById(id);
-            List<Post> posts = postService.findByAuteurOrderByDateDesc(utilisateur);
+            List<Post> posts = postService.findByAuteurOrderByDateDesc(profilUtilisateur);
 
             model.addAttribute("profilUtilisateur", profilUtilisateur);
             model.addAttribute("posts", posts);

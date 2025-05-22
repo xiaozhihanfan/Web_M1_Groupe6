@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.Evenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
@@ -52,7 +53,8 @@ public class UtilisateurController {
     private RelationAmisService ras;
 
     @Autowired
-    private EvenementsService evenementsService;
+    private EvenementsService es;
+
 
 
 
@@ -184,6 +186,9 @@ public class UtilisateurController {
 
         List<Utilisateur> utilisateurs;
 
+        List<Evenement> exploreEvents = es.findAll();
+        model.addAttribute("exploreEvents", exploreEvents);
+
         if (query.contains("@")) {
             Utilisateur u = us.rechercherParEmail(query);
             utilisateurs = u != null ? new java.util.ArrayList<>(List.of(u)) : new java.util.ArrayList<>();
@@ -201,13 +206,13 @@ public class UtilisateurController {
 
         Map<Long, Integer> nbEvenementsParUtilisateur = new HashMap<>();
         for (Utilisateur u : utilisateurs) {
-            int nbEvenement = evenementsService.countEvenements(u);
+            int nbEvenement = es.countEvenements(u);
             nbEvenementsParUtilisateur.put(u.getIdU(), nbEvenement);
         }
 
         int nbPost = ps.countPostByUtilisateur(utilisateurSession);
         int nbAmis = ras.countAmis(utilisateurSession);
-        int nbEvenement = evenementsService.countEvenements(utilisateurSession);
+        int nbEvenement = es.countEvenements(utilisateurSession);
         
 
         model.addAttribute("utilisateur", utilisateurSession);

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
 	<title>Social - Network, Community and Event Theme</title>
 
@@ -7,23 +7,20 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="author" content="Webestica.com">
-	<meta name="description" content="Bootstrap 5 based Social Media Network and Community Theme">
+	<meta name="description" content="Bootstrap based News, Magazine and Blog Theme">
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" th:href="@{/assets/images/favicon.ico}">
 
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap">
 
 	<!-- Plugins CSS -->
 	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/font-awesome/css/all.min.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/dropzone/dist/dropzone.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/glightbox-master/dist/css/glightbox.min.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/choices.js/public/assets/styles/choices.min.css}">
 
-	<!-- Theme CSS -->
+  <!-- Theme CSS -->
 	<link id="style-switch" rel="stylesheet" type="text/css" th:href="@{/assets/css/style.css}">
 	 
 </head>
@@ -305,211 +302,275 @@ Header END -->
   <div class="container">
     <div class="row g-4">
 
-      <!-- Main content START -->
-      <div class="col-lg-8 vstack gap-4">
-
+      <!-- Sidenav START -->
+      <div class="col-lg-3">
+        <!-- Advanced filter responsive toggler START -->
+        <div class="d-flex align-items-center d-lg-none">
+        <button aria-controls="offcanvasSideNavbar" class="border-0 bg-transparent" data-bs-target="#offcanvasSideNavbar" data-bs-toggle="offcanvas" type="button">
+        <i class="btn btn-primary fw-bold fa-solid fa-sliders-h"></i>
+        <span class="h6 mb-0 fw-bold d-lg-none ms-2">Mon Profil</span>
+        </button>
+        </div>
+        <!-- Advanced filter responsive toggler END -->
+        <!-- Navbar START-->
+        <nav class="navbar navbar-expand-lg mx-0">
+        <div class="offcanvas offcanvas-start" id="offcanvasSideNavbar" tabindex="-1">
+        <!-- Offcanvas header -->
+        <div class="offcanvas-header">
+        <button aria-label="Close" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" type="button"></button>
+        </div>
+        <!-- Offcanvas body -->
+        <div class="offcanvas-body d-block px-2 px-lg-0">
         <!-- Card START -->
-        <div class="card">
-          <div class="h-200px rounded-top" style="background-image:url(/assets/images/bg/05.jpg); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
+        <div class="card overflow-hidden">
+        <!-- Cover image -->
+        <div class="h-50px" style="background-image:url(assets/images/bg/01.jpg); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
+        <!-- Card body START -->
+          <div class="card-body pt-0">
+          <div class="text-center">
+          <!-- Avatar -->
+          <div class="avatar avatar-lg mt-n5 mb-3">
+            <a href="#!">
+              <img alt="" class="avatar-img rounded border border-white border-3" th:src="${session.utilisateur.avatarU}"/>
+            </a>
+          </div>
+          <!-- Info -->
+          <h5 class="mb-0"> <a href="#!" th:text="${session.utilisateur.prenomU} + ' ' + ${session.utilisateur.nomU}"></a> </h5>
+          <p class="mt-3" th:text="${session.utilisateur.descriptionU}"></p>
+          <!-- User stat START -->
+          <div class="hstack gap-2 gap-xl-3 justify-content-center">
+          <!-- User stat item -->
+          <div>
+          <h6 class="mb-0" th:text="${nbPost}"></h6>
+          <small>Post</small>
+          </div>
+          <!-- Divider -->
+          <div class="vr"></div>
+          <!-- User stat item -->
+          <div>
+          <h6 class="mb-0" th:text="${nbAmis}"></h6>
+          <small>Amis</small>
+          </div>
+          <!-- Divider -->
+          <div class="vr"></div>
+
+
+
+
+          <!-- User stat item -->
+          <div>
+          <h6 class="mb-0" th:text="${nbFollowing}"></h6>
+          <small>Evenement</small>
+          </div>
+
+
+
           
-            <!-- Card body START -->
-            <div class="card-body py-0">
-              <div class="d-sm-flex align-items-start text-center text-sm-start">
-            
-                <!-- Avatar -->
-                <div class="avatar avatar-xxl mt-n5 mb-3">
-                  <img class="avatar-img rounded-circle border border-white border-3"
 
-                    th:src="@{${profilUtilisateur.avatarU}}"
-                    alt="Avatar" />
-                </div>
-                
-
-                <div class="ms-sm-4 mt-sm-3">
-                  <!-- Info -->
-                  <h1 class="mb-0 h5" 
-                      th:text="${profilUtilisateur.prenomU} + ' ' + ${profilUtilisateur.nomU}">
-                    Prénom Nom
-                  </h1>
-                </div>
-
-                <!-- Button -->
-                <div th:if="${estProprietaire}"
-                  class="d-flex mt-3 justify-content-center ms-sm-auto">
-                  <button class="btn btn-danger-soft me-2" type="button"
-                          th:onclick="|window.location='@{/utilisateurs/{id}/modifier-info(id=${profilUtilisateur.idU})}'|">
-                    <i class="bi bi-pencil-fill pe-1"></i>
-                    Modifier Profil
-                  </button>
-                  <div class="dropdown">
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- List profile -->
-              <ul class="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
-                <li class="list-inline-item">
-                  <i class="bi bi-calendar2-plus me-1"></i>
-                  Joined on 
-                  <strong th:text="${profilUtilisateur.dateInscription}">
-                    Nov 26, 2019
-                  </strong>
-                </li>
-              </ul>
-            </div>
-            <!-- Card body END -->
-
-            <!-- Nav profile pages -->
-            <div class="card-footer mt-3 pt-2 pb-0">
-              <ul class="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
-                <li class="nav-item"> <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-post(id=${profilUtilisateur.idU})}"> Posts </a> </li>
-                <li class="nav-item"> <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${profilUtilisateur.idU})}"> Profil </a> </li>
-                <li class="nav-item"> <a class="nav-link active" th:href="@{/utilisateurs/{id}/profile-connections(id=${profilUtilisateur.idU})}"> Amis  </a> </li>
-                <li class="nav-item"> <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-groups(id=${profilUtilisateur.idU})}"> Groupe  </a> </li>
-                <li class="nav-item"> <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-events(id=${profilUtilisateur.idU})}"> Evenements</a> </li>
-              </ul>
-            </div>
+          </div>
+          <!-- User stat END -->
+          </div>
+          <!-- Divider -->
+          <hr/>
+          <!-- Side Nav START -->
+          <ul class="nav nav-link-secondary flex-column fw-bold gap-2">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-post(id=${session.utilisateur.idU})}"> 
+                <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/earth-outline-filled.svg}" src="assets/images/icon/earth-outline-filled.svg" th:src="@{/assets/images/icon/earth-outline-filled.svg}"/><span>Post </span></a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${session.utilisateur.idU})}"> 
+                <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/home-outline-filled.svg}" src="assets/images/icon/home-outline-filled.svg" th:src="@{/assets/images/icon/home-outline-filled.svg}"/><span>Profil </span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-connections(id=${session.utilisateur.idU})}"> 
+                <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/person-outline-filled.svg}" src="assets/images/icon/person-outline-filled.svg" th:src="@{/assets/images/icon/person-outline-filled.svg}"/><span>Amis </span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-groups(id=${session.utilisateur.idU})}"> 
+                <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/chat-outline-filled.svg}" src="assets/images/icon/chat-outline-filled.svg" th:src="@{/assets/images/icon/chat-outline-filled.svg}"/><span>Groupes </span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-events(id=${session.utilisateur.idU})}"> 
+                <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/calendar-outline-filled.svg}" src="assets/images/icon/calendar-outline-filled.svg" th:src="@{/assets/images/icon/calendar-outline-filled.svg}"/><span>Evenements </span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${session.utilisateur.idU})}"> 
+                <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/cog-outline-filled.svg}" src="assets/images/icon/cog-outline-filled.svg" th:src="@{/assets/images/icon/cog-outline-filled.svg}"/><span>Settings </span></a>
+            </li>
+          </ul>
+          <!-- Side Nav END -->
+          </div>
+        <!-- Card body END -->
+        <!-- Card footer -->
+        <div class="card-footer text-center py-2">
+        <a class="btn btn-link btn-sm" th:href="@{/utilisateurs/{id}/profile-post(id=${session.utilisateur.idU})}">Regarde Profil </a>
+        </div>
         </div>
         <!-- Card END -->
+                  <!-- Helper link START -->
+                  <ul class="nav small mt-4 justify-content-center lh-1">
+                    <li class="nav-item">
+                      <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-about(id=${session.utilisateur.idU})}">Profil</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                      <a class="nav-link"
+                        th:href="@{/utilisateurs/{id}/modifier-info(id=${session.utilisateur.idU})}">
+                        Settings
+                      </a>
+                    </li>
 
-        <!-- Card Connections START -->
-        <div class="card">
+                    <li class="nav-item">
+                      <a class="nav-link"  href="http://www.bootstrapmb.comlogin">Support </a>
+                    </li>
+                  </ul>
+                  <!-- Helper link END -->
 
-          <!-- Card header START -->
-          <div class="card-header border-0 pb-0">
-            <h5 class="card-title"> Connections</h5> 
-          </div>
-          <!-- Card header END -->
+                  <!-- Copyright -->
+                  <p class="small text-center mt-1">©2025 Groupe 6 </p>
+        </div>
+        </div>
+        </nav>
+        <!-- Navbar END-->
+        </div>
+      <!-- Sidenav END -->
 
+      
+      <!-- Main content START -->
+      <div class="col-md-8 col-lg-9 vstack gap-4">
+        <!-- Card START -->
+        <div class="card card-body card-overlay-bottom border-0" style="background-image:url(/assets/images/events/06.jpg); background-position: center; background-size: cover; background-repeat: no-repeat;">
+          
           <!-- Card body START -->
-          <div class="card-body">
+          <div class="row g-3 justify-content-between">
+            <!-- Date START -->
+            <div class="col-lg-2">
 
-            <!-- Connections Item -->
-            <div th:each="ami : ${amis}" class="d-md-flex align-items-center mb-4">
-                <!-- Avatar -->
-                <div class="avatar me-3 mb-3 mb-md-0">
-                  <a th:href="@{/utilisateurs/{id}/profile-about(id=${ami.idU})}">
-                    <img class="avatar-img rounded-circle"
-                         th:src="@{${ami.avatarU}}"
-                         th:alt="${ami.prenomU} + ' ' + ${ami.nomU}" />
-                  </a>
-                </div>
-                <!-- Info -->
-                <div class="w-100">
-                  <div class="d-sm-flex align-items-start">
-                    <h6 class="mb-0">
-                      <a th:href="@{/utilisateurs/{id}/profile-about(id=${ami.idU})}"
-                         th:text="${ami.prenomU} + ' ' + ${ami.nomU}">Prénom Nom</a>
-                    </h6>
-                    <p class="small ms-sm-2 mb-0"
-                       th:text="${ami.universite}">Université</p>
-                  </div>
-                  <div class="mt-1">
-                    <p class="small text-muted mb-0"
-                       th:text="${ami.descriptionU}">Description de l'utilisateur</p>
-                  </div>
-                </div>
+            </div>
+          </div>
 
-                <!-- Button -->
-                <div class="ms-md-auto d-flex">
-                  <a th:href="@{'/relationamis/remove/'+${ami.idU}}" class="btn btn-danger-soft btn-sm mb-0 me-2"> Remove </a>
-                  <!-- <a th:href="@{'/messages/' + ${ami.idU}}" class="btn btn-danger-soft btn-sm mb-0 me-2"> inviter </a> -->
-                  <a th:href="@{'/messages/' + ${ami.idU}}" class="btn btn-primary btn-sm mb-0"> Message </a>
-                </div>
-                
+          <!-- Event name START -->
+          <div class="row g-3 justify-content-between align-items-center mt-5 pt-5 position-relative z-index-9">
+            <div class="col-lg-9">
+              <h1 class="h3 mb-1 text-white" th:text="${evenement.titre}">Titre </h1>
+            </div>
+
+            <!-- Button -->
+            <div class="col-lg-3 text-lg-end" th:if="${!hideAll}" th:href="@{/evenements/{id}/action(id=${evenement.idE})}">
+              <form th:action="@{/evenements/{id}/action(id=${evenement.idE})}" method="post" th:if="${showInscrire}">
+                <input type="hidden" name="statut" value="INSCRIRE"/>
+                <button type="submit" class="btn btn-primary">S'inscrire</button>
+              </form>
             </div>
 
           </div>
-          <!-- Card body END -->
+          <!-- Event name END -->
         </div>
-        <!-- Card Connections END -->
-
-
+        <!-- Card END -->
         
-      </div>
-      <!-- Main content END -->
 
-        <!-- Right sidebar START -->
-        <div class="col-lg-4">
+        <!-- Card About START -->
+        <div class="card card-body">  
+          <!-- Card body START -->
           <div class="row g-4">
 
-            <!-- Card About START -->
-            <div class="col-sm-6 col-lg-12">
-              <div class="card">
-                <div class="card-header border-0 pb-0">
-                  <h5 class="card-title">About</h5>
-                  <!-- Button modal -->
-                </div>
-                <!-- Card body START -->
-                <div class="card-body position-relative pt-0">
-                  <p th:text="${profilUtilisateur.descriptionU}">Bio</p>
-                  <!-- Date time -->
-                  <ul class="list-unstyled mt-3 mb-0">
-                    <li class="mb-2"> <i class="bi bi-calendar-date fa-fw pe-1"></i> Date de naissance: <strong th:text="${#temporals.format(profilUtilisateur.birthday, 'dd/MM/yyyy')}">20/10/1990</strong> </li>
-                    <li> <i class="bi bi-envelope fa-fw pe-1"></i> Email: <strong th:text="${profilUtilisateur.emailU}"> webestica@gmail.com </strong> </li>
-                  </ul>
-                </div>
-                <!-- Card body END -->
+            <!-- info -->
+            <div class="col-12">
+              <p class="mb-0" th:text="${evenement.descriptionE}">Description</p>
+            </div>
+
+            <div class="col-sm-6 col-lg-4">
+              <!-- Timings -->
+              <h5>Timings</h5>
+              <p class="small mb-0" th:text="${#dates.format(evenement.dateDebut,'dd MMM yyyy HH:mm')}">DateDebut</p>
+              <p class="small mb-0" th:text="${#dates.format(evenement.dateDebut,'dd MMM yyyy HH:mm')}"> DateFin</p>
+            </div>
+
+            <div class="col-sm-6 col-lg-4">
+              <h5>Lieu</h5>
+              <p class="small mb-0" th:text="${evenement.lieu}">Lieu</p>
+            </div>
+
+            <div class="col-sm-6 col-lg-4">
+              <!-- Interested -->
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0 me-2">
+                  <i class="bi bi-hand-thumbs-up-fill text-success"></i>
+                  <span th:text="${nbInteresses}">0</span>
+                </h6>
+                <p class="small mb-0">People have shown interest recently</p>
+              </div>
+              <div th:if="${!hideAll}">
+                <form th:action="@{/evenements/{id}/action(id=${evenement.idE})}" method="post" th:if="${showInteress}">
+                  <input type="hidden" name="statut" value="INTERESSER"/>
+                  <button type="submit" class="btn btn-success-soft btn-sm">Intéressé</button>
+                </form>
               </div>
             </div>
-            <!-- Card Photos END -->
+            </div>
+            <hr class="mt-4">
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <h5>Attendees</h5>
+                
+              </div>
+              <div class="col-lg-6">
 
-            
-            <!-- Card Photos START -->
-            <div class="col-sm-6 col-lg-12">
-              <div class="card">
-                <!-- Card header START -->
-                <div class="card-header d-sm-flex justify-content-between border-0">
-                  <h5 class="card-title">Photos</h5>
-                  <a class="btn btn-primary-soft btn-sm" href="#!"> Montre tous les photos</a>
-                </div>
-                <!-- Card header END -->
+                <div class="row g-2">
+                  <div class="col-sm-4">
 
-                <!-- Card body START -->
-                <div class="card-body position-relative pt-0">
-                  <div class="row g-2">
-                    <!-- Photos item -->
-                    <div class="col-6">
-                      <a th:href="@{/assets/images/albums/01.jpg}" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/01.jpg}" alt="">
-                      </a>
+                  </div>
+                  <div class="col-sm-4">
+                    <!-- Inscrit -->
+                    <div class="d-flex">
+                      <i class="bi bi-person-plus fs-4"></i>
+                      <div class="ms-3">
+                        <h5 class="mb-0" th:text="${nbInscriptions}">356</h5>
+                        <p class="mb-0">Inscrit</p>
+                      </div>
                     </div>
-                    <!-- Photos item -->
-                    <div class="col-6">
-                      <a th:href="@{/assets/images/albums/02.jpg}" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/02.jpg}" alt="">
-                      </a>
-                    </div>
-                    <!-- Photos item -->
-                    <div class="col-4">
-                      <a th:href="@{/assets/images/albums/03.jpg}" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/03.jpg}" alt="">
-                      </a>
-                    </div>
-                    <!-- Photos item -->
-                    <div class="col-4">
-                      <a th:href="@{/assets/images/albums/04.jpg}" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/04.jpg}" alt="">
-                      </a>
-                    </div>
-                    <!-- Photos item -->
-                    <div class="col-4">
-                      <a th:href="@{/assets/images/albums/05.jpg}" data-gallery="image-popup" data-glightbox="">
-                        <img class="rounded img-fluid" th:src="@{/assets/images/albums/05.jpg}" alt="">
-                      </a>
-                      <!-- glightbox Albums left bar END  -->
+                  </div>
+                  <div class="col-sm-4">
+                    <!-- Interesse -->
+                    <div class="d-flex">
+                      <i class="bi bi-people fs-4"></i>
+                      <div class="ms-3">
+                        <h5 class="mb-0" th:text="${nbInteresses}">350</h5>
+                        <p class="mb-0">Intéressé</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <!-- Card body END -->
               </div>
             </div>
-            
-            
+        </div>
+        <!-- Card About END -->
+
+        <!-- Related events START -->
+        <div class="row g-4">
+          
+          <div class="col-lg-6">
+            <!-- Card START -->
+            <div class="card">
+              <div class="card-header border-0 pb-0">
+                <h5 class="card-title mb-0">Event location</h5>
+                <p class="small"> <i class="bi bi-geo-alt pe-1"></i>750 Sing Sing Rd, Horseheads, NY, 14845 </p>
+                <!-- Button modal -->
+              </div>
+              <!-- Card body START -->
+              <div class="card-body pt-0">
+                <!-- Google map -->
+                <iframe class="w-100 d-block rounded-bottom grayscale" height="230" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00425878428698!3d40.74076684379132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1sen!2sin!4v1586000412513!5m2!1sen!2sin"  style="border:0;" aria-hidden="false" tabindex="0"></iframe>
+              </div>
+              <!-- Card body END -->
+            </div>
+            <!-- Card END -->
           </div>
-        </div>  
-        <!-- Right sidebar END -->
+        </div>
+        <!-- Related events END -->
+      </div>
+      <!-- Main content END -->
 
     </div> <!-- Row END -->
   </div>
@@ -524,11 +585,9 @@ JS libraries, plugins and custom scripts -->
 <!-- Bootstrap JS -->
 <script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
 
-<!-- Vendors -->
-<script th:src="@{/assets/vendor/glightbox-master/dist/js/glightbox.min.js}"></script>
-
 <!-- Template Functions -->
 <script th:src="@{/assets/js/functions.js}"></script>
+  
 
 </body>
 </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <!-- 直接渲染标题 -->
+  <title th:text="${evenement.titre}">Titre de l’événement</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="p-4">
+
+  <!-- 封面图 & 标题 -->
+  <div class="text-center mb-4">
+    <img th:src="${evenement.avatarE}"
+         alt="Cover image"
+         class="img-fluid rounded"
+         style="max-height:300px;object-fit:cover;">
+    <h1 th:text="${evenement.titre}"></h1>
+    <p class="text-muted">
+      <span th:text="${#dates.format(evenement.dateDebut,'dd MMM yyyy HH:mm')}"></span>
+      —
+      <span th:text="${#dates.format(evenement.dateFin,'dd MMM yyyy HH:mm')}"></span>
+      | <span th:text="${evenement.lieu}"></span>
+    </p>
+  </div>
+
+  <!-- 描述 -->
+  <section class="mb-4">
+    <h4>Description</h4>
+    <p th:text="${evenement.descriptionE}"></p>
+  </section>
+
+  <!-- 组织者 & 参与者 -->
+  <section class="row">
+    <div class="col-md-6">
+      <h5>Organisateur</h5>
+      <!-- 改成你实体里真正的属性，比如 nomU/prenomU -->
+      <p th:text="${evenement.utilisateur.nomU}"></p>
+    </div>
+    <div class="col-md-6">
+      <h5>Participants</h5>
+      <ul>
+        <li th:each="ae : ${evenement.actionEvenement}">
+          <span th:text="${ae.utilisateur.nomU}"></span>
+          (<span th:text="${ae.statut}"></span>)
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <a th:href="@{/profile}" class="btn btn-secondary mt-4">← Retour à mon profil</a>
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -2,6 +2,7 @@ package miage.groupe6.reseausocial.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -13,171 +14,195 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import miage.groupe6.reseausocial.model.entity.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 @SpringBootTest
 class PostTest {
 
     private Post post;
     private Utilisateur auteur;
-    private Set<ActionPost> utilisateurs;
-    private Set<Commentaire> commentaires;
+    private ActionPost actionPost;
+    private Commentaire commentaire;
+    private Post originalPost;
 
     @BeforeEach
     void setUp() {
-        
-        auteur = new Utilisateur();
+
+    	auteur = new Utilisateur();
         auteur.setIdU(1L);
         auteur.setNomU("Test User");
+        ActionPostId id = new ActionPostId();
+        actionPost = new ActionPost();
+        actionPost.setId(id);
+        actionPost.setStatut(StatutActionPost.LIKE);
+        
+        commentaire = new Commentaire();
+        commentaire.setIdC(1L);
+        commentaire.setContenueC("Test comment");
+        commentaire.setTempsC(new Date());
+        
+        originalPost = new Post();
+        originalPost.setIdP(2L);
+        originalPost.setContenuP("Original post");
         
         post = new Post();
         post.setIdP(1L);
-        post.setAuteur(auteur);
-        post.setContenuP("Test content");
+        post.setContenuP("Test post content");
+        post.setImageP("test.jpg");
         post.setDateP(new Date());
+        post.setAuteur(auteur);
+        post.setNombreLikes(5);
         
-        utilisateurs = new HashSet<>();
-        commentaires = new HashSet<>();
+        Set<ActionPost> actions = new HashSet<>();
+        actions.add(actionPost);
+        post.setUtilisateurs(actions);
         
-        post.setUtilisateurs(utilisateurs);
-        post.setCommentaires((List<Commentaire>) commentaires);
+        List<Commentaire> comments = new ArrayList<>();
+        comments.add(commentaire);
+        post.setCommentaires(comments);
+        
+        post.setOriginalPost(originalPost);
+        
+        List<Post> reposts = new ArrayList<>();
+        Post repost = new Post();
+        repost.setIdP(3L);
+        repost.setContenuP("Repost content");
+        repost.setOriginalPost(post);
+        reposts.add(repost);
+        post.setReposts(reposts);
     }
 
     @Test
     void testPostCreation() {
         assertNotNull(post);
         assertEquals(1L, post.getIdP());
-        assertEquals("Test content", post.getContenuP());
-        assertEquals(auteur, post.getAuteur());
+        assertEquals("Test post content", post.getContenuP());
+        assertEquals("test.jpg", post.getImageP());
         assertNotNull(post.getDateP());
-        assertTrue(post.getUtilisateurs().isEmpty());
-        assertTrue(post.getCommentaires().isEmpty());
+        assertEquals(auteur, post.getAuteur());
+        assertEquals(5, post.getNombreLikes());
     }
 
     @Test
-    void testAddActionPost() {
-       
-        ActionPost action = new ActionPost(
-            new Date(),
-            StatutActionPost.LIKE,
-            auteur,
-            post
-        );
+    void testPostRelationships() {
+    	
+        Set<ActionPost> actions = post.getUtilisateurs();
+        assertNotNull(actions);
+        assertFalse(actions.isEmpty());
+        assertTrue(actions.contains(actionPost));
         
-       
-        post.getUtilisateurs().add(action);
+        List<Commentaire> comments = post.getCommentaires();
+        assertNotNull(comments);
+        assertFalse(comments.isEmpty());
+        assertEquals(commentaire, comments.get(0));
         
-       
-        assertEquals(1, post.getUtilisateurs().size());
-        assertTrue(post.getUtilisateurs().contains(action));
-        assertEquals(post, action.getPost());
+        assertEquals(originalPost, post.getOriginalPost());
+        
+        List<Post> reposts = post.getReposts();
+        assertNotNull(reposts);
+        assertFalse(reposts.isEmpty());
+        assertEquals(1, reposts.size());
+        assertEquals("Repost content", reposts.get(0).getContenuP());
+        assertEquals(post, reposts.get(0).getOriginalPost());
     }
 
     @Test
-    void testRemoveActionPost() {
-     
-        ActionPost action = new ActionPost(
-            new Date(),
-            StatutActionPost.LIKE,
-            auteur,
-            post
-        );
-        post.getUtilisateurs().add(action);
-        
-        
-        post.getUtilisateurs().remove(action);
-        
-       
-        assertTrue(post.getUtilisateurs().isEmpty());
+    void testDefaultConstructor() {
+        Post emptyPost = new Post();
+        assertNotNull(emptyPost);
+        assertNull(emptyPost.getIdP());
+        assertNull(emptyPost.getContenuP());
+        assertNull(emptyPost.getImageP());
+        assertNull(emptyPost.getDateP());
+        assertNull(emptyPost.getAuteur());
+        assertEquals(0, emptyPost.getNombreLikes());
+        assertNotNull(emptyPost.getUtilisateurs());
+        assertTrue(emptyPost.getUtilisateurs().isEmpty());
+        assertNotNull(emptyPost.getCommentaires());
+        assertTrue(emptyPost.getCommentaires().isEmpty());
+        assertNull(emptyPost.getOriginalPost());
+        assertNotNull(emptyPost.getReposts());
+        assertTrue(emptyPost.getReposts().isEmpty());
     }
 
     @Test
-    void testAddCommentaire() {
-   
-        Commentaire commentaire = new Commentaire();
-        commentaire.setIdC(1L);
-        commentaire.setContenueC("Test comment");
-        commentaire.setTempsC(new Date());
-        commentaire.setUtilisateur(auteur);
-        commentaire.setPost(post);
+    void testFullConstructor() {
+        Post fullPost = new Post(4L, "Full post", "full.jpg", new Date(), auteur, new HashSet<>(), new ArrayList<>());
         
-      
-        post.getCommentaires().add(commentaire);
-        
-    
-        assertEquals(1, post.getCommentaires().size());
-        assertTrue(post.getCommentaires().contains(commentaire));
-        assertEquals(post, commentaire.getPost());
+        assertEquals(4L, fullPost.getIdP());
+        assertEquals("Full post", fullPost.getContenuP());
+        assertEquals("full.jpg", fullPost.getImageP());
+        assertNotNull(fullPost.getDateP());
+        assertEquals(auteur, fullPost.getAuteur());
+        assertEquals(0, fullPost.getNombreLikes());
+        assertNotNull(fullPost.getUtilisateurs());
+        assertTrue(fullPost.getUtilisateurs().isEmpty());
+        assertNotNull(fullPost.getCommentaires());
+        assertTrue(fullPost.getCommentaires().isEmpty());
+        assertNull(fullPost.getOriginalPost());
+        assertNotNull(fullPost.getReposts());
+        assertTrue(fullPost.getReposts().isEmpty());
     }
 
     @Test
-    void testRemoveCommentaire() {
-
-        Commentaire commentaire = new Commentaire();
-        commentaire.setIdC(1L);
-        commentaire.setContenueC("Test comment");
-        commentaire.setTempsC(new Date());
-        commentaire.setUtilisateur(auteur);
-        commentaire.setPost(post);
-        post.getCommentaires().add(commentaire);
+    void testGettersAndSetters() {
+        Post testPost = new Post();
         
- 
-        post.getCommentaires().remove(commentaire);
+        testPost.setIdP(10L);
+        assertEquals(10L, testPost.getIdP());
         
-
-        assertTrue(post.getCommentaires().isEmpty());
-    }
-
-    @Test
-    void testSetUtilisateurs() {
-
+        testPost.setContenuP("Updated content");
+        assertEquals("Updated content", testPost.getContenuP());
+        
+        testPost.setImageP("updated.jpg");
+        assertEquals("updated.jpg", testPost.getImageP());
+        
+        Date testDate = new Date();
+        testPost.setDateP(testDate);
+        assertEquals(testDate, testPost.getDateP());
+        
+        Utilisateur newAuthor = new Utilisateur();
+        newAuthor.setIdU(2L);
+        testPost.setAuteur(newAuthor);
+        assertEquals(newAuthor, testPost.getAuteur());
+        
+        testPost.setNombreLikes(10);
+        assertEquals(10, testPost.getNombreLikes());
+        
         Set<ActionPost> newActions = new HashSet<>();
-        ActionPost action1 = new ActionPost(
-            new Date(),
-            StatutActionPost.LIKE,
-            auteur,
-            post
-        );
-        ActionPost action2 = new ActionPost(
-            new Date(),
-            StatutActionPost.REPUBLIER,
-            auteur,
-            post
-        );
-        newActions.add(action1);
-        newActions.add(action2);
+        ActionPost newAction = new ActionPost();
+        ActionPostId id = new ActionPostId();
+        newAction.setId(id);
+        newActions.add(newAction);
+        testPost.setUtilisateurs(newActions);
+        assertEquals(newActions, testPost.getUtilisateurs());
         
-
-        post.setUtilisateurs(newActions);
+        List<Commentaire> newComments = new ArrayList<>();
+        Commentaire newComment = new Commentaire();
+        newComment.setIdC(2L);
+        newComments.add(newComment);
+        testPost.setCommentaires(newComments);
+        assertEquals(newComments, testPost.getCommentaires());
         
-
-        assertEquals(2, post.getUtilisateurs().size());
-        assertTrue(post.getUtilisateurs().contains(action1));
-        assertTrue(post.getUtilisateurs().contains(action2));
-    }
-
-    @Test
-    void testSetCommentaires() {
-        Set<Commentaire> newComments = new HashSet<>();
-        Commentaire comment1 = new Commentaire();
-        comment1.setIdC(1L);
-        comment1.setContenueC("Comment 1");
-        comment1.setTempsC(new Date());
-        comment1.setUtilisateur(auteur);
-        comment1.setPost(post);
+        Post newOriginal = new Post();
+        newOriginal.setIdP(20L);
+        testPost.setOriginalPost(newOriginal);
+        assertEquals(newOriginal, testPost.getOriginalPost());
         
-        Commentaire comment2 = new Commentaire();
-        comment2.setIdC(2L);
-        comment2.setContenueC("Comment 2");
-        comment2.setTempsC(new Date());
-        comment2.setUtilisateur(auteur);
-        comment2.setPost(post);
-        
-        newComments.add(comment1);
-        newComments.add(comment2);
-        
-        post.setCommentaires((List<Commentaire>) newComments);
-
-        assertEquals(2, post.getCommentaires().size());
-        assertTrue(post.getCommentaires().contains(comment1));
-        assertTrue(post.getCommentaires().contains(comment2));
+        List<Post> newReposts = new ArrayList<>();
+        Post newRepost = new Post();
+        newRepost.setIdP(30L);
+        newReposts.add(newRepost);
+        testPost.setReposts(newReposts);
+        assertEquals(newReposts, testPost.getReposts());
     }
 }

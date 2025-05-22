@@ -7,11 +7,16 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import miage.groupe6.reseausocial.model.entity.Evenement;
+import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.ActionEvenementRepository;
 import miage.groupe6.reseausocial.model.jpa.repository.EvenementRepository;
 
 @Service
 public class EvenementsService {
+
+	@Autowired
+    private ActionEvenementRepository actionEvenementRepository;
 
 	private final EvenementRepository evenementRepository;
 
@@ -24,7 +29,7 @@ public class EvenementsService {
 	public Evenement save(Evenement newEvenement) {
 		return evenementRepository.save(newEvenement);
 	}
-
+	
 	/**
      * Renvoie la liste des événements à découvrir pour un utilisateur,
      * c’est-à-dire qu’il n’a ni organisés ni rejoints.
@@ -34,6 +39,13 @@ public class EvenementsService {
      */
     public List<Evenement> findExploreEvents(Utilisateur utilisateur) {
         return evenementRepository.findExploreEvents(utilisateur);
+    }
+
+    public int countEvenements(Utilisateur utilisateur) {
+        int creeE = evenementRepository.countByUtilisateur(utilisateur);
+        int inscrireE = actionEvenementRepository.countByUtilisateurAndStatut(utilisateur, StatutActionEvenement.INSCRIRE);
+
+        return creeE + inscrireE;
     }
 	
     /**
@@ -69,6 +81,7 @@ public class EvenementsService {
      */
     public List<Evenement> findAll() {
         return evenementRepository.findAll();
+
     }
 	
 }

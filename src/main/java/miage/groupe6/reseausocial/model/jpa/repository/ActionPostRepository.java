@@ -28,4 +28,8 @@ public interface ActionPostRepository extends JpaRepository<ActionPost, ActionPo
     Integer countByPostAndStatut(Post post, StatutActionPost statut);
 
     Optional<ActionPost> findByUtilisateurAndPostAndStatut(Utilisateur utilisateur, Post post, StatutActionPost statut);
+    
+    void deleteByUtilisateurAndPostAndStatut(Utilisateur utilisateur, Post post ,StatutActionPost statut);
+    
+
 }

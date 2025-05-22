@@ -57,6 +57,7 @@ public class UtilisateurController {
 
 
 
+
     /**
      * Affiche le formulaire de connexion.
      *
@@ -203,17 +204,26 @@ public class UtilisateurController {
             nbPostsParUtilisateur.put(u.getIdU(), nbPost);
         }
 
+        Map<Long, Integer> nbEvenementsParUtilisateur = new HashMap<>();
+        for (Utilisateur u : utilisateurs) {
+            int nbEvenement = es.countEvenements(u);
+            nbEvenementsParUtilisateur.put(u.getIdU(), nbEvenement);
+        }
+
         int nbPost = ps.countPostByUtilisateur(utilisateurSession);
         int nbAmis = ras.countAmis(utilisateurSession);
+        int nbEvenement = es.countEvenements(utilisateurSession);
         
 
         model.addAttribute("utilisateur", utilisateurSession);
         model.addAttribute("nbPost", nbPost);
         model.addAttribute("nbAmis",nbAmis);
+        model.addAttribute("nbEvenement", nbEvenement);
         model.addAttribute("query", query);
         model.addAttribute("utilisateurs", utilisateurs);
         model.addAttribute("nbPostsParUtilisateur", nbPostsParUtilisateur);
-
+        model.addAttribute("nbEvenementsParUtilisateur", nbEvenementsParUtilisateur);
+        
         return "resultatsRechercherUtilisateurs";
     }
 

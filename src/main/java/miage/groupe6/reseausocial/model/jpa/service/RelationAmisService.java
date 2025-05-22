@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import miage.groupe6.reseausocial.model.entity.RelationAmis;
 import miage.groupe6.reseausocial.model.entity.RelationAmisId;
@@ -161,4 +162,17 @@ public class RelationAmisService {
 
         return new ArrayList<>(amis);
     }
+    
+    
+    public RelationAmis findRelationByIds(Long idU1,Long idU2) {
+        return rar.findRelationByIds(idU1, idU2);
+    }
+    
+    @Transactional
+    public void deleteRelationByIds(Long idU1,Long idU2) {
+    	rar.deleteRelationByIds(idU1, idU2);
+    }
+    
+    
+    
 }

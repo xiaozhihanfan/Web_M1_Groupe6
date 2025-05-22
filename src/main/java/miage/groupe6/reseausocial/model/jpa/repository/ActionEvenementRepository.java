@@ -26,5 +26,9 @@ public interface ActionEvenementRepository extends JpaRepository<ActionEvenement
         Utilisateur utilisateur, Evenement evenement
     );
 
+
     long countByEvenementIdEAndStatut(Long idE, StatutActionEvenement statut);
+
+    int countByUtilisateurAndStatut(Utilisateur utilisateur, StatutActionEvenement statut);
+
 }

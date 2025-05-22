@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import miage.groupe6.reseausocial.model.entity.RelationAmis;
 import miage.groupe6.reseausocial.model.entity.RelationAmisId;
@@ -49,6 +52,12 @@ public interface RelationAmisRepository extends JpaRepository<RelationAmis, Rela
      * @return la liste des relations d'amitié où l'utilisateur est à l'origine de la demande
      */
     List<RelationAmis> findByUtilisateurDemandeAndStatut(Utilisateur utilisateurDemande, StatutRelation statut);
-
     
+    @Query("SELECT r FROM RelationAmis r WHERE (r.utilisateurDemande.idU = :idU1 AND r.utilisateurRecu.idU = :idU2) OR (r.utilisateurDemande.idU = :idU2 AND r.utilisateurRecu.idU = :idU1)")
+    RelationAmis findRelationByIds(Long idU1, Long idU2);    
+    
+    
+    @Modifying
+    @Query("DELETE FROM RelationAmis r WHERE (r.utilisateurDemande.idU = :idU1 AND r.utilisateurRecu.idU = :idU2) OR (r.utilisateurDemande.idU = :idU2 AND r.utilisateurRecu.idU = :idU1)")
+    void deleteRelationByIds( Long idU1, Long idU2);
 } 

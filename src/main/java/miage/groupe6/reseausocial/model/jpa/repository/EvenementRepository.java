@@ -61,6 +61,7 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long>{
       """)
     List<Evenement> findExploreEvents(@Param("utilisateur") Utilisateur utilisateur);
 
+    int countByUtilisateur(Utilisateur utilisateur);
 
 
     /**
@@ -85,4 +86,8 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long>{
     Optional<Evenement> findByIdWithDetails(@Param("id") Long id);
 
     
+    Evenement save(Evenement newEvenement);
+    
+    List<Evenement> findAll();
+
 }

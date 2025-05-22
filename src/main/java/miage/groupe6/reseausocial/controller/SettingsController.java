@@ -3,6 +3,7 @@ package miage.groupe6.reseausocial.controller;
 import miage.groupe6.reseausocial.model.dto.PasswordChangeForm;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.service.SettingsService;
+import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpSession;
+
 
 /**
  * Contrôleur MVC pour afficher et modifier le profil utilisateur via Thymeleaf.
@@ -30,6 +33,9 @@ public class SettingsController {
 
     @Autowired
     private SettingsService settingsService;
+
+    @Autowired
+    private UtilisateurService us;
 
     /**
      * Répertoire local pour stocker les avatars uploadés.
@@ -49,7 +55,7 @@ public class SettingsController {
     public String afficherFormulaireModification(@PathVariable Long id,Model model) {
         Utilisateur utilisateur = settingsService.getUtilisateurById(id)
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable avec l'id : " + id));
-
+    
         // Si pas d'avatar défini, utiliser le placeholder
         if (utilisateur.getAvatarU() == null || utilisateur.getAvatarU().trim().isEmpty()) {
             utilisateur.setAvatarU("/assets/images/avatar/placeholder.jpg");
@@ -59,7 +65,7 @@ public class SettingsController {
         model.addAttribute("passwordForm", new PasswordChangeForm());
         return "settingsInfo";
     }
-  
+    
 
     /**
      * Affiche le formulaire de modification du mot de passe
@@ -118,6 +124,7 @@ public class SettingsController {
             @PathVariable Long id,
             @ModelAttribute("utilisateur") Utilisateur utilisateurMod,
             @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile,
+            HttpSession session,
             RedirectAttributes redirectAttributes) {
         try {
             settingsService.updateUtilisateur(id, utilisateurMod);
@@ -125,12 +132,14 @@ public class SettingsController {
             if (avatarFile != null && !avatarFile.isEmpty()) {
                 byte[] bytes = avatarFile.getBytes();
             
-                String contentType = avatarFile.getContentType(); // e.g. "image/png"
+                String contentType = avatarFile.getContentType();
                 String prefix = "data:" + (contentType != null ? contentType : "application/octet-stream") + ";base64,";
                 
                 String base64Body = Base64.getEncoder().encodeToString(bytes);
                 String base64Url = prefix + base64Body;
                 settingsService.updateAvatarUrl(id, base64Url);
+                Utilisateur utilisateur = us.getUtilisateurById(id).get();
+                session.setAttribute("utilisateur", utilisateur);
             }
 
             redirectAttributes.addFlashAttribute("updateSuccess", "Profil mis à jour avec succès !");

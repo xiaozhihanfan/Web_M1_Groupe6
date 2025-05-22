@@ -17,7 +17,6 @@ import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.RelationAmis;
 import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
-import miage.groupe6.reseausocial.model.jpa.repository.ActionEvenementRepository;
 import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
 import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
 import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
@@ -75,12 +74,16 @@ public class IndexController {
         
         int nbPost = ps.countPostByUtilisateur(utilisateur);
         List<RelationAmis> demandes = relationAmisService.getDemandesRecues(utilisateur);
+        int nbEvenement = es.countEvenements(utilisateur);
 
         if (!model.containsAttribute("nbPost")) {
             model.addAttribute("nbPost", ps.countPostByUtilisateur(utilisateur));
         }
         if (!model.containsAttribute("nbAmis")) {
             model.addAttribute("nbAmis", relationAmisService.countAmis(utilisateur));
+        }
+        if (!model.containsAttribute("nbEvenement")) {
+            model.addAttribute("nbEvenement", es.countEvenements(utilisateur));
         }
 
         for (int i = 0; i < allPosts.size(); i++) {
@@ -91,7 +94,7 @@ public class IndexController {
         
         model.addAttribute("utilisateur", utilisateur);
         model.addAttribute("demandesAmis", demandes);
-
+        model.addAttribute("nbEvenement", nbEvenement);
         model.addAttribute("nbPost", nbPost);
 
         return "index";

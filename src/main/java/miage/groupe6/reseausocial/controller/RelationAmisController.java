@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
@@ -27,6 +29,9 @@ public class RelationAmisController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private EvenementsService evenementsService;
 
 
     // ----------------------- us 1.4 Envoyer une demande d’ami ---------------------
@@ -69,10 +74,14 @@ public class RelationAmisController {
         int nbPost = postService.countPostByUtilisateur(receveur);
 
         int nbAmis = relationAmisService.countAmis(receveur);
+
+        int nbEvenement = evenementsService.countEvenements(receveur);
+
         redirectAttributes.addFlashAttribute("nbAmis", nbAmis);
 
         redirectAttributes.addFlashAttribute("nbPost", nbPost);
 
+        redirectAttributes.addFlashAttribute("nbEvenement", nbEvenement);
         return "redirect:/";
     }
 
@@ -84,4 +93,16 @@ public class RelationAmisController {
         }
         return "redirect:/";
     }
+    
+    @GetMapping("/remove/{idUtilisateur}")
+    public String removeAmi(@PathVariable("idUtilisateur") Long idUtilisateur,HttpSession session) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if(relationAmisService.findRelationByIds(idUtilisateur, utilisateur.getIdU())!=null){
+        	relationAmisService.deleteRelationByIds(idUtilisateur, utilisateur.getIdU());
+        }
+    
+        return "redirect:/utilisateurs/" + utilisateur.getIdU() + "/profile-connections";
+    }
+    
+    
 }

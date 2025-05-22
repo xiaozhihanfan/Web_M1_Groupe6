@@ -48,8 +48,8 @@ Header START -->
 		<div class="container">
 			<!-- Logo START -->
 			<a class="navbar-brand" th:href="@{/(id=${sessionUser.idU})}">
-        <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
-				<img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+        <img class="light-mode-item navbar-brand-item" th:src="@{assets/images/logo.svg}" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" th:src="@{assets/images/logo.svg}" alt="logo">
 			</a>
 			<!-- Logo END -->
 
@@ -101,7 +101,7 @@ Header START -->
                   <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-about(id=${sessionUser.idU})}">Profil</a> </li>
                   <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-connections(id=${sessionUser.idU})}">Amis</a> </li>
                   <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-group(id=${sessionUser.idU})}">Groupe</a> </li>
-                  <li> <a class="dropdown-item" th:href="@{/utilisateurs/{id}/profile-event(id=${sessionUser.idU})}">Evenements</a> </li>
+                  <li> <a class="dropdown-item" th:href="@{/evenements/index}">Evenements</a> </li>
 								</ul>
 							</li>
 
@@ -208,7 +208,7 @@ Header START -->
                   <li th:each="demande : ${demandesAmis}">
                     <div class="list-group-item list-group-item-action rounded badge-unread d-flex border-0 mb-1 p-3">
                       <div class="avatar text-center d-none d-sm-inline-block">
-                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatar}}" alt="avatar" />
+                        <img class="avatar-img rounded-circle" th:src="@{${demande.utilisateurDemande.avatarU}}" alt="avatar" />
                       </div>
                       <div class="ms-sm-3 w-100">
                         <div class="d-flex justify-content-between align-items-center">
@@ -258,7 +258,7 @@ Header START -->
                 </div>
                 <div>
                   <a class="h6 stretched-link" th:href="@{/utilisateurs/{id}/modifier-info(id=${sessionUser.idU})}">
-                    <strong th:text="${sessionUser.prenomU} + ' ' + ${sessionUser.nomU}"> ZHENG Shiwei </strong>
+                    <strong th:text="${sessionUser.prenomU} + ' ' + ${sessionUser.nomU}">  </strong>
                   </a>
                   <p class="small m-0" th:text="${sessionUser.universite}">Universite</p>
                   <p class="small m-0" th:text="${sessionUser.ville}">Ville</p>
@@ -342,7 +342,7 @@ Header END -->
     <!-- Avatar -->
     <div class="avatar avatar-lg mt-n5 mb-3">
       <a href="#!">
-        <img alt="" class="avatar-img rounded border border-white border-3" th:src="${utilisateur.avatarU}"/>
+        <img alt="" class="avatar-img rounded border border-white border-3" th:src="@{${session.utilisateur.avatarU}}"/>
       </a>
     </div>
     <!-- Info -->
@@ -370,7 +370,7 @@ Header END -->
 
     <!-- User stat item -->
     <div>
-    <h6 class="mb-0" th:text="${nbFollowing}"></h6>
+    <h6 class="mb-0" th:text="${nbEvenement}"></h6>
     <small>Evenement</small>
     </div>
 
@@ -402,7 +402,7 @@ Header END -->
           <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/chat-outline-filled.svg}" src="assets/images/icon/chat-outline-filled.svg" th:src="@{/assets/images/icon/chat-outline-filled.svg}"/><span>Groupes </span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/utilisateurs/{id}/profile-events(id=${utilisateur.idU})}"> 
+        <a class="nav-link" th:href="@{/evenements/index}"> 
           <img alt="" class="me-2 h-20px fa-fw" data-th-src="@{/assets/images/icon/calendar-outline-filled.svg}" src="assets/images/icon/calendar-outline-filled.svg" th:src="@{/assets/images/icon/calendar-outline-filled.svg}"/><span>Evenements </span></a>
       </li>
       <li class="nav-item">
@@ -539,7 +539,7 @@ Header END -->
   <!-- Avatar -->
     <div class="avatar avatar-xs me-2">
       <a href="#"> 
-        <img th:src="@{${utilisateur.avatar}}" alt="avatar" class="avatar-img rounded-circle" />
+        <img th:src="${session.utilisateur.avatarU}" alt="avatar" class="avatar-img rounded-circle" />
       </a>
     </div>
   <!-- Post input -->
@@ -596,8 +596,7 @@ Header END -->
     <div class="avatar avatar-story me-2">
       <a th:href="@{/utilisateurs/{id}/profile-post(id=${post.auteur.idU})}">
         <img class="avatar-img rounded-circle"
-            th:src="@{${post.auteur.avatarU}}"
-            src="assets/images/avatar/default.jpg"
+            th:src="${post.auteur.avatarU}"
             alt="Avatar">
       </a>
     </div>
@@ -690,7 +689,7 @@ Header END -->
    <div class="d-flex mb-3">
     <!-- Avatar -->
     <div class="avatar avatar-xs me-2">
-      <a href="#!"> <img alt="" class="avatar-img rounded-circle" th:src="@{${utilisateur.avatar}}" /> </a>
+      <a href="#!"> <img alt="" class="avatar-img rounded-circle" th:src="@{${session.utilisateur.avatarU}}" /> </a>
     </div>
     <!-- Comment form (inline) -->
     <form class="d-flex w-100" th:action="@{'/commentaires/creer/' + ${post.idP}}" method="post">
@@ -747,6 +746,28 @@ Header END -->
 
   <!-- Load more button END -->
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards   = document.querySelectorAll('[data-post]');
+      const btn     = document.getElementById('loadMoreBtn');
+      let   visible = 5;
+  
+      cards.forEach((c, i) => {
+        if (i < visible) c.classList.remove('d-none');
+      });
+  
+      btn.addEventListener('click', () => {
+        const next = visible + 5;
+        for (let i = visible; i < next && i < cards.length; i++) {
+          cards[i].classList.remove('d-none');
+        }
+        visible = next;
+        if (visible >= cards.length) {
+          btn.style.display = 'none';
+        }
+      });
+    });
+  </script>
 
 
   </div>
@@ -1711,7 +1732,7 @@ document.addEventListener('DOMContentLoaded', function() {
             lieu: document.getElementById('LocationE').value.trim()
         };
 
-        fetch('/evenements', {
+        fetch('/evenements/Creer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1740,18 +1761,19 @@ document.addEventListener('DOMContentLoaded', function() {
         imageP: imgUrl
       }
 
-      fetch('/posts/creerPost', {
+      fetch('/posts/creerPostImage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(post)
       })
-      .then(response => response.json())
+      .then(response => response.text())
         .then(data => {
             console.log('Success:', data);
             const modal = bootstrap.Modal.getInstance(document.getElementById('feedActionPhoto'));
             modal.hide();
+            location.reload()
         })
         .catch((error) => {
             console.error('Error:', error);

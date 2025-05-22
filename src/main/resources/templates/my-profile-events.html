@@ -521,7 +521,9 @@ Header END -->
                     class="d-sm-flex align-items-center mb-4">
                   <div class="avatar avatar-xl">
                                         <!-- <a th:href="@{/evenements/{id}(id=${evt.idE})}"> -->
+
                                           <img class="avatar-img rounded border border-white border-3"
+
                                           th:src="@{${evt.avatarE}}"
                                           th:alt="${evt.titre}" />
                                     <!-- </a> -->
@@ -758,7 +760,7 @@ JS libraries, plugins and custom scripts -->
               },
               body: JSON.stringify(eventData),
           })
-          .then(response => response.json())
+          .then(response => response.text())
           .then(data => {
               console.log('Success:', data);
               const modal = bootstrap.Modal.getInstance(document.getElementById('modalCreateEvents'));

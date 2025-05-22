@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -226,8 +227,12 @@ public class Utilisateur {
      * @return l'URL ou le chemin de l'avatar de l'utilisateur
      */
     public String getAvatarU() {
-        return avatarU;
+        if (this.avatarU == null || this.avatarU.isEmpty()) {
+            return "/assets/images/avatar/placeholder.jpg"; 
+        }
+        return this.avatarU;
     }
+
 
     public String getAvatar() {
     if (this.avatarU == null || this.avatarU.isEmpty()) {
@@ -235,6 +240,7 @@ public class Utilisateur {
     }
     return this.avatarU;
 }
+
 
     /**
      * Définit l'avatar de l'utilisateur.

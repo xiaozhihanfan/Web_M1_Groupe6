@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import miage.groupe6.reseausocial.model.entity.Groupe;
@@ -26,6 +25,12 @@ import miage.groupe6.reseausocial.model.jpa.service.GroupeService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
+/**
+ * Contrôleur Spring MVC pour la gestion des groupes dans le réseau social.
+ * <p>
+ * Gère la création de groupes, l'affichage des amis invitables à un groupe,
+ * et l'invitation d'utilisateurs à rejoindre un groupe.
+ */
 @Controller
 @RequestMapping("/groupes")
 public class GroupeController {
@@ -40,6 +45,13 @@ public class GroupeController {
     private UtilisateurService utilisateurService;
 
     // -------------- us 3.1 créer une groupe ------------------
+    /**
+     * Affiche le formulaire de création d'un groupe.
+     *
+     * @param model   modèle Spring pour passer des attributs à la vue
+     * @param session session HTTP contenant l'utilisateur connecté
+     * @return nom de la vue à afficher ou redirection vers la page de connexion
+     */
     @GetMapping("/creer")
     public String afficherFormulaireGroupe(Model model, HttpSession session) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
@@ -52,6 +64,13 @@ public class GroupeController {
 
     }
 
+    /**
+     * Soumet le formulaire de création d'un groupe.
+     *
+     * @param groupe  instance de {@link Groupe} remplie depuis le formulaire
+     * @param session session HTTP contenant l'utilisateur connecté
+     * @return redirection vers la page de groupes de l'utilisateur
+     */
     @PostMapping("/creer")
     public String soumettreFormulaireGroupe(@ModelAttribute Groupe groupe, HttpSession session) {
         
@@ -87,6 +106,13 @@ public class GroupeController {
     //     return "inviterGroupe";
     // }
 
+    /**
+     * Renvoie une liste JSON des amis pouvant être invités dans un groupe donné.
+     *
+     * @param idGroupe identifiant du groupe
+     * @param session  session HTTP contenant l'utilisateur connecté
+     * @return map JSON contenant le statut, les infos du groupe et les amis à inviter
+     */
     @GetMapping("/{idGroupe}/amis-invitables")
     @ResponseBody
     public Map<String, Object> getInvitablesJson(@PathVariable Long idGroupe, HttpSession session) {
@@ -121,6 +147,14 @@ public class GroupeController {
         );
     }
 
+    /**
+     * Invite un utilisateur à rejoindre un groupe.
+     *
+     * @param idGroupe      identifiant du groupe
+     * @param idUtilisateur identifiant de l'utilisateur à inviter
+     * @param session       session HTTP
+     * @return réponse HTTP indiquant le succès ou l'échec
+     */
     @PostMapping("/{idGroupe}/inviter/{idUtilisateur}")
     @ResponseBody
     public ResponseEntity<String> inviterAmis(@PathVariable Long idGroupe,

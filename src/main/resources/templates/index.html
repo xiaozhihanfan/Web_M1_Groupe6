@@ -1818,7 +1818,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         hiddenEvents.forEach((el) => el.classList.remove("d-none"));
 
-        // 再次检查是否还有隐藏的
         const stillHidden = document.querySelectorAll(".event-item.d-none");
         if (stillHidden.length === 0) {
           loadMoreBtn.style.display = "none";

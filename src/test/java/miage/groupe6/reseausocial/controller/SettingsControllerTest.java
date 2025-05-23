@@ -1,250 +1,217 @@
 package miage.groupe6.reseausocial.controller;
 
+import miage.groupe6.reseausocial.model.dto.PasswordChangeForm;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.service.SettingsService;
+import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
 
-// import static org.junit.jupiter.api.Assertions.*;
-// import static org.mockito.Mockito.*;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.ui.Model;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
-// import java.util.Base64;
-// import java.util.Optional;
+import jakarta.servlet.http.HttpSession;
 
-// import org.junit.jupiter.api.DisplayName;
-// import org.junit.jupiter.api.Test;
-// import org.mockito.ArgumentCaptor;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-// import org.springframework.boot.test.mock.mockito.MockBean;
-// import org.springframework.http.MediaType;
-// import org.springframework.mock.web.MockHttpSession;
-// import org.springframework.mock.web.MockMultipartFile;
-// import org.springframework.test.web.servlet.MockMvc;
-// import org.springframework.test.web.servlet.MvcResult;
-// import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
-// import miage.groupe6.reseausocial.model.dto.PasswordChangeForm;
-// import miage.groupe6.reseausocial.model.entity.Utilisateur;
-// import miage.groupe6.reseausocial.model.jpa.service.SettingsService;
-// import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Optional;
 
-// @WebMvcTest(SettingsController.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 class SettingsControllerTest {
 
-    // @Autowired
-    // private MockMvc mockMvc;
+    @Mock
+    private SettingsService settingsService;
 
-    // @MockBean
-    // private SettingsService settingsService;
+    @Mock
+    private UtilisateurService us;
 
-    // @MockBean
-    // private UtilisateurService us;
+    @InjectMocks
+    private SettingsController controller;
 
-    // private MockHttpSession sessionWithUser(long id) {
-    //     Utilisateur u = new Utilisateur();
-    //     u.setIdU(id);
-    //     MockHttpSession session = new MockHttpSession();
-    //     session.setAttribute("utilisateur", u);
-    //     return session;
-    // }
+    @BeforeEach
+    void init() {
+        // inject dummy avatarsDir (not used in logic under test)
+        ReflectionTestUtils.setField(controller, "avatarsDir", "/tmp/avatars");
+    }
 
-    // @Test
-    // @DisplayName("GET /modifier-info : placeholder avatar si vide")
-    // void getModifierInfoPlaceholder() throws Exception {
-    //     Utilisateur u = new Utilisateur();
-    //     u.setIdU(1L);
-    //     u.setAvatarU("");
-    //     when(settingsService.getUtilisateurById(1L)).thenReturn(Optional.of(u));
+    @Test
+    void afficherFormulaireModification_SetsPlaceholderWhenNoAvatar() {
+        Utilisateur user = new Utilisateur();
+        user.setAvatarU(null);
+        when(settingsService.getUtilisateurById(1L)).thenReturn(Optional.of(user));
 
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/utilisateurs/1/modifier-info")
-    //         ).andReturn();
+        Model model = new ExtendedModelMap();
+        String view = controller.afficherFormulaireModification(1L, model);
 
-    //     assertEquals(200, res.getResponse().getStatus());
-    //     ModelAndView mav = res.getModelAndView();
-    //     assertEquals("settingsInfo", mav.getViewName());
+        assertEquals("settingsInfo", view);
+        Utilisateur mUser = (Utilisateur) model.getAttribute("utilisateur");
+        assertEquals("/assets/images/avatar/placeholder.jpg", mUser.getAvatarU());
+        assertTrue(model.getAttribute("passwordForm") instanceof PasswordChangeForm);
+    }
 
-    //     Utilisateur modelUser = (Utilisateur) mav.getModel().get("utilisateur");
-    //     assertEquals("/assets/images/avatar/placeholder.jpg", modelUser.getAvatarU());
+    @Test
+    void afficherFormulaireModification_ThrowsWhenNotFound() {
+        when(settingsService.getUtilisateurById(2L)).thenReturn(Optional.empty());
 
-    //     assertTrue(mav.getModel().get("passwordForm") instanceof PasswordChangeForm);
-    //     verify(settingsService).getUtilisateurById(1L);
-    // }
+        Model model = new ExtendedModelMap();
+        RuntimeException ex = assertThrows(
+            RuntimeException.class,
+            () -> controller.afficherFormulaireModification(2L, model)
+        );
+        assertTrue(ex.getMessage().contains("Utilisateur introuvable avec l'id : 2"));
+    }
 
-    // @Test
-    // @DisplayName("GET /modifier-info : avatar conservé s'il existe")
-    // void getModifierInfoWithAvatar() throws Exception {
-    //     Utilisateur u = new Utilisateur();
-    //     u.setIdU(2L);
-    //     u.setAvatarU("/img/avatar.png");
-    //     when(settingsService.getUtilisateurById(2L)).thenReturn(Optional.of(u));
+    @Test
+    void afficherPageModificationMotDePasse_Success() {
+        Utilisateur user = new Utilisateur();
+        user.setAvatarU("someUrl");
+        when(settingsService.getUtilisateurById(3L)).thenReturn(Optional.of(user));
 
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/utilisateurs/2/modifier-info")
-    //         ).andReturn();
+        Model model = new ExtendedModelMap();
+        String view = controller.afficherPageModificationMotDePasse(3L, model);
 
-    //     assertEquals(200, res.getResponse().getStatus());
-    //     ModelAndView mav = res.getModelAndView();
-    //     assertEquals("settingsInfo", mav.getViewName());
+        assertEquals("settingsMdp", view);
+        assertSame(user, model.getAttribute("utilisateur"));
+        assertTrue(model.getAttribute("passwordForm") instanceof PasswordChangeForm);
+    }
 
-    //     Utilisateur modelUser = (Utilisateur) mav.getModel().get("utilisateur");
-    //     assertEquals("/img/avatar.png", modelUser.getAvatarU());
-    //     verify(settingsService).getUtilisateurById(2L);
-    // }
+    @Test
+    void afficherPageModificationMotDePasse_ThrowsWhenNotFound() {
+        when(settingsService.getUtilisateurById(4L)).thenReturn(Optional.empty());
 
-    // @Test
-    // @DisplayName("GET /modifier-info : 500 si utilisateur introuvable")
-    // void getModifierInfoNotFound() throws Exception {
-    //     when(settingsService.getUtilisateurById(3L)).thenReturn(Optional.empty());
+        Model model = new ExtendedModelMap();
+        RuntimeException ex = assertThrows(
+            RuntimeException.class,
+            () -> controller.afficherPageModificationMotDePasse(4L, model)
+        );
+        assertTrue(ex.getMessage().contains("Utilisateur introuvable avec l'id : 4"));
+    }
 
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/utilisateurs/3/modifier-info")
-    //         ).andReturn();
+    @Test
+    void modifierMotDePasse_MismatchRedirectsWithError() {
+        PasswordChangeForm form = new PasswordChangeForm();
+        form.setNewPassword("abc");
+        form.setConfirmPassword("xyz");
+        RedirectAttributes attrs = new RedirectAttributesModelMap();
 
-    //     assertEquals(500, res.getResponse().getStatus());
-    // }
+        String view = controller.modifierMotDePasse(5L, form, attrs);
 
-    // @Test
-    // @DisplayName("GET /modifier-mdp : affiche le formulaire")
-    // void getModifierMdp() throws Exception {
-    //     Utilisateur u = new Utilisateur();
-    //     u.setIdU(4L);
-    //     when(settingsService.getUtilisateurById(4L)).thenReturn(Optional.of(u));
+        assertEquals("redirect:/utilisateurs/5/modifier", view);
+        assertEquals("Les deux mots de passe ne correspondent pas.", attrs.getFlashAttributes().get("passwordError"));
+    }
 
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/utilisateurs/4/modifier-mdp")
-    //         ).andReturn();
+    @Test
+    void modifierMotDePasse_SuccessAddsSuccessFlash() {
+        PasswordChangeForm form = new PasswordChangeForm();
+        form.setNewPassword("pass");
+        form.setConfirmPassword("pass");
+        form.setCurrentPassword("old");
+        RedirectAttributes attrs = new RedirectAttributesModelMap();
 
-    //     assertEquals(200, res.getResponse().getStatus());
-    //     ModelAndView mav = res.getModelAndView();
-    //     assertEquals("settingsMdp", mav.getViewName());
-    //     assertSame(u, mav.getModel().get("utilisateur"));
-    //     assertTrue(mav.getModel().get("passwordForm") instanceof PasswordChangeForm);
-    // }
+        // do nothing on updatePassword
+        String view = controller.modifierMotDePasse(6L, form, attrs);
 
-    // @Test
-    // @DisplayName("GET /modifier-mdp : 500 si utilisateur introuvable")
-    // void getModifierMdpNotFound() throws Exception {
-    //     when(settingsService.getUtilisateurById(5L)).thenReturn(Optional.empty());
+        verify(settingsService).updatePassword(6L, "old", "pass");
+        assertEquals("redirect:/utilisateurs/6/modifier-mdp", view);
+        assertEquals("Mot de passe modifié avec succès !", attrs.getFlashAttributes().get("passwordSuccess"));
+    }
 
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/utilisateurs/5/modifier-mdp")
-    //         ).andReturn();
+    @Test
+    void modifierMotDePasse_ServiceThrowsSetsErrorFlash() {
+        PasswordChangeForm form = new PasswordChangeForm();
+        form.setNewPassword("p");
+        form.setConfirmPassword("p");
+        form.setCurrentPassword("o");
+        RedirectAttributes attrs = new RedirectAttributesModelMap();
 
-    //     assertEquals(500, res.getResponse().getStatus());
-    // }
+        doThrow(new RuntimeException("bad")).when(settingsService).updatePassword(7L, "o", "p");
 
-    // @Test
-    // @DisplayName("POST /modifier-mdp : mismatch redirige avec erreur")
-    // void postModifierMdpMismatch() throws Exception {
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/utilisateurs/6/modifier-mdp")
-    //                 .param("currentPassword", "a")
-    //                 .param("newPassword", "b")
-    //                 .param("confirmPassword", "c")
-    //         ).andReturn();
+        String view = controller.modifierMotDePasse(7L, form, attrs);
 
-    //     assertEquals(302, res.getResponse().getStatus());
-    //     assertEquals("redirect:/utilisateurs/6/modifier", res.getModelAndView().getViewName());
-    //     assertEquals("Les deux mots de passe ne correspondent pas.",
-    //         res.getFlashMap().get("passwordError"));
-    // }
+        assertEquals("redirect:/utilisateurs/7/modifier-mdp", view);
+        assertEquals("bad", attrs.getFlashAttributes().get("passwordError"));
+    }
 
-    // @Test
-    // @DisplayName("POST /modifier-mdp : succès met à jour et redirige")
-    // void postModifierMdpSuccess() throws Exception {
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/utilisateurs/7/modifier-mdp")
-    //                 .param("currentPassword", "old")
-    //                 .param("newPassword", "x")
-    //                 .param("confirmPassword", "x")
-    //         ).andReturn();
+    @Test
+    void modifierUtilisateur_NoAvatar_Success() {
+        RedirectAttributes attrs = new RedirectAttributesModelMap();
+        HttpSession session = mock(HttpSession.class);
+        Utilisateur mod = new Utilisateur();
 
-    //     assertEquals(302, res.getResponse().getStatus());
-    //     assertEquals("redirect:/utilisateurs/7/modifier-mdp", res.getModelAndView().getViewName());
-    //     assertEquals("Mot de passe modifié avec succès !",
-    //         res.getFlashMap().get("passwordSuccess"));
+        // no avatarFile
+        String view = controller.modifierUtilisateur(8L, mod, null, session, attrs);
 
-    //     verify(settingsService).updatePassword(7L, "old", "x");
-    // }
+        verify(settingsService).updateUtilisateur(8L, mod);
+        assertEquals("redirect:/utilisateurs/8/modifier-info", view);
+        assertEquals("Profil mis à jour avec succès !", attrs.getFlashAttributes().get("updateSuccess"));
+        verifyNoMoreInteractions(settingsService);
+    }
 
-    // @Test
-    // @DisplayName("POST /modifier-mdp : service exception flash erreur")
-    // void postModifierMdpServiceError() throws Exception {
-    //     doThrow(new RuntimeException("fail")).when(settingsService)
-    //         .updatePassword(8L, "c", "c");
+    @Test
+    void modifierUtilisateur_WithAvatar_Success() throws IOException {
+        RedirectAttributes attrs = new RedirectAttributesModelMap();
+        HttpSession session = mock(HttpSession.class);
+        MultipartFile file = mock(MultipartFile.class);
+        Utilisateur user = new Utilisateur();
 
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/utilisateurs/8/modifier-mdp")
-    //                 .param("currentPassword", "c")
-    //                 .param("newPassword", "c")
-    //                 .param("confirmPassword", "c")
-    //         ).andReturn();
+        when(file.isEmpty()).thenReturn(false);
+        byte[] data = "img".getBytes();
+        when(file.getBytes()).thenReturn(data);
+        when(file.getContentType()).thenReturn("image/png");
+        when(us.getUtilisateurById(9L)).thenReturn(Optional.of(user));
 
-    //     assertEquals(302, res.getResponse().getStatus());
-    //     assertEquals("redirect:/utilisateurs/8/modifier-mdp", res.getModelAndView().getViewName());
-    //     assertEquals("fail", res.getFlashMap().get("passwordError"));
-    // }
+        String view = controller.modifierUtilisateur(9L, new Utilisateur(), file, session, attrs);
 
-    // @Test
-    // @DisplayName("POST /modifier-info : sans avatar met à jour et flash succès")
-    // void postModifierInfoNoAvatar() throws Exception {
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/utilisateurs/9/modifier-info")
-    //                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-    //         ).andReturn();
+        verify(settingsService).updateUtilisateur(eq(9L), any());
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(settingsService).updateAvatarUrl(eq(9L), captor.capture());
+        String url = captor.getValue();
+        assertTrue(url.startsWith("data:image/png;base64,"));
+        assertTrue(url.endsWith(Base64.getEncoder().encodeToString(data)));
+        verify(session).setAttribute("utilisateur", user);
+        assertEquals("redirect:/utilisateurs/9/modifier-info", view);
+        assertEquals("Profil mis à jour avec succès !", attrs.getFlashAttributes().get("updateSuccess"));
+    }
 
-    //     assertEquals(302, res.getResponse().getStatus());
-    //     assertEquals("redirect:/utilisateurs/9/modifier-info", res.getModelAndView().getViewName());
-    //     assertEquals("Profil mis à jour avec succès !",
-    //         res.getFlashMap().get("updateSuccess"));
+    @Test
+    void modifierUtilisateur_AvatarIOException_SetsErrorFlash() throws IOException {
+        RedirectAttributes attrs = new RedirectAttributesModelMap();
+        HttpSession session = mock(HttpSession.class);
+        MultipartFile file = mock(MultipartFile.class);
+        Utilisateur mod = new Utilisateur();
 
-    //     ArgumentCaptor<Utilisateur> cap = ArgumentCaptor.forClass(Utilisateur.class);
-    //     verify(settingsService).updateUtilisateur(eq(9L), cap.capture());
-    //     assertNotNull(cap.getValue());
-    // }
+        when(file.isEmpty()).thenReturn(false);
+        when(file.getBytes()).thenThrow(new IOException("ioerr"));
 
-    // @Test
-    // @DisplayName("POST /modifier-info : avec avatar met à jour avatar et session")
-    // void postModifierInfoWithAvatar() throws Exception {
-    //     byte[] data = "hello".getBytes();
-    //     MockMultipartFile file = new MockMultipartFile(
-    //         "avatarFile", "avatar.png", "image/png", data
-    //     );
-    //     Utilisateur updated = new Utilisateur();
-    //     updated.setIdU(10L);
-    //     when(us.getUtilisateurById(10L)).thenReturn(Optional.of(updated));
+        String view = controller.modifierUtilisateur(10L, mod, file, session, attrs);
 
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-    //                 .multipart("/utilisateurs/10/modifier-info")
-    //                 .file(file)
-    //                 .session(sessionWithUser(10L))
-    //         ).andReturn();
+        verify(settingsService).updateUtilisateur(10L, mod);
+        assertEquals("redirect:/utilisateurs/10/modifier-info", view);
+        assertEquals("Échec de l'upload de l'avatar : ioerr", attrs.getFlashAttributes().get("updateError"));
+        verify(settingsService, never()).updateAvatarUrl(anyLong(), any());
+    }
 
-    //     assertEquals(302, res.getResponse().getStatus());
-    //     assertEquals("redirect:/utilisateurs/10/modifier-info", res.getModelAndView().getViewName());
-    //     assertEquals("Profil mis à jour avec succès !",
-    //         res.getFlashMap().get("updateSuccess"));
+    @Test
+    void modifierUtilisateur_ServiceThrows_SetsErrorFlash() {
+        RedirectAttributes attrs = new RedirectAttributesModelMap();
+        HttpSession session = mock(HttpSession.class);
+        Utilisateur mod = new Utilisateur();
 
-    //     ArgumentCaptor<String> urlCap = ArgumentCaptor.forClass(String.class);
-    //     verify(settingsService).updateAvatarUrl(eq(10L), urlCap.capture());
+        doThrow(new RuntimeException("fail")).when(settingsService).updateUtilisateur(11L, mod);
 
-    //     String encoded = urlCap.getValue();
-    //     assertTrue(encoded.startsWith("data:image/png;base64,"));
-    //     byte[] decoded = Base64.getDecoder().decode(encoded.split(",",2)[1]);
-    //     assertArrayEquals(data, decoded);
-    // }
+        String view = controller.modifierUtilisateur(11L, mod, null, session, attrs);
 
-    // @Test
-    // @DisplayName("POST /modifier-info : service exception flash erreur")
-    // void postModifierInfoServiceError() throws Exception {
-    //     doThrow(new RuntimeException("err")).when(settingsService).updateUtilisateur(eq(11L), any());
-
-    //     MvcResult res = mockMvc.perform(
-    //             org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/utilisateurs/11/modifier-info")
-    //                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-    //         ).andReturn();
-
-    //     assertEquals(302, res.getResponse().getStatus());
-    //     assertEquals("redirect:/utilisateurs/11/modifier-info", res.getModelAndView().getViewName());
-    //     assertEquals("err", res.getFlashMap().get("updateError"));
-    // }
+        assertEquals("redirect:/utilisateurs/11/modifier-info", view);
+        assertEquals("fail", attrs.getFlashAttributes().get("updateError"));
+    }
 }

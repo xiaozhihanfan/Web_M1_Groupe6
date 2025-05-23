@@ -1,175 +1,104 @@
 package miage.groupe6.reseausocial.controller;
 
-// import static org.mockito.BDDMockito.given;
-// import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpSession;
+import miage.groupe6.reseausocial.model.entity.ActionEvenement;
+import miage.groupe6.reseausocial.model.entity.Evenement;
+import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
+import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
 
-// import java.util.Optional;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 
-// import org.junit.jupiter.api.DisplayName;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-// import org.springframework.boot.test.mock.mockito.MockBean;
-// import org.springframework.mock.web.MockHttpSession;
-// import org.springframework.test.web.servlet.MockMvc;
+import java.util.Optional;
 
-// import miage.groupe6.reseausocial.model.entity.ActionEvenement;
-// import miage.groupe6.reseausocial.model.entity.Evenement;
-// import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
-// import miage.groupe6.reseausocial.model.entity.Utilisateur;
-// import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
-// import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-// @WebMvcTest(EvenementDetailController.class)
+@ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 class EvenementDetailControllerTest {
 
-    // @Autowired
-    // private MockMvc mockMvc;
+    @Mock
+    private EvenementsService evenementService;
 
-    // @MockBean
-    // private EvenementsService evenementService;
+    @Mock
+    private ActionEvenementService aes;
 
-    // @MockBean
-    // private ActionEvenementService aes;
+    @InjectMocks
+    private EvenementDetailController controller;
 
-    // /** 
-    //  * Crée une session HTTP contenant un Utilisateur avec l’ID spécifié. 
-    //  */
-    // private MockHttpSession sessionWithUser(long userId) {
-    //     MockHttpSession session = new MockHttpSession();
-    //     Utilisateur u = new Utilisateur();
-    //     u.setIdU(userId);
-    //     session.setAttribute("utilisateur", u);
-    //     return session;
-    // }
+    private HttpSession session;
+    private Utilisateur currentUser;
+    private Evenement event;
 
-    // @Test
-    // @DisplayName("detail : si c'est le créateur, tout est caché")
-    // void detailCreatorHidesAll() throws Exception {
-    //     long eventId = 1L;
-    //     long creatorId = 42L;
-    //     Utilisateur creator = new Utilisateur();
-    //     creator.setIdU(creatorId);
+    @BeforeEach
+    void setUp() {
+        session = mock(HttpSession.class);
+        currentUser = new Utilisateur();
+        currentUser.setIdU(1L);
+        when(session.getAttribute("utilisateur")).thenReturn(currentUser);
 
-    //     Evenement ev = new Evenement();
-    //     ev.setIdE(eventId);
-    //     ev.setUtilisateur(creator);
+        event = new Evenement();
+        // set owner to a different user by default
+        Utilisateur owner = new Utilisateur();
+        owner.setIdU(2L);
+        event.setUtilisateur(owner);
+    }
 
-    //     // stubbing
-    //     given(evenementService.getEvenementAvecDetails(eventId)).willReturn(ev);
-    //     given(aes.findByUserAndEvent(creatorId, eventId)).willReturn(Optional.empty());
-    //     given(aes.countInscriptions(eventId)).willReturn(5L);
-    //     given(aes.countInteresses(eventId)).willReturn(7L);
 
-    //     mockMvc.perform(get("/evenements/{id}", eventId)
-    //             .session(sessionWithUser(creatorId)))
-    //         .andExpect(status().isOk())
-    //         .andExpect(view().name("event-details"))
-    //         .andExpect(model().attribute("hideAll", true))
-    //         .andExpect(model().attribute("showInscrire", false))
-    //         .andExpect(model().attribute("showInteress", false))
-    //         .andExpect(model().attribute("evenement", ev))
-    //         .andExpect(model().attribute("utilisateur", creator))
-    //         .andExpect(model().attribute("nbInscriptions", 5L))
-    //         .andExpect(model().attribute("nbInteresses", 7L));
-    // }
+    @Test
+    void detail_StatusInteress_ShowInscrireOnly() {
+        when(evenementService.getEvenementAvecDetails(101L)).thenReturn(event);
+        ActionEvenement ae = mock(ActionEvenement.class);
+        when(ae.getStatut()).thenReturn(StatutActionEvenement.INTERESSER);
+        when(aes.findByUserAndEvent(1L, 101L)).thenReturn(Optional.of(ae));
+        when(aes.countInscriptions(101L)).thenReturn(0L);
+        when(aes.countInteresses(101L)).thenReturn(1L);
 
-    // @Test
-    // @DisplayName("detail : sans action préalable, affiche les deux boutons")
-    // void detailNoActionShowsButtons() throws Exception {
-    //     long eventId = 2L;
-    //     long userId = 100L;
-    //     long creatorId = 200L;
+        Model model = new ExtendedModelMap();
+        controller.detail(101L, model, session);
 
-    //     Utilisateur user = new Utilisateur();
-    //     user.setIdU(userId);
-    //     Utilisateur creator = new Utilisateur();
-    //     creator.setIdU(creatorId);
+        assertFalse((Boolean) model.getAttribute("hideAll"));
+        assertTrue((Boolean) model.getAttribute("showInscrire"));
+        assertFalse((Boolean) model.getAttribute("showInteress"));
+    }
 
-    //     Evenement ev = new Evenement();
-    //     ev.setIdE(eventId);
-    //     ev.setUtilisateur(creator);
+    @Test
+    void detail_StatusInscrire_HideAll() {
+        when(evenementService.getEvenementAvecDetails(102L)).thenReturn(event);
+        ActionEvenement ae = mock(ActionEvenement.class);
+        when(ae.getStatut()).thenReturn(StatutActionEvenement.INSCRIRE);
+        when(aes.findByUserAndEvent(1L, 102L)).thenReturn(Optional.of(ae));
 
-    //     given(evenementService.getEvenementAvecDetails(eventId)).willReturn(ev);
-    //     given(aes.findByUserAndEvent(userId, eventId)).willReturn(Optional.empty());
-    //     given(aes.countInscriptions(eventId)).willReturn(2L);
-    //     given(aes.countInteresses(eventId)).willReturn(4L);
+        Model model = new ExtendedModelMap();
+        controller.detail(102L, model, session);
 
-    //     mockMvc.perform(get("/evenements/{id}", eventId)
-    //             .session(sessionWithUser(userId)))
-    //         .andExpect(status().isOk())
-    //         .andExpect(view().name("event-details"))
-    //         .andExpect(model().attribute("hideAll", false))
-    //         .andExpect(model().attribute("showInscrire", true))
-    //         .andExpect(model().attribute("showInteress", true))
-    //         .andExpect(model().attribute("nbInscriptions", 2L))
-    //         .andExpect(model().attribute("nbInteresses", 4L));
-    // }
+        assertTrue((Boolean) model.getAttribute("hideAll"));
+        assertFalse((Boolean) model.getAttribute("showInscrire"));
+        assertFalse((Boolean) model.getAttribute("showInteress"));
+    }
 
-    // @Test
-    // @DisplayName("detail : statut INTERESSER → seul bouton S'inscrire visible")
-    // void detailInteresserShowsInscrireOnly() throws Exception {
-    //     long eventId = 3L;
-    //     long userId = 101L;
-    //     long creatorId = 202L;
+    @Test
+    void detail_CurrentUserIsOwner_HideAllEvenIfNoStatus() {
+        // owner id equals currentUser id
+        Utilisateur owner = new Utilisateur();
+        owner.setIdU(1L);
+        event.setUtilisateur(owner);
+        when(evenementService.getEvenementAvecDetails(103L)).thenReturn(event);
+        when(aes.findByUserAndEvent(1L, 103L)).thenReturn(Optional.empty());
 
-    //     Utilisateur user = new Utilisateur();
-    //     user.setIdU(userId);
-    //     Utilisateur creator = new Utilisateur();
-    //     creator.setIdU(creatorId);
+        Model model = new ExtendedModelMap();
+        controller.detail(103L, model, session);
 
-    //     Evenement ev = new Evenement();
-    //     ev.setIdE(eventId);
-    //     ev.setUtilisateur(creator);
+        assertTrue((Boolean) model.getAttribute("hideAll"));
+        assertFalse((Boolean) model.getAttribute("showInscrire"));
+        assertFalse((Boolean) model.getAttribute("showInteress"));
+    }
 
-    //     ActionEvenement ae = new ActionEvenement();
-    //     ae.setStatut(StatutActionEvenement.INTERESSER);
-
-    //     given(evenementService.getEvenementAvecDetails(eventId)).willReturn(ev);
-    //     given(aes.findByUserAndEvent(userId, eventId)).willReturn(Optional.of(ae));
-    //     given(aes.countInscriptions(eventId)).willReturn(1L);
-    //     given(aes.countInteresses(eventId)).willReturn(3L);
-
-    //     mockMvc.perform(get("/evenements/{id}", eventId)
-    //             .session(sessionWithUser(userId)))
-    //         .andExpect(status().isOk())
-    //         .andExpect(view().name("event-details"))
-    //         .andExpect(model().attribute("hideAll", false))
-    //         .andExpect(model().attribute("showInscrire", true))
-    //         .andExpect(model().attribute("showInteress", false));
-    // }
-
-    // @Test
-    // @DisplayName("detail : statut INSCRIRE → tout caché comme créateur")
-    // void detailInscrireHidesAll() throws Exception {
-    //     long eventId = 4L;
-    //     long userId = 303L;
-    //     long creatorId = 404L;
-
-    //     Utilisateur user = new Utilisateur();
-    //     user.setIdU(userId);
-    //     Utilisateur creator = new Utilisateur();
-    //     creator.setIdU(creatorId);
-
-    //     Evenement ev = new Evenement();
-    //     ev.setIdE(eventId);
-    //     ev.setUtilisateur(creator);
-
-    //     ActionEvenement ae = new ActionEvenement();
-    //     ae.setStatut(StatutActionEvenement.INSCRIRE);
-
-    //     given(evenementService.getEvenementAvecDetails(eventId)).willReturn(ev);
-    //     given(aes.findByUserAndEvent(userId, eventId)).willReturn(Optional.of(ae));
-    //     given(aes.countInscriptions(eventId)).willReturn(10L);
-    //     given(aes.countInteresses(eventId)).willReturn(20L);
-
-    //     mockMvc.perform(get("/evenements/{id}", eventId)
-    //             .session(sessionWithUser(userId)))
-    //         .andExpect(status().isOk())
-    //         .andExpect(view().name("event-details"))
-    //         .andExpect(model().attribute("hideAll", true))
-    //         .andExpect(model().attribute("showInscrire", false))
-    //         .andExpect(model().attribute("showInteress", false));
-    // }
 }

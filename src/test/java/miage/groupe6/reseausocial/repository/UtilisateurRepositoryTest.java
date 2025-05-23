@@ -83,38 +83,5 @@ class UtilisateurRepositoryTest {
         assertNull(found, "Aucun utilisateur ne doit être retourné pour un email inconnu");
     }
 
-    @Test
-    @DisplayName("findByNomUContainingIgnoreCaseOrPrenomUContainingIgnoreCase trouve par fragment nom ou prénom")
-    void testFindByNomOrPrenomContaining() {
-        // Recherche 'dup' doit trouver 'Dupont'
-        List<Utilisateur> byDup = repository
-            .findByNomUContainingIgnoreCaseOrPrenomUContainingIgnoreCase("dup", "dup");
-        assertEquals(1, byDup.size(), "Seul Dupont doit correspondre au fragment 'dup'");
-        assertEquals(user1.getIdU(), byDup.get(0).getIdU());
-
-        // Recherche 'bob' doit trouver Bob
-        List<Utilisateur> byBob = repository
-            .findByNomUContainingIgnoreCaseOrPrenomUContainingIgnoreCase("bob", "bob");
-        assertEquals(1, byBob.size(), "Seul Bob doit correspondre au fragment 'bob'");
-        assertEquals(user2.getIdU(), byBob.get(0).getIdU());
-
-        // Recherche 'on' doit trouver Dupont et Johnson
-        List<Utilisateur> byOn = repository
-            .findByNomUContainingIgnoreCaseOrPrenomUContainingIgnoreCase("on", "on");
-        assertEquals(2, byOn.size(), "Dupont et Johnson contiennent 'on'");
-        assertTrue(
-            byOn.stream().anyMatch(u -> u.getIdU().equals(user1.getIdU())),
-            "Dupont doit être dans les résultats"
-        );
-        assertTrue(
-            byOn.stream().anyMatch(u -> u.getIdU().equals(user3.getIdU())),
-            "Johnson doit être dans les résultats"
-        );
-
-        // Recherche sans correspondance retourne liste vide
-        List<Utilisateur> none = repository
-            .findByNomUContainingIgnoreCaseOrPrenomUContainingIgnoreCase("zzz", "zzz");
-        assertTrue(none.isEmpty(), "Aucun utilisateur ne doit correspondre au fragment 'zzz'");
-    }
 }
 

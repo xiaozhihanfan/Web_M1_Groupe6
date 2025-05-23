@@ -22,9 +22,7 @@ import miage.groupe6.reseausocial.model.jpa.repository.RelationAmisRepository;
  * Fournit des opérations de comptage sur les relations acceptées,
  * en distinguant les utilisateurs suivis (« following »)
  * et les abonnés (« followers »).
- * 
  */
-
 @Service
 public class RelationAmisService {
 
@@ -32,35 +30,12 @@ public class RelationAmisService {
     private RelationAmisRepository rar;
 
     /**
-     * Compte le nombre d’utilisateurs que l’on suit et dont la demande a été acceptée.
-     * Sélectionne dans la table des relations d’amis les enregistrements
-     * où l’utilisateur est l’initiateur (utilisateurDemande)
-     * et dont le statut est {@link StatutRelation#ACCEPTEE}.
+     * Calcule le nombre total d'amis d'un utilisateur, en combinant les relations
+     * acceptées où il est initiateur et celles où il est destinataire.
      *
-     * @param utilisateur l’entité utilisateur dont on veut compter les suivis acceptés
-     * @return le nombre de suivis acceptés
+     * @param utilisateur l'utilisateur dont on veut compter les amis
+     * @return le nombre d'amis distincts
      */
-    // public int countFollowingAccepte(Utilisateur utilisateur){
-    //     int res = rar.countByUtilisateurDemandeAndStatut(utilisateur, StatutRelation.ACCEPTEE);
-    //     return res;
-    // }
-
-    /**
-     * Compte le nombre d’utilisateurs qui suivent l’utilisateur
-     * et dont la relation a été acceptée.
-     * Sélectionne dans la table des relations d’amis les enregistrements
-     * où l’utilisateur est le destinataire (utilisateurRecu)
-     * et dont le statut est {@link StatutRelation#ACCEPTEE}.
-     *
-     * @param utilisateur l’entité utilisateur dont on veut compter les abonnés acceptés
-     * @return le nombre d’abonnés acceptés
-     */
-    // public int countFollowersAccepte(Utilisateur utilisateur){
-    //     int res = rar.countByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
-    //     return res;
-    // }
-
-
     public int countAmis(Utilisateur utilisateur) {
         List<RelationAmis> envoyeurs = rar.findByUtilisateurDemandeAndStatut(utilisateur, StatutRelation.ACCEPTEE);
         List<RelationAmis> receveurs = rar.findByUtilisateurRecuAndStatut(utilisateur, StatutRelation.ACCEPTEE);
@@ -80,12 +55,26 @@ public class RelationAmisService {
         return amis.size();
     }
 
-    // ----------------------- us 1.4 Envoyer une demande d’ami ---------------------
-
+    
+    /**
+     * Vérifie si une demande d'amitié existe déjà entre deux utilisateurs.
+     *
+     * @param idDemandeur identifiant de l'utilisateur ayant envoyé la demande
+     * @param idRecu      identifiant de l'utilisateur ayant reçu la demande
+     * @return true si une relation existe déjà, false sinon
+     */
     public boolean demandeExisteDeja(Long idDemandeur, Long idRecu) {
         return rar.existsById(new RelationAmisId(idDemandeur, idRecu));
     }
 
+    /**
+     * Envoie une nouvelle demande d'amitié d'un utilisateur à un autre si aucune
+     * demande préalable n'existe.
+     *
+     * @param demandeur l'utilisateur qui envoie la demande
+     * @param receveur  l'utilisateur qui reçoit la demande
+     * @return true si la demande a été créée, false si une demande existait déjà
+     */
     public boolean envoyerDemandeAmi(Utilisateur demandeur, Utilisateur receveur) {
         if(rar.findByUtilisateurDemandeIdUAndUtilisateurRecuIdU(demandeur.getIdU(), receveur.getIdU()).isPresent()) {
             return false;
@@ -96,12 +85,26 @@ public class RelationAmisService {
         return true;
     }
 
-    // ----------------------- us 1.5 Accepter ou refuser une demande d’ami ---------------------
+    /**
+     * Récupère la liste des demandes d'amitié reçues par un utilisateur,
+     * dont le statut est TRAITEE.
+     *
+     * @param utilisateur l'utilisateur qui a reçu les demandes
+     * @return liste des relations en attente de décision
+     */
     public List<RelationAmis> getDemandesRecues(Utilisateur utilisateur) {
         return rar.findByUtilisateurRecuAndStatut(utilisateur, StatutRelation.TRAITEE);
     }
 
 
+    /**
+     * Accepte une demande d'amitié existante entre deux utilisateurs
+     * en mettant à jour son statut en ACCEPTEE.
+     *
+     * @param idDemandeur identifiant de l'utilisateur ayant émis la demande
+     * @param idReceveur  identifiant de l'utilisateur ayant reçu la demande
+     * @return true si la mise à jour a été effectuée, false si la relation n'existe pas
+     */
     public boolean accepterDemandeAmis(Long idDemandeur, Long idReceveur) {
         Optional<RelationAmis> relationOpt = rar.findById(new RelationAmisId(idDemandeur, idReceveur));
         if(relationOpt.isPresent()) {
@@ -109,22 +112,18 @@ public class RelationAmisService {
             relation.setStatut(StatutRelation.ACCEPTEE);
             rar.save(relation);
             
-            // RelationAmisId miroirId = new RelationAmisId(idReceveur, idDemandeur);
-            // if(!rar.existsById(miroirId)) {
-            //     RelationAmis miroir = new RelationAmis(
-            //         relation.getUtilisateurRecu(),
-            //         relation.getUtilisateurDemande(),
-            //         new Date(),
-            //         StatutRelation.ACCEPTEE
-            //     );
-            //     rar.save(miroir);
-            // }
-            
             return true;
         }
         return false;
     }
 
+    /**
+     * Refuse (supprime) une demande d'amitié entre deux utilisateurs.
+     *
+     * @param idDemandeur identifiant de l'utilisateur ayant émis la demande
+     * @param idReceveur  identifiant de l'utilisateur ayant reçu la demande
+     * @return true si la relation a été supprimée, false si elle n'existait pas
+     */
     public boolean refuserDemandeAmis(Long idDemandeur, Long idReceveur) {
         if(rar.existsById(new RelationAmisId(idDemandeur, idReceveur))) {
             rar.deleteById(new RelationAmisId(idDemandeur, idReceveur));
@@ -163,11 +162,25 @@ public class RelationAmisService {
         return new ArrayList<>(amis);
     }
     
-    
+    /**
+     * Recherche toutes les relations d'amitié possibles entre deux utilisateurs,
+     * quel que soit leur statut.
+     *
+     * @param idU1 identifiant du premier utilisateur
+     * @param idU2 identifiant du second utilisateur
+     * @return liste des relations correspondant aux deux identifiants fournis
+     */
     public List<RelationAmis> findRelationByIds(Long idU1,Long idU2) {
         return rar.findRelationByIds(idU1, idU2);
     }
     
+    /**
+     * Supprime toutes les relations d'amitié entre deux utilisateurs,
+     * identifiés par leurs IDs respectifs, dans une transaction.
+     *
+     * @param idU1 identifiant du premier utilisateur
+     * @param idU2 identifiant du second utilisateur
+     */
     @Transactional
     public void deleteRelationByIds(Long idU1,Long idU2) {
     	rar.deleteRelationByIds(idU1, idU2);

@@ -27,8 +27,23 @@ public interface ActionEvenementRepository extends JpaRepository<ActionEvenement
     );
 
 
+    /**
+     * Compte le nombre d'utilisateurs ayant un certain statut (ex: INSCRIRE, INTERESSER)
+     * pour un événement spécifique.
+     *
+     * @param idE l'identifiant de l'événement
+     * @param statut le statut recherché
+     * @return le nombre d'actions correspondant
+     */
     long countByEvenementIdEAndStatut(Long idE, StatutActionEvenement statut);
 
+    /**
+     * Compte le nombre total d’actions d’un certain type effectuées par un utilisateur.
+     *
+     * @param utilisateur l'utilisateur concerné
+     * @param statut le type d'action (INSCRIRE, INTERESSER, etc.)
+     * @return le nombre d'actions de ce type pour cet utilisateur
+     */
     int countByUtilisateurAndStatut(Utilisateur utilisateur, StatutActionEvenement statut);
 
 }

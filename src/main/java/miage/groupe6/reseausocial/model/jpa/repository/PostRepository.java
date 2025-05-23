@@ -38,6 +38,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      */
     List<Post> findAllByOrderByDatePDesc();
 
+    /**
+     * Récupère tous les posts avec leurs commentaires associés via une requête
+     * utilisant un {@code LEFT JOIN FETCH}, pour éviter le N+1 problem.
+     *
+     * @return liste de posts enrichis avec leurs commentaires
+     */
     @Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.commentaires ORDER BY p.dateP DESC")
     List<Post> findAllWithCommentaires();
 

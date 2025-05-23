@@ -16,8 +16,6 @@ import miage.groupe6.reseausocial.model.jpa.repository.PostRepository;
  * Service de la couche métier pour la gestion des publications (posts).
  * Fournit des opérations liées aux publications d’un utilisateur,
  * notamment le comptage du nombre de posts qu’il a rédigés.
- * 
- * Auteur : Mengyi YANG
  */
 @Service
 public class PostService {
@@ -73,8 +71,6 @@ public class PostService {
     }
 
 
-
-
     /**
      * Récupère tous les posts de l’utilisateur passé en paramètre,
      * triés par date de publication décroissante (plus récents d’abord).
@@ -95,10 +91,27 @@ public class PostService {
         return pr.findAllByOrderByDatePDesc();
     }
 
+    /**
+     * Récupère tous les posts avec leurs commentaires associés.
+     *
+     * @return liste de posts incluant les commentaires
+     */
     public List<Post> findAllPostsWithCommentaires() {
         return pr.findAllWithCommentaires();
     }
 
+    /**
+     * Crée et sauvegarde un repost d’un post existant par un autre utilisateur.
+     * <p>
+     * Le repost conserve le contenu et l’image du post original, 
+     * référence le post original, et attribue le nouvel auteur.
+     * </p>
+     *
+     * @param originalPostId identifiant du post à repost
+     * @param idU            identifiant de l’utilisateur qui repost
+     * @return entité Post du repost sauvegardée
+     * @throws RuntimeException si le post original ou l’utilisateur n’existe pas
+     */
     public Post repostPost(Long originalPostId, Long idU) {
 
         Optional<Post> optOriginal = pr.findById(originalPostId);

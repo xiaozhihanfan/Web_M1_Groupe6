@@ -128,4 +128,3 @@ class MessageServiceTest {
         assertThat(messages.get(1).getText()).isEqualTo("On commence ?");
     }
 }
-

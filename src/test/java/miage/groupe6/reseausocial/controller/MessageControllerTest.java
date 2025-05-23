@@ -125,5 +125,7 @@ class MessageControllerTest {
                 .andExpect(redirectedUrl("/messages/groupe/100"));
     }
 
-    
+
 }
+
+

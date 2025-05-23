@@ -1,8 +1,5 @@
 package miage.groupe6.reseausocial.model.entity;
 
-
-
-
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -431,59 +427,95 @@ public class Utilisateur {
     }
 
 
+    /**
+     * Retourne la date de naissance de l’utilisateur.
+     *
+     * @return date de naissance ({@link LocalDate})
+     */
     public LocalDate getBirthday() {
         return birthday;
     }
 
+    /**
+     * Définit la date de naissance de l’utilisateur.
+     *
+     * @param birthday nouvelle date de naissance
+     */
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
+    /**
+     * Retourne le numéro de téléphone de l’utilisateur.
+     *
+     * @return numéro de téléphone
+     */
     public String getTelephone() {
         return telephone;
     }
 
+    /**
+     * Définit le numéro de téléphone de l’utilisateur.
+     *
+     * @param telephone nouveau numéro de téléphone
+     */
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
+    /**
+     * Retourne l’INE (Identifiant National Étudiant) de l’utilisateur.
+     *
+     * @return INE
+     */
     public String getIne() {
         return ine;
     }
 
+    /**
+     * Définit l’INE (Identifiant National Étudiant) de l’utilisateur.
+     *
+     * @param ine nouvel INE
+     */
     public void setIne(String ine) {
         this.ine = ine;
     }
 
-        public String getUniversite() {
+    /**
+     * Retourne le nom de l’université de l’utilisateur.
+     *
+     * @return université
+     */
+    public String getUniversite() {
         return universite;
     }
 
+    /**
+     * Définit le nom de l’université de l’utilisateur.
+     *
+     * @param universite nouvelle université
+     */
     public void setUniversite(String universite) {
         this.universite = universite;
     }
 
+    /**
+     * Retourne la ville de résidence de l’utilisateur.
+     *
+     * @return ville
+     */
     public String getVille() {
         return ville;
     }
 
+    /**
+     * Définit la ville de résidence de l’utilisateur.
+     *
+     * @param ville nouvelle ville
+     */
     public void setVille(String ville) {
         this.ville = ville;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Utilisateur)) return false;
-        Utilisateur other = (Utilisateur) o;
-        return idU != null && idU.equals(other.getIdU());
-    }
-
-    @Override
-    public int hashCode() {
-        return 31 + (idU == null ? 0 : idU.hashCode());
-    }
-
 
 }
 

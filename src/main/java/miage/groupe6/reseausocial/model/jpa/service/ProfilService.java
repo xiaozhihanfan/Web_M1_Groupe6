@@ -1,23 +1,20 @@
 package miage.groupe6.reseausocial.model.jpa.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
 import miage.groupe6.reseausocial.model.entity.Evenement;
 import miage.groupe6.reseausocial.model.entity.Groupe;
 import miage.groupe6.reseausocial.model.entity.GroupeMembre;
 import miage.groupe6.reseausocial.model.entity.MembreRole;
-import miage.groupe6.reseausocial.model.entity.Post;
 import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.EvenementRepository;
 import miage.groupe6.reseausocial.model.jpa.repository.GroupeMembreRepository;
-import miage.groupe6.reseausocial.model.jpa.repository.PostRepository;
 import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 
 /**

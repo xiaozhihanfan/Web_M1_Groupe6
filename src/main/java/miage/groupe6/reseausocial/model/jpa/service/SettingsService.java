@@ -73,7 +73,14 @@ public class SettingsService {
     }
 
     /**
-     * Met à jour uniquement le champ avatarU de l'utilisateur.
+     * Met à jour uniquement l’URL de l’avatar de l’utilisateur.
+     * <p>
+     * Utilise une transaction pour garantir la cohérence de l’opération.
+     * </p>
+     *
+     * @param id        identifiant de l’utilisateur
+     * @param avatarUrl nouvelle URL Base64 ou chemin de l’avatar
+     * @throws RuntimeException si l’utilisateur n’est pas trouvé
      */
     @Transactional
     public void updateAvatarUrl(Long id, String avatarUrl) {

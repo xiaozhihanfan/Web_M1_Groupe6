@@ -140,6 +140,4 @@ public class GroupeControllerTest {
                 .andExpect(content().string("error"));
     }
 
-    
-
 }

@@ -56,10 +56,25 @@ public class MessageService {
 
     // --------------- us 4.2 chat de gourpe ----------------------------
 
+    /**
+     * Récupère les messages envoyés dans un groupe donné,
+     * triés par date croissante.
+     *
+     * @param groupe le groupe cible
+     * @return liste des messages associés au groupe
+     */
     public List<Message> getMessagesGroupe(Groupe groupe) {
         return messageRepository.findByGroupeOrderByTempsAsc(groupe);
     }
 
+    /**
+     * Envoie un message textuel dans un groupe spécifique.
+     *
+     * @param message contenu du message
+     * @param utilisateur utilisateur qui envoie le message
+     * @param groupe groupe destinataire du message
+     * @return le message créé et enregistré
+     */
     public Message envoyerMessageGroupe(String message, Utilisateur utilisateur, Groupe groupe) {
         Message messages = new Message();
         messages.setEnvoyeur(utilisateur);

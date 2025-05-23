@@ -18,7 +18,6 @@ import jakarta.persistence.TemporalType;
  * privé : envoyeur → recepteur
  * groupe : envoyeur → groupe
  * 
- * Auteur : Mengyi YANG
  */
 
 @Entity

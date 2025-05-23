@@ -248,26 +248,50 @@ public class Post {
         this.commentaires = commentaires;
     }
 
+    /**
+     * Retourne le nombre de "likes" calculé dynamiquement.
+     * @return nombreLikes
+     */
     public int getNombreLikes() {
         return nombreLikes;
     }
 
+    /**
+     * Définit le nombre de "likes" calculé dynamiquement.
+     * @param nombreLikes nouveau nombre de likes
+     */
     public void setNombreLikes(int nombreLikes) {
         this.nombreLikes = nombreLikes;
     }
 
+    /**
+     * Retourne le post original repris, si applicable.
+     * @return originalPost
+     */
     public Post getOriginalPost() {
         return originalPost;
     }
 
+    /**
+     * Définit le post original pour ce repost.
+     * @param originalPost post d’origine repris
+     */
     public void setOriginalPost(Post originalPost) {
         this.originalPost = originalPost;
     }
 
+    /**
+     * Retourne la liste des reposts de ce post.
+     * @return reposts
+     */
     public List<Post> getReposts() {
         return reposts;
     }
 
+    /**
+     * Définit la liste des reposts de ce post.
+     * @param reposts nouvelle liste de reposts
+     */
     public void setReposts(List<Post> reposts) {
         this.reposts = reposts;
     }

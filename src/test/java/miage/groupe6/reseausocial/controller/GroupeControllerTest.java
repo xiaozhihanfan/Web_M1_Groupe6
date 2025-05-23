@@ -2,6 +2,8 @@ package miage.groupe6.reseausocial.controller;
 
 import miage.groupe6.reseausocial.model.entity.Groupe;
 import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.GroupeRepository;
+import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 import miage.groupe6.reseausocial.model.jpa.service.GroupeService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
@@ -45,6 +47,14 @@ public class GroupeControllerTest {
 
     @MockBean
     private UtilisateurService utilisateurService;
+
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
+
+    @Autowired
+    private GroupeRepository groupeRepository;
+
+    
 
     private Utilisateur utilisateur;
     private MockHttpSession session;

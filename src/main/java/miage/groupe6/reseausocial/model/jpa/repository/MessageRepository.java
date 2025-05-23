@@ -20,8 +20,24 @@ import miage.groupe6.reseausocial.model.entity.Utilisateur;
  * 
  */
 public interface MessageRepository extends JpaRepository<Message, Long>{
-    
+    /**
+     * Récupère tous les messages échangés entre deux utilisateurs, dans les deux sens,
+     * triés par date croissante.
+     *
+     * @param u1 premier utilisateur
+     * @param u2 second utilisateur
+     * @param u3 même que u1 (inversé)
+     * @param u4 même que u2 (inversé)
+     * @return liste des messages échangés entre les deux utilisateurs
+     */
     List<Message> findByEnvoyeurAndRecepteurOrRecepteurAndEnvoyeurOrderByTempsAsc(Utilisateur u1, Utilisateur u2, Utilisateur u3, Utilisateur u4);
     
+    /**
+     * Récupère tous les messages associés à un groupe donné,
+     * triés par ordre chronologique croissant.
+     *
+     * @param groupe le groupe concerné
+     * @return liste des messages du groupe
+     */
     List<Message> findByGroupeOrderByTempsAsc(Groupe groupe);
 }

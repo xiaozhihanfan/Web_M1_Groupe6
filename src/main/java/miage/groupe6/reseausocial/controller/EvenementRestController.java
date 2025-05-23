@@ -27,7 +27,10 @@ import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
 import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
-
+/**
+ * Contrôleur REST dédié à la gestion des événements et des interactions utilisateur :
+ * création d'événements et enregistrement des actions (inscription, marque d'intérêt).
+ */
 @RestController
 @RequestMapping("/evenements")
 public class EvenementRestController {
@@ -39,7 +42,13 @@ public class EvenementRestController {
     private ActionEvenementService aes;
 
 
-
+    /**
+     * Crée un nouvel événement et l'associe à l'utilisateur actuellement connecté.
+     *
+     * @param evenement l'entité Evenement envoyée dans le corps de la requête (JSON)
+     * @param session   session HTTP permettant de récupérer l'utilisateur courant
+     * @return ResponseEntity contenant l'événement sauvegardé avec HTTP 200
+     */
     @PostMapping("/Creer")
     public ResponseEntity<Evenement> createEvenement(@RequestBody Evenement evenement, HttpSession session) {
 
@@ -50,8 +59,14 @@ public class EvenementRestController {
     }
 
     /**
-     * POST /evenements/{id}/action/{statut}
-     * Permet à l’utilisateur connecté de s’inscrire ou de marquer son intérêt.
+     * Enregistre une action de l'utilisateur (inscription ou intérêt) sur un événement donné.
+     * Si l'utilisateur n'est pas authentifié, retourne HTTP 401 Unauthorized.
+     *
+     * @param id      identifiant de l'événement ciblé
+     * @param statut  statut de l'action (INSCRIT, INTERESSE, etc.)
+     * @param session session HTTP permettant de récupérer l'utilisateur courant
+     * @return ResponseEntity contenant l'objet ActionEvenement créé et HTTP 200,
+     *         ou HTTP 401 si l'utilisateur n'est pas connecté
      */
     @PostMapping("/{id}/action/{statut}")
     public ResponseEntity<ActionEvenement> actOnEvent(

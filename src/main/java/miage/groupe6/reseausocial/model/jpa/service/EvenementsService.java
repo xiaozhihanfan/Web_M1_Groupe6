@@ -12,6 +12,9 @@ import miage.groupe6.reseausocial.model.entity.Utilisateur;
 import miage.groupe6.reseausocial.model.jpa.repository.ActionEvenementRepository;
 import miage.groupe6.reseausocial.model.jpa.repository.EvenementRepository;
 
+/**
+ * Service de gestion des opérations sur les entités Evenement.
+ */
 @Service
 public class EvenementsService {
 
@@ -26,6 +29,12 @@ public class EvenementsService {
     }
 
 
+    /**
+     * Enregistre un nouvel événement ou met à jour un événement existant.
+     *
+     * @param newEvenement l'entité {@link Evenement} à sauvegarder
+     * @return l'entité {@link Evenement} sauvegardée avec son identifiant
+     */
 	public Evenement save(Evenement newEvenement) {
 		return evenementRepository.save(newEvenement);
 	}

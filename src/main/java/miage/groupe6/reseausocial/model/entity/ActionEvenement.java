@@ -75,7 +75,7 @@ public class ActionEvenement {
      * @param evenement          l'événement concerné
      */
     public ActionEvenement(Date dateActionEvenemnt, StatutActionEvenement statut, Utilisateur utilisateur, Evenement evenement) {
-        this.id = new ActionEvenementId(evenement.getIdE(), utilisateur.getIdU());
+        this.id = new ActionEvenementId(evenement.getIdE(),utilisateur.getIdU());
         this.dateActionEvenemnt = dateActionEvenemnt;
         this.statut = statut;
         this.utilisateur = utilisateur;
@@ -107,7 +107,7 @@ public class ActionEvenement {
      *
      * @return date et heure de l'action
      */
-    public Date getDateActionEvenement() {
+    public Date getDateActionEvenemnt() {
         return dateActionEvenemnt;
     }
 

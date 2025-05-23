@@ -14,8 +14,6 @@ import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
  * Service métier pour la gestion des utilisateurs.
  * Contient la logique liée à l'inscription et à la connexion.
  * Ce service agit comme une couche intermédiaire entre le contrôleur et la couche repository.
- * 
- * Auteur : Mengyi YANG, Zheng Shiwei, Xue Kunying
  */
 
 @Service

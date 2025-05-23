@@ -14,33 +14,37 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 /**
- * Représente l'inscription d'un utilisateur à un événement.
- * Cette entité est une table de jointure entre Utilisateur et Evenement.
+ * Représente l'action d'un utilisateur sur un événement (inscription ou intérêt).
+ * <p>
+ * Cette entité constitue la table de jointure entre {@link Utilisateur} et {@link Evenement}.
+ * </p>
  */
 @Entity
 @Table(name = "action_evenement")
 public class ActionEvenement {
     
     /**
-     * Clé primaire composite composée de idU (Utilisateur) et idE (Evenement).
+     * Clé primaire composite composée de l'identifiant de l'utilisateur ({@code idU})
+     * et de l'identifiant de l'événement ({@code idE}).
      */
     @EmbeddedId
     private ActionEvenementId id = new ActionEvenementId();
 
     /**
-     * Date et heure de l'action sur l'événement.
+     * Date et heure auxquelles l'utilisateur a effectué l'action sur l'événement.
      */
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateActionEvenemnt;
 
     /**
-     * Statut actuel de la évement (s'inscrire, s'intéresser).
+     * Statut de l'action réalisée par l'utilisateur
+     * (par exemple : INSCRIT, INTERESSE).
      */
     @Enumerated(EnumType.STRING)
     private StatutActionEvenement statut;
 
     /**
-     * Utilisateur s'inscrit/s'intéresse à l'événement.
+     * L'utilisateur qui réalise l'action.
      */
     @ManyToOne
     @MapsId("idU")
@@ -48,7 +52,7 @@ public class ActionEvenement {
     private Utilisateur utilisateur;
 
     /**
-     * Événement auquel l'utilisateur est inscrit/intéressé.
+     * L'événement concerné par l'action de l'utilisateur.
      */
     @ManyToOne
     @MapsId("idE")
@@ -71,7 +75,7 @@ public class ActionEvenement {
      * @param evenement          l'événement concerné
      */
     public ActionEvenement(Date dateActionEvenemnt, StatutActionEvenement statut, Utilisateur utilisateur, Evenement evenement) {
-        this.id = new ActionEvenementId(utilisateur.getIdU(), evenement.getIdE());
+        this.id = new ActionEvenementId(evenement.getIdE(), utilisateur.getIdU());
         this.dateActionEvenemnt = dateActionEvenemnt;
         this.statut = statut;
         this.utilisateur = utilisateur;
@@ -81,36 +85,36 @@ public class ActionEvenement {
     // ==== Getters et Setters ====
 
     /**
-     * Retourne la clé composite de l'action.
+     * Retourne la clé composite de cette action.
      *
-     * @return l'identifiant composite
+     * @return {@link ActionEvenementId} représentant la clé primaire composite
      */
     public ActionEvenementId getId() {
         return id;
     }
 
     /**
-     * Définit la clé composite de l'action.
+     * Définit la clé composite de cette action.
      *
-     * @param id la nouvelle clé composite
+     * @param id nouvelle clé primaire composite
      */
     public void setId(ActionEvenementId id) {
         this.id = id;
     }
 
     /**
-     * Retourne la date de l'action.
+     * Retourne la date et l'heure de l'action.
      *
-     * @return la date de l'action
+     * @return date et heure de l'action
      */
-    public Date getDateActionEvenemnt() {
+    public Date getDateActionEvenement() {
         return dateActionEvenemnt;
     }
 
-     /**
-     * Définit la date de l'action.
+    /**
+     * Définit la date et l'heure de l'action.
      *
-     * @param dateActionEvenemnt la nouvelle date
+     * @param dateActionEvenement nouvelle date et heure de l'action
      */
     public void setDateActionEvenemnt(Date dateActionEvenemnt) {
         this.dateActionEvenemnt = dateActionEvenemnt;
@@ -137,34 +141,34 @@ public class ActionEvenement {
     /**
      * Retourne l'utilisateur ayant réalisé l'action.
      *
-     * @return l'utilisateur
+     * @return instance de {@link Utilisateur}
      */
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
 
-    /**
+   /**
      * Définit l'utilisateur ayant réalisé l'action.
      *
-     * @param utilisateur le nouvel utilisateur
+     * @param utilisateur nouvel utilisateur lié à cette action
      */
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
     }
 
     /**
-     * Retourne l'événement concerné par l'action.
+     * Retourne l'événement concerné par cette action.
      *
-     * @return l'événement
+     * @return instance de {@link Evenement}
      */
     public Evenement getEvenement() {
         return evenement;
     }
 
     /**
-     * Définit l'événement concerné par l'action.
+     * Définit l'événement concerné par cette action.
      *
-     * @param evenement le nouvel événement
+     * @param evenement nouvel événement lié à cette action
      */
     public void setEvenement(Evenement evenement) {
         this.evenement = evenement;

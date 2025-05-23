@@ -101,7 +101,18 @@ public class IndexController {
     }
 
 
-
+    /**
+     * Gère la soumission d'une action (comme "participer" ou "ignorer") sur un événement spécifique.
+     * 
+     * Ce contrôleur est déclenché lorsqu'un utilisateur soumet une action via un formulaire sur un événement.
+     * Il vérifie si l'utilisateur est connecté via la session, interprète le statut envoyé,
+     * exécute l'action correspondante via le service des actions sur événements, puis redirige l'utilisateur.
+     *
+     * @param id l'identifiant de l'événement concerné
+     * @param statut le statut de l'action sous forme de chaîne (doit correspondre à un élément de {@link StatutActionEvenement})
+     * @param session la session HTTP contenant les informations de l'utilisateur connecté
+     * @return une redirection vers la page d'accueil ou la page de connexion si l'utilisateur n'est pas authentifié
+     */
     @PostMapping("/evenements/{id}/action")
     public RedirectView enregistrerActionEvenement(@PathVariable Long id,
                                                 @RequestParam("statut") String statut,

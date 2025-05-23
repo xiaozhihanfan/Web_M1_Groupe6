@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +25,12 @@ import miage.groupe6.reseausocial.model.jpa.service.ActionPostService;
 import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
+/**
+ * Contrôleur Spring MVC pour gérer les opérations liées aux publications (posts)
+ * telles que la création, le like, le repost, etc.
+ * 
+ * Gère les requêtes HTTP associées aux publications des utilisateurs sur le réseau social.
+ */
 @Controller
 @RequestMapping("/posts")
 public class PostController {
@@ -39,6 +45,14 @@ public class PostController {
     private UtilisateurService utilisateurService;
 
 
+    /**
+     * Crée un nouveau post texte depuis la page d'accueil.
+     * 
+     * @param contenuP le contenu du post
+     * @param session la session HTTP contenant l'utilisateur connecté
+     * @return redirection vers la page d'accueil
+     * @throws IOException si une erreur d'entrée/sortie survient
+     */
     @PostMapping("/creerPost")
     public String creerPost(String contenuP, HttpSession session)throws IOException{
         Utilisateur poster = (Utilisateur) session.getAttribute("utilisateur");
@@ -53,6 +67,14 @@ public class PostController {
 
 
 
+    /**
+     * Crée un post avec une image, via une requête JSON.
+     * 
+     * @param newPost le post reçu dans le corps de la requête
+     * @param session la session HTTP contenant l'utilisateur connecté
+     * @return le post créé (id uniquement) en tant que réponse JSON
+     * @throws IOException si une erreur d'entrée/sortie survient
+     */
     @PostMapping("/creerPostImage")
     public ResponseEntity<Post> creerPost(@RequestBody Post newPost, HttpSession session)throws IOException{
         System.out.println(newPost.getContenuP());
@@ -94,6 +116,15 @@ public class PostController {
         return "redirect:/";
     }
 
+    /**
+     * Crée un post depuis la page profil d'un utilisateur.
+     * 
+     * @param idU l'identifiant de l'utilisateur concerné
+     * @param newPost le post soumis via formulaire
+     * @param imageFile un fichier image facultatif
+     * @return redirection vers la page des posts du profil utilisateur
+     * @throws IOException si une erreur d'entrée/sortie survient
+     */
     @PostMapping("/creerPostPageProfile")
     public String creerPostPageProfile(
             @RequestParam Long idU,
@@ -111,6 +142,13 @@ public class PostController {
         return "redirect:/utilisateurs/" + idU + "/profile-post";
     }
 
+    /**
+     * Permet à un utilisateur de repartager un post (fonction de "repost").
+     * 
+     * @param originalPostId l'identifiant du post original
+     * @param session la session HTTP contenant l'utilisateur connecté
+     * @return redirection vers la page d'accueil ou de connexion
+     */
     @PostMapping("/repost")
     public String repost(@RequestParam("idP") Long originalPostId, HttpSession session) {
         Utilisateur reposter = (Utilisateur) session.getAttribute("utilisateur");

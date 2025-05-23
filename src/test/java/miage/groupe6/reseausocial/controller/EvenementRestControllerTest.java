@@ -1,113 +1,109 @@
 package miage.groupe6.reseausocial.controller;
 
-// import static org.mockito.ArgumentMatchers.any;
-// import static org.mockito.ArgumentMatchers.eq;
-// import static org.mockito.BDDMockito.given;
-// import static org.mockito.Mockito.verify;
-// import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-// import org.junit.jupiter.api.DisplayName;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-// import org.springframework.boot.test.mock.mockito.MockBean;
-// import org.springframework.http.MediaType;
-// import org.springframework.mock.web.MockHttpSession;
-// import org.springframework.test.web.servlet.MockMvc;
+import java.util.Date;
 
-// import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.web.servlet.MockMvc;
 
-// import miage.groupe6.reseausocial.model.entity.ActionEvenement;
-// import miage.groupe6.reseausocial.model.entity.Evenement;
-// import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
-// import miage.groupe6.reseausocial.model.entity.Utilisateur;
-// import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
-// import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-// @WebMvcTest(EvenementRestController.class)
+import miage.groupe6.reseausocial.model.entity.Evenement;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.entity.ActionEvenement;
+import miage.groupe6.reseausocial.model.entity.ActionEvenementId;
+import miage.groupe6.reseausocial.model.entity.StatutActionEvenement;
+import miage.groupe6.reseausocial.model.jpa.service.ActionEvenementService;
+import miage.groupe6.reseausocial.model.jpa.service.EvenementsService;
+
+@SpringBootTest
+@AutoConfigureMockMvc
 class EvenementRestControllerTest {
 
-    // @Autowired
-    // private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-    // @Autowired
-    // private ObjectMapper objectMapper;
+    @MockBean
+    private EvenementsService evenementsService;
 
-    // @MockBean
-    // private EvenementsService es;
+    @MockBean
+    private ActionEvenementService actionEvenementService;
 
-    // @MockBean
-    // private ActionEvenementService aes;
+    private Utilisateur utilisateur;
+    private MockHttpSession session;
 
-    // private MockHttpSession sessionWithUser(long userId) {
-    //     MockHttpSession session = new MockHttpSession();
-    //     Utilisateur u = new Utilisateur();
-    //     u.setIdU(userId);
-    //     session.setAttribute("utilisateur", u);
-    //     return session;
-    // }
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    // @Test
-    // @DisplayName("POST /evenements/Creer → crée un événement et retourne HTTP 200 + JSON")
-    // void createEvenementReturnsSaved() throws Exception {
-    //     // Préparer l'objet envoyé
-    //     Evenement incoming = new Evenement();
-    //     incoming.setTitre("TestEvent");
+    @BeforeEach
+    void setUp() {
+        utilisateur = new Utilisateur();
+        utilisateur.setIdU(1L);
+        utilisateur.setEmailU("test@reseau.com");
+        utilisateur.setNomU("Test");
 
-    //     // Préparer la session utilisateur
-    //     long userId = 11L;
-    //     Utilisateur user = new Utilisateur();
-    //     user.setIdU(userId);
+        session = new MockHttpSession();
+        session.setAttribute("utilisateur", utilisateur);
+    }
 
-    //     // Stub du service de sauvegarde
-    //     Evenement saved = new Evenement();
-    //     saved.setIdE(123L);
-    //     saved.setTitre("TestEvent");
-    //     given(es.save(any(Evenement.class))).willReturn(saved);
+    /**
+     * Vérifie que la création d'un événement renvoie bien un objet Evenement JSON
+     * contenant les champs attendus (titre, description, etc.).
+     *
+     * @throws Exception en cas d'erreur de la requête HTTP
+     */
+    @Test
+    void testCreateEvenement_success() throws Exception {
+        Evenement evenement = new Evenement();
+        evenement.setTitre("Conférence");
+        evenement.setDescriptionE("Test conférence");
+        evenement.setDateDebut(new Date());
+        evenement.setUtilisateur(utilisateur); // utilisateur mocké en @BeforeEach
 
-    //     mockMvc.perform(post("/evenements/Creer")
-    //             .session(sessionWithUser(userId))
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .content(objectMapper.writeValueAsString(incoming)))
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-    //         .andExpect(jsonPath("$.idE").value(123))
-    //         .andExpect(jsonPath("$.titre").value("TestEvent"));
+        when(evenementsService.save(any(Evenement.class))).thenReturn(evenement);
 
-    //     // Vérifier que l'entité envoyée au service a bien reçu l'utilisateur
-    //     verify(es).save(eq(new Evenement() {{
-    //         setTitre("TestEvent");
-    //         setUtilisateur(user);
-    //     }}));
-    // }
+        mockMvc.perform(post("/evenements/Creer")
+                .session(session)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(evenement)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.titre").value("Conférence"))
+                .andExpect(jsonPath("$.descriptionE").value("Test conférence"));
+    }
 
-    // @Test
-    // @DisplayName("POST /evenements/{id}/action/{statut} → retourne 401 si non connecté")
-    // void actOnEventUnauthorized() throws Exception {
-    //     mockMvc.perform(post("/evenements/50/action/INSCRIRE"))
-    //         .andExpect(status().isUnauthorized());
-    // }
+    /**
+     * Vérifie que l'action sur un événement (inscription) retourne correctement une réponse HTTP 200.
+     */
+    @Test
+    void testActOnEvent_success() throws Exception {
+        ActionEvenement ae = new ActionEvenement();
+        ae.setId(new ActionEvenementId(1L, 100L)); 
+        ae.setStatut(StatutActionEvenement.INSCRIRE);
 
-    // @Test
-    // @DisplayName("POST /evenements/{id}/action/{statut} → enregistre action et retourne 200 + JSON")
-    // void actOnEventSuccess() throws Exception {
-    //     long eventId = 77L;
-    //     long userId  = 33L;
-    //     Utilisateur user = new Utilisateur();
-    //     user.setIdU(userId);
+        when(actionEvenementService.actOnEvent(1L, 100L, StatutActionEvenement.INSCRIRE)).thenReturn(ae);
 
-    //     // Stub : l'action renvoyée
-    //     ActionEvenement ae = new ActionEvenement();
-    //     ae.setStatut(StatutActionEvenement.INSCRIRE);
-    //     given(aes.actOnEvent(userId, eventId, StatutActionEvenement.INSCRIRE)).willReturn(ae);
+        mockMvc.perform(post("/evenements/100/action/INSCRIRE")
+                .session(session))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.statut").value("INSCRIRE"));
+    }
 
-    //     mockMvc.perform(post("/evenements/{id}/action/{statut}", eventId, "INSCRIT")
-    //             .session(sessionWithUser(userId)))
-    //         .andExpect(status().isOk())
-    //         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-    //         .andExpect(jsonPath("$.statut").value("INSCRIT"));
-
-    //     verify(aes).actOnEvent(userId, eventId, StatutActionEvenement.INSCRIRE);
-    // }
+    /**
+     * Vérifie que l'appel sans session utilisateur renvoie HTTP 401 (non autorisé).
+     */
+    @Test
+    void testActOnEvent_unauthorized() throws Exception {
+        mockMvc.perform(post("/evenements/100/action/INTERESSER"))
+                .andExpect(status().isUnauthorized());
+    }
 }

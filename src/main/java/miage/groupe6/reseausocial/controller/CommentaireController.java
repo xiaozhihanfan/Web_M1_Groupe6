@@ -57,11 +57,20 @@ public class CommentaireController {
         return "redirect:/";
     }
 
+    /**
+     * Gère la requête HTTP GET pour la page d'accueil.
+     * 
+     * Ce contrôleur récupère la liste de tous les posts avec leurs commentaires associés 
+     * en utilisant le service PostService, les ajoute au modèle, et renvoie la vue "index".
+     *
+     * @param model le modèle Spring MVC utilisé pour passer des attributs à la vue
+     * @return le nom de la vue à afficher, ici "index"
+     */
     @GetMapping("/")
     public String afficherAccueil(Model model) {
         List<Post> posts = ps.findAllPostsWithCommentaires();
         model.addAttribute("posts", posts);
         return "index";
 
-}
+    }
 }

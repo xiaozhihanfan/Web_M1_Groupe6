@@ -35,6 +35,7 @@ public class Groupe {
     /**
      * Nom du groupe.
      * Description du groupe.
+     * Avatar du groupe
      */
     private String nomGroupe;
     private String description;
@@ -196,16 +197,30 @@ public class Groupe {
     public void setMembres(Set<GroupeMembre> membres) {
         this.membres = membres;
     }
-
+    
+    /**
+     * Retourne l'avatar du groupe.
+     *
+     * @return avatarG Chemin ou URL de l'avatar
+     */
     public String getAvatarG() {
         return avatarG;
     }
 
+    /**
+     * Définit l'avatar du groupe.
+     *
+     * @param avatarG Nouvel avatar (chemin ou URL)
+     */
     public void setAvatarG(String avatarG) {
         this.avatarG = avatarG;
     }
 
-    
+    /**
+     * Retourne une représentation textuelle du groupe.
+     *
+     * @return Chaîne de caractères décrivant le groupe
+     */
     @Override
     public String toString() {
         return "Groupe [idGroupe=" + idGroupe + ", nomGroupe=" + nomGroupe + ", description=" + description + "]";

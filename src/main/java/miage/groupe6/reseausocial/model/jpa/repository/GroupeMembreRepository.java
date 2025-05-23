@@ -31,5 +31,12 @@ public interface GroupeMembreRepository extends JpaRepository<GroupeMembre, Grou
      */
     List<GroupeMembre> findByUtilisateurAndRole(Utilisateur utilisateur, MembreRole role);
 
+    /**
+     * Recherche toutes les participations d’un utilisateur à des groupes,
+     * quel que soit son rôle.
+     *
+     * @param utilisateur l’utilisateur concerné
+     * @return la liste de toutes ses appartenances aux groupes
+     */
     List<GroupeMembre> findByUtilisateur(Utilisateur utilisateur);
 }

@@ -6,12 +6,7 @@ import miage.groupe6.reseausocial.model.jpa.service.SettingsService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Base64;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -117,7 +112,18 @@ public class SettingsController {
     }
 
     /**
-     * Traite la soumission du formulaire de modification du profil et gère l'upload d'avatar.
+     * Traite la soumission du formulaire de modification de profil.
+     * <p>
+     * Met à jour les informations de l’utilisateur, gère l’upload de l’avatar
+     * en le convertissant en Base64, et met à jour la session.
+     * </p>
+     *
+     * @param id                 identifiant de l’utilisateur
+     * @param utilisateurMod     objet Utilisateur contenant les nouvelles valeurs
+     * @param avatarFile         fichier uploadé pour l’avatar (optionnel)
+     * @param session            session HTTP pour mettre à jour l’attribut utilisateur
+     * @param redirectAttributes pour passer les messages flash (succès ou erreur)
+     * @return redirection vers la page de modification des informations
      */
     @PostMapping("/{id}/modifier-info")
     public String modifierUtilisateur(

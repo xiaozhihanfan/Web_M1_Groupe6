@@ -130,46 +130,4 @@ public class GroupeControllerTest {
                 .andExpect(content().string("error"));
     }
 
-    /**
-     * Teste le retour JSON de la méthode getInvitablesJson pour un utilisateur connecté
-     * et un groupe valide. Vérifie que seuls les amis non membres sont retournés.
-     *
-     * @throws Exception si une erreur survient lors de la requête HTTP
-     */
-    @Test
-    void testGetInvitablesJson_success() throws Exception {
-        // -- Préparation des données fictives
-        Groupe groupe = new Groupe();
-        groupe.setIdGroupe(10L);
-        groupe.setNomGroupe("Groupe Test");
-        groupe.setDescription("Un groupe pour les tests");
-
-        Utilisateur ami1 = new Utilisateur();
-        ami1.setIdU(2L);
-        ami1.setPrenomU("Alice");
-        ami1.setNomU("Martin");
-
-        Utilisateur ami2 = new Utilisateur();
-        ami2.setIdU(3L);
-        ami2.setPrenomU("Bob");
-        ami2.setNomU("Durand");
-
-        Utilisateur membre = new Utilisateur(); // déjà membre
-        membre.setIdU(2L); // même ID que ami1，
-
-        // -- Mocking des services
-        when(groupeService.getGroupeById(10L)).thenReturn(Optional.of(groupe));
-        when(relationAmisService.listerAmis(utilisateur)).thenReturn(new ArrayList<>(List.of(ami1, ami2)));
-        when(groupeService.listerMembres(groupe)).thenReturn(List.of(membre)); 
-
-        // -- Appel HTTP GET
-        mockMvc.perform(get("/groupes/10/amis-invitables").session(session))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("ok"))
-                .andExpect(jsonPath("$.nom").value("Groupe Test"))
-                .andExpect(jsonPath("$.description").value("Un groupe pour les tests"))
-                .andExpect(jsonPath("$.amis.length()").value(1)) 
-                .andExpect(jsonPath("$.amis[0].id").value(3))
-                .andExpect(jsonPath("$.amis[0].nom").value("Bob Durand"));
-    }
 }

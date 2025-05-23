@@ -169,6 +169,24 @@ public class Evenement {
     }
 
     /**
+     * Retourne l'avatar (image) de l'événement.
+     *
+     * @return chemin ou URL de l'avatar
+     */
+    public String getAvatarE() {
+        return avatarE;
+    }
+
+    /**
+     * Définit l'avatar (image) de l'événement.
+     *
+     * @param avatarE nouveau chemin ou URL de l'avatar
+     */
+    public void setAvatarE(String avatarE) {
+        this.avatarE = avatarE;
+    }
+
+    /**
      * Retourne la description de l’événement.
      *
      * @return description
@@ -274,15 +292,6 @@ public class Evenement {
      */
     public void setGroupes(Set<Groupe> groupes) {
         this.groupes = groupes;
-    }
-
-    public String getAvatarE() {
-
-        return avatarE;
-    }
-
-    public void setAvatarE(String avatarE) {
-        this.avatarE = avatarE;
     }
 
 }

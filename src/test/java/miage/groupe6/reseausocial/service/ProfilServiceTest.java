@@ -1,164 +1,172 @@
 package miage.groupe6.reseausocial.service;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import miage.groupe6.reseausocial.model.entity.Utilisateur;
-import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
-import miage.groupe6.reseausocial.model.jpa.service.ProfilService;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class ProfilServiceTest {
+import miage.groupe6.reseausocial.model.entity.Post;
+import miage.groupe6.reseausocial.model.entity.Utilisateur;
+import miage.groupe6.reseausocial.model.jpa.repository.PostRepository;
+import miage.groupe6.reseausocial.model.jpa.service.PostService;
+import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
+
+@ExtendWith(MockitoExtension.class)
+class PostServiceTest {
 
     @Mock
-    private UtilisateurRepository utilisateurRepository;
+    private PostRepository pr;
+
     @Mock
-    private miage.groupe6.reseausocial.model.jpa.repository.EvenementRepository evenementRepository;
+    private UtilisateurService us;
 
     @InjectMocks
-    private ProfilService profilService;
+    private PostService postService;
 
-    private Utilisateur utilisateur;
-
-    @BeforeEach
-    void setUp() {
-        utilisateur = new Utilisateur();
-        utilisateur.setIdU(42L);
-        utilisateur.setNomU("Jean");
-        utilisateur.setPrenomU("Dupont");
-        utilisateur.setEmailU("jean.dupont@example.com");
-        utilisateur.setBirthday(LocalDate.of(1985, 7, 15));
-        utilisateur.setTelephone("0612345678");
+    @Test
+    @DisplayName("countPostByUtilisateur retourne la valeur fournie par le repository")
+    void testCountPostByUtilisateur() {
+        Utilisateur u = new Utilisateur();
+        when(pr.countByAuteur(u)).thenReturn(7);
+        int count = postService.countPostByUtilisateur(u);
+        assertEquals(7, count);
+        verify(pr).countByAuteur(u);
     }
 
     @Test
-    void getProfileById_existingUser_returnsUtilisateur() {
-        when(utilisateurRepository.findById(42L))
-            .thenReturn(Optional.of(utilisateur));
-
-        Utilisateur result = profilService.getProfileById(42L);
-
-        assertNotNull(result);
-        assertEquals("Jean", result.getNomU());
-        assertEquals("Dupont", result.getPrenomU());
-        verify(utilisateurRepository).findById(42L);
+    @DisplayName("save délègue au repository et retourne l'entité sauvée")
+    void testSave() {
+        Post p = new Post();
+        when(pr.save(p)).thenReturn(p);
+        Post result = postService.save(p);
+        assertSame(p, result);
+        verify(pr).save(p);
     }
 
     @Test
-    void getProfileById_notFound_throwsException() {
-        when(utilisateurRepository.findById(42L))
-            .thenReturn(Optional.empty());
-
-        RuntimeException ex = assertThrows(RuntimeException.class, () ->
-            profilService.getProfileById(42L)
-        );
-        assertTrue(ex.getMessage().contains("Utilisateur non trouvé"));
-        verify(utilisateurRepository).findById(42L);
-    }
-    
-
-    /**
-     * getEvenementsCrees(id) 应该调用 evenementRepository.findByUtilisateur(...)
-     * 并返回仓库模拟的数据列表。
-     */
-    @Test
-    void getEvenementsCrees_existingUser_returnsEvents() {
-        // 准备：用户存在
-        when(utilisateurRepository.findById(42L))
-            .thenReturn(Optional.of(utilisateur));
-
-        // 准备：模拟两个活动
-        miage.groupe6.reseausocial.model.entity.Evenement e1 =
-            new miage.groupe6.reseausocial.model.entity.Evenement();
-        e1.setIdE(100L);
-        e1.setTitre("Événement créé");
-        // ... 可以不设置别的字段
-        
-        List<miage.groupe6.reseausocial.model.entity.Evenement> creeList = List.of(e1);
-        when(evenementRepository.findByUtilisateur(utilisateur))
-            .thenReturn(creeList);
-
-        // 执行
-        List<miage.groupe6.reseausocial.model.entity.Evenement> result =
-            profilService.getEvenementsCrees(42L);
-
-        // 验证
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertSame(e1, result.get(0));
-        verify(evenementRepository).findByUtilisateur(utilisateur);
+    @DisplayName("findAllOrderedByDate récupère tous les posts (ordre croissant)")
+    void testFindAllOrderedByDate() {
+        Post p1 = new Post(), p2 = new Post();
+        List<Post> list = Arrays.asList(p1, p2);
+        when(pr.findAllByOrderByDateP()).thenReturn(list);
+        List<Post> result = postService.findAllOrderedByDate();
+        assertEquals(list, result);
+        verify(pr).findAllByOrderByDateP();
     }
 
-    /**
-     * getEvenementsInscrits(id) 应该调用 findByParticipantAndStatut(..., INSCRIRE)
-     */
     @Test
-    void getEvenementsInscrits_existingUser_returnsEvents() {
-        when(utilisateurRepository.findById(42L))
-            .thenReturn(Optional.of(utilisateur));
+    @DisplayName("findById retourne Optional vide ou contenant selon le repository")
+    void testFindById() {
+        Post p = new Post();
+        when(pr.findById(1L)).thenReturn(Optional.of(p));
+        Optional<Post> found = postService.findById(1L);
+        assertTrue(found.isPresent());
+        assertSame(p, found.get());
 
-        miage.groupe6.reseausocial.model.entity.Evenement e2 =
-            new miage.groupe6.reseausocial.model.entity.Evenement();
-        e2.setIdE(101L);
-        e2.setTitre("Événement inscrit");
-        List<miage.groupe6.reseausocial.model.entity.Evenement> insList = List.of(e2);
-
-        when(evenementRepository.findByParticipantAndStatut(
-                utilisateur,
-                miage.groupe6.reseausocial.model.entity.StatutActionEvenement.INSCRIRE))
-            .thenReturn(insList);
-
-        List<miage.groupe6.reseausocial.model.entity.Evenement> result =
-            profilService.getEvenementsInscrits(42L);
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertSame(e2, result.get(0));
-        verify(evenementRepository)
-            .findByParticipantAndStatut(utilisateur, miage.groupe6.reseausocial.model.entity.StatutActionEvenement.INSCRIRE);
+        when(pr.findById(2L)).thenReturn(Optional.empty());
+        Optional<Post> notFound = postService.findById(2L);
+        assertFalse(notFound.isPresent());
     }
 
-    /**
-     * getEvenementsIntereses(id) 应该调用 findByParticipantAndStatut(..., INTERESSER)
-     */
     @Test
-    void getEvenementsIntereses_existingUser_returnsEvents() {
-        when(utilisateurRepository.findById(42L))
-            .thenReturn(Optional.of(utilisateur));
+    @DisplayName("findByAuteurOrderByDateDesc délègue au repository")
+    void testFindByAuteurOrderByDateDesc() {
+        Utilisateur u = new Utilisateur();
+        Post p = new Post();
+        List<Post> list = Collections.singletonList(p);
+        when(pr.findByAuteurOrderByDatePDesc(u)).thenReturn(list);
+        List<Post> result = postService.findByAuteurOrderByDateDesc(u);
+        assertEquals(list, result);
+        verify(pr).findByAuteurOrderByDatePDesc(u);
+    }
 
-        miage.groupe6.reseausocial.model.entity.Evenement e3 =
-            new miage.groupe6.reseausocial.model.entity.Evenement();
-        e3.setIdE(102L);
-        e3.setTitre("Événement intéressant");
-        List<miage.groupe6.reseausocial.model.entity.Evenement> intList = List.of(e3);
+    @Test
+    @DisplayName("findAllOrderedByDateDesc délègue au repository")
+    void testFindAllOrderedByDateDesc() {
+        Post p = new Post();
+        List<Post> list = Collections.singletonList(p);
+        when(pr.findAllByOrderByDatePDesc()).thenReturn(list);
+        List<Post> result = postService.findAllOrderedByDateDesc();
+        assertEquals(list, result);
+        verify(pr).findAllByOrderByDatePDesc();
+    }
 
-        when(evenementRepository.findByParticipantAndStatut(
-                utilisateur,
-                miage.groupe6.reseausocial.model.entity.StatutActionEvenement.INTERESSER))
-            .thenReturn(intList);
+    @Test
+    @DisplayName("findAllPostsWithCommentaires délègue au repository")
+    void testFindAllPostsWithCommentaires() {
+        List<Post> list = Arrays.asList(new Post(), new Post());
+        when(pr.findAllWithCommentaires()).thenReturn(list);
+        List<Post> result = postService.findAllPostsWithCommentaires();
+        assertEquals(list, result);
+        verify(pr).findAllWithCommentaires();
+    }
 
-        List<miage.groupe6.reseausocial.model.entity.Evenement> result =
-            profilService.getEvenementsInteresses(42L);
+    @Test
+    @DisplayName("repostPost lève une exception si le post original est introuvable")
+    void testRepostPostOriginalNotFound() {
+        when(pr.findById(10L)).thenReturn(Optional.empty());
+        RuntimeException ex = assertThrows(RuntimeException.class,
+            () -> postService.repostPost(10L, 1L));
+        assertTrue(ex.getMessage().contains("Post original introuvable"));
+    }
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertSame(e3, result.get(0));
-        verify(evenementRepository)
-            .findByParticipantAndStatut(utilisateur, miage.groupe6.reseausocial.model.entity.StatutActionEvenement.INTERESSER);
+    @Test
+    @DisplayName("repostPost lève une exception si l'utilisateur est introuvable")
+    void testRepostPostUserNotFound() {
+        Post original = new Post();
+        when(pr.findById(20L)).thenReturn(Optional.of(original));
+        when(us.getUtilisateurById(2L)).thenReturn(Optional.empty());
+        RuntimeException ex = assertThrows(RuntimeException.class,
+            () -> postService.repostPost(20L, 2L));
+        assertTrue(ex.getMessage().contains("Utilisateur introuvable"));
+    }
+
+    @Test
+    @DisplayName("repostPost crée et sauvegarde correctement un repost")
+    void testRepostPostSuccess() {
+        // Préparer le post original
+        Post original = new Post();
+        original.setContenuP("contenu");
+        original.setImageP("image.png");
+        when(pr.findById(30L)).thenReturn(Optional.of(original));
+
+        // Préparer l'utilisateur
+        Utilisateur user = new Utilisateur();
+        user.setIdU(3L);
+        when(us.getUtilisateurById(3L)).thenReturn(Optional.of(user));
+
+        // Capturer l'objet passé à save
+        ArgumentCaptor<Post> captor = ArgumentCaptor.forClass(Post.class);
+        when(pr.save(captor.capture())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Appel du service
+        Post repost = postService.repostPost(30L, 3L);
+
+        // Vérifications sur le repost
+        Post captured = captor.getValue();
+        assertEquals("contenu", captured.getContenuP());
+        assertEquals("image.png", captured.getImageP());
+        assertSame(original, captured.getOriginalPost());
+        assertSame(user, captured.getAuteur());
+        assertNotNull(captured.getDateP(), "La date du repost doit être définie");
+        // Le service retourne bien l'objet sauvegardé
+        assertSame(captured, repost);
+
+        verify(pr).findById(30L);
+        verify(us).getUtilisateurById(3L);
+        verify(pr).save(any(Post.class));
     }
 }
+

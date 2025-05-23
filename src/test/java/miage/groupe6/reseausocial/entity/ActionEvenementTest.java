@@ -24,7 +24,7 @@ class ActionEvenementTest {
     void testDefaultConstructorAndAccessors() {
         ActionEvenement ae = new ActionEvenement();
         assertNotNull(ae.getId(), "L'ID composite ne doit pas être null après le constructeur par défaut");
-        assertNull(ae.getDateActionEvenement(), "La date doit être null par défaut");
+        assertNull(ae.getDateActionEvenemnt(), "La date doit être null par défaut");
         assertNull(ae.getStatut(), "Le statut doit être null par défaut");
         assertNull(ae.getUtilisateur(), "L'utilisateur doit être null par défaut");
         assertNull(ae.getEvenement(), "L'événement doit être null par défaut");
@@ -42,7 +42,7 @@ class ActionEvenementTest {
         ae.setEvenement(event);
 
         // Vérification via getters
-        assertEquals(now, ae.getDateActionEvenement(), "Le getter doit retourner la même date que le setter");
+        assertEquals(now, ae.getDateActionEvenemnt(), "Le getter doit retourner la même date que le setter");
         assertEquals(statut, ae.getStatut(), "Le getter doit retourner le même statut que le setter");
         assertSame(user, ae.getUtilisateur(), "Le getter doit retourner la même instance Utilisateur");
         assertSame(event, ae.getEvenement(), "Le getter doit retourner la même instance Evenement");
@@ -69,7 +69,7 @@ class ActionEvenementTest {
         ActionEvenement ae = new ActionEvenement(actionDate, statut, user, event);
 
         // Vérification du mapping des champs
-        assertEquals(actionDate, ae.getDateActionEvenement(), "La date doit être celle passée au constructeur");
+        assertEquals(actionDate, ae.getDateActionEvenemnt(), "La date doit être celle passée au constructeur");
         assertEquals(statut, ae.getStatut(), "Le statut doit être celui passé au constructeur");
         assertSame(user, ae.getUtilisateur(), "L'utilisateur doit être celui passé au constructeur");
         assertSame(event, ae.getEvenement(), "L'événement doit être celui passé au constructeur");

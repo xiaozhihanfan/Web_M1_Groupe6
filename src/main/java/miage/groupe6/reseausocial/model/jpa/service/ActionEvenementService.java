@@ -21,6 +21,10 @@ import miage.groupe6.reseausocial.model.jpa.repository.UtilisateurRepository;
 
 /**
  * Service pour gérer les inscriptions et intérêts aux événements.
+ * <p>
+ * Fournit des opérations de création, mise à jour, et comptage des actions
+ * (INSCRIRE, INTERESSER) réalisées par les utilisateurs sur les événements.
+ * </p>
  */
 @Service
 public class ActionEvenementService {
@@ -39,13 +43,18 @@ public class ActionEvenementService {
     }
 
     /**
-     * Effectue (ou met à jour) une action d’un utilisateur sur un événement.
+     * Effectue ou met à jour une action d’un utilisateur sur un événement.
+     * <p>
+     * Cherche l’utilisateur et l’événement en base. Si une action existe déjà,
+     * elle est mise à jour ; sinon, une nouvelle entité est créée.
+     * Le statut et la date de l’action sont mis à jour avant sauvegarde.
+     * </p>
      *
-     * @param idUtilisateur l’identifiant de l’utilisateur
-     * @param idEvenement   l’identifiant de l’événement
-     * @param statut        INSCRIRE ou INTERESSER
-     * @return l’entité ActionEvenement sauvegardée
-     * @throws ResponseStatusException 404 si utilisateur ou événement introuvable
+     * @param idUtilisateur l’identifiant de l’utilisateur réalisant l’action
+     * @param idEvenement   l’identifiant de l’événement ciblé
+     * @param statut        le {@link StatutActionEvenement} à appliquer
+     * @return l’entité {@link ActionEvenement} sauvegardée
+     * @throws ResponseStatusException si l’utilisateur ou l’événement n’est pas trouvé (404)
      */
     public ActionEvenement actOnEvent(Long idUtilisateur,
                                       Long idEvenement,
@@ -77,21 +86,40 @@ public class ActionEvenementService {
     }
 
     /**
-     * Inscrit l’utilisateur à l’événement.
+     * Inscrit l’utilisateur à un événement.
+     *
+     * @param idUtilisateur identifiant de l’utilisateur
+     * @param idEvenement   identifiant de l’événement
+     * @return l’entité {@link ActionEvenement} résultante
      */
     public ActionEvenement inscrireEvent(Long idUtilisateur, Long idEvenement) {
         return actOnEvent(idUtilisateur, idEvenement, StatutActionEvenement.INSCRIRE);
     }
 
     /**
-     * Marque l’utilisateur comme intéressé à l’événement.
+     * Marque l’utilisateur comme intéressé par un événement.
+     *
+     * @param idUtilisateur identifiant de l’utilisateur
+     * @param idEvenement   identifiant de l’événement
+     * @return l’entité {@link ActionEvenement} résultante
      */
     public ActionEvenement interesserEvent(Long idUtilisateur, Long idEvenement) {
         return actOnEvent(idUtilisateur, idEvenement, StatutActionEvenement.INTERESSER);
     }
 
 
-
+    /**
+     * Ajoute une nouvelle action si elle n’existe pas déjà.
+     * <p>
+     * Crée une entité {@link ActionEvenement} avec date et statut, et l’associe
+     * à l’utilisateur et à l’événement spécifiés. Ne fait rien si l’action existe déjà.
+     * </p>
+     *
+     * @param idUtilisateur identifiant de l’utilisateur
+     * @param idEvenement   identifiant de l’événement
+     * @param statut        statut de l’action à créer
+     * @throws RuntimeException si l’utilisateur ou l’événement n’est pas trouvé
+     */
     public void ajouterAction(Long idUtilisateur, Long idEvenement, StatutActionEvenement statut) {
         ActionEvenementId id = new ActionEvenementId(idUtilisateur, idEvenement);
 
@@ -115,19 +143,35 @@ public class ActionEvenementService {
         }
     }
 
+    /**
+     * Compte le nombre d’inscriptions (statut INSCRIRE)
+     * pour un événement donné.
+     *
+     * @param idEvenement identifiant de l’événement
+     * @return nombre total d’inscriptions
+     */
     public long countInscriptions(Long idEvenement) {
         return aer.countByEvenementIdEAndStatut(idEvenement, StatutActionEvenement.INSCRIRE);
     }
 
+    /**
+     * Compte le nombre d’intérêts (statut INTERESSER)
+     * pour un événement donné.
+     *
+     * @param idEvenement identifiant de l’événement
+     * @return nombre total d’intérêts
+     */
     public long countInteresses(Long idEvenement) {
         return aer.countByEvenementIdEAndStatut(idEvenement, StatutActionEvenement.INTERESSER);
     }
 
     /**
-     * Recherche éventuelle d’une action d’un utilisateur sur un événement.
-     * @param idUtilisateur l’id de l’utilisateur
-     * @param idEvenement   l’id de l’événement
-     * @return Optional.empty() si aucune action trouvée sinon l’action
+     * Recherche l’action d’un utilisateur sur un événement, si elle existe.
+     *
+     * @param idUtilisateur identifiant de l’utilisateur
+     * @param idEvenement   identifiant de l’événement
+     * @return {@link Optional} contenant l’action si présente, sinon empty
+     * @throws ResponseStatusException si l’utilisateur ou l’événement n’est pas trouvé
      */
     public Optional<ActionEvenement> findByUserAndEvent(Long idUtilisateur, Long idEvenement) {
         Utilisateur u = ur.findById(idUtilisateur)

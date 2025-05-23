@@ -17,6 +17,16 @@ import miage.groupe6.reseausocial.model.jpa.service.PostService;
 import miage.groupe6.reseausocial.model.jpa.service.RelationAmisService;
 import miage.groupe6.reseausocial.model.jpa.service.UtilisateurService;
 
+/**
+ * Contrôleur Spring MVC pour la gestion des relations d'amitié entre utilisateurs.
+ * <p>
+ * Ce contrôleur permet :
+ * <ul>
+ *   <li>d'envoyer une demande d'amitié,</li>
+ *   <li>d'accepter ou refuser une demande reçue,</li>
+ *   <li>de supprimer une relation existante.</li>
+ * </ul>
+ */
 @Controller
 @RequestMapping("/relationamis")
 public class RelationAmisController {
@@ -36,6 +46,14 @@ public class RelationAmisController {
 
     // ----------------------- us 1.4 Envoyer une demande d’ami ---------------------
 
+    /**
+     * Envoie une demande d'amitié de l'utilisateur connecté vers un autre utilisateur cible.
+     *
+     * @param idCible identifiant de l'utilisateur à qui la demande est adressée
+     * @param session session HTTP contenant l'utilisateur connecté
+     * @param redirectAttributes attributs utilisés pour transmettre des messages flash
+     * @return redirection vers la page des résultats ou vers la connexion si non authentifié
+     */
     @PostMapping("/envoyer/{idCible}")
     public String envoyerDemandeAmi(@PathVariable Long idCible,
                                     HttpSession session,
@@ -63,7 +81,15 @@ public class RelationAmisController {
 
 
     // ----------------------- us 1.5 Accepter ou refuser une demande d’ami ---------------------
-
+    /**
+     * Accepte une demande d'amitié reçue d'un autre utilisateur.
+     * Met à jour les compteurs de posts, amis et événements pour l'accueil.
+     *
+     * @param idDemandeur identifiant de l'utilisateur ayant envoyé la demande
+     * @param session session HTTP contenant l'utilisateur connecté
+     * @param redirectAttributes attributs pour transmettre les messages de confirmation
+     * @return redirection vers la page d'accueil
+     */
     @PostMapping("/accepter/{idDemandeur}")
     public String accepter(@PathVariable Long idDemandeur, HttpSession session, RedirectAttributes redirectAttributes) {
         Utilisateur receveur = (Utilisateur) session.getAttribute("utilisateur");
@@ -85,6 +111,14 @@ public class RelationAmisController {
         return "redirect:/";
     }
 
+    /**
+     * Refuse une demande d'amitié reçue.
+     *
+     * @param idDemandeur identifiant de l'utilisateur ayant envoyé la demande
+     * @param session session HTTP contenant l'utilisateur connecté
+     * @param redirectAttributes attributs pour message flash
+     * @return redirection vers la page d'accueil
+     */
     @PostMapping("/refuser/{idDemandeur}")
     public String refuser(@PathVariable Long idDemandeur, HttpSession session, RedirectAttributes redirectAttributes) {
         Utilisateur receveur = (Utilisateur) session.getAttribute("utilisateur");
@@ -94,6 +128,13 @@ public class RelationAmisController {
         return "redirect:/";
     }
     
+    /**
+     * Supprime une relation d'amitié entre l'utilisateur connecté et un autre utilisateur.
+     *
+     * @param idUtilisateur identifiant de l'ami à supprimer
+     * @param session session contenant l'utilisateur connecté
+     * @return redirection vers la page des connexions de l'utilisateur
+     */
     @GetMapping("/remove/{idUtilisateur}")
     public String removeAmi(@PathVariable("idUtilisateur") Long idUtilisateur,HttpSession session) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");

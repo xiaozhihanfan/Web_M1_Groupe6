@@ -18,17 +18,39 @@ import miage.groupe6.reseausocial.model.entity.Utilisateur;
  * <p>
  * Utilise {@link ActionPostId} comme clé primaire composite.
  * 
- * Auteur : Mengyi YANG
  */
 
  @Repository
 public interface ActionPostRepository extends JpaRepository<ActionPost, ActionPostId> {
 
+    
     // Compter le nombre de likes pour un post
+    /**
+     * Compte le nombre d’actions d’un certain statut (par exemple, LIKE) sur un post donné.
+     *
+     * @param post le post concerné
+     * @param statut le type d’action (ex: LIKE)
+     * @return le nombre total d’actions de ce type sur ce post
+     */
     Integer countByPostAndStatut(Post post, StatutActionPost statut);
 
+    /**
+     * Recherche une action spécifique d’un utilisateur sur un post avec un statut donné.
+     *
+     * @param utilisateur l’utilisateur ayant effectué l’action
+     * @param post le post concerné
+     * @param statut le type d’action (ex: LIKE)
+     * @return une {@link Optional} contenant l’action si elle existe, vide sinon
+     */
     Optional<ActionPost> findByUtilisateurAndPostAndStatut(Utilisateur utilisateur, Post post, StatutActionPost statut);
     
+    /**
+     * Supprime une action spécifique d’un utilisateur sur un post selon son statut.
+     *
+     * @param utilisateur l’utilisateur ayant effectué l’action
+     * @param post le post concerné
+     * @param statut le type d’action à supprimer (ex: LIKE)
+     */
     void deleteByUtilisateurAndPostAndStatut(Utilisateur utilisateur, Post post ,StatutActionPost statut);
     
 

@@ -85,9 +85,19 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long>{
       """)
     Optional<Evenement> findByIdWithDetails(@Param("id") Long id);
 
-    
+    /**
+     * Enregistre ou met à jour un événement.
+     *
+     * @param newEvenement l’événement à sauvegarder
+     * @return l’événement sauvegardé
+     */
     Evenement save(Evenement newEvenement);
     
+    /**
+     * Récupère tous les événements dans la base.
+     *
+     * @return la liste de tous les événements
+     */
     List<Evenement> findAll();
 
 }

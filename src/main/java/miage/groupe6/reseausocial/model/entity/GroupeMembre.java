@@ -21,7 +21,6 @@ import jakarta.persistence.MapsId;
  * Elle stocke également des informations contextuelles comme le rôle du membre
  * et la date d'adhésion.
  * 
- * @author Mengyi YANG
  */
 
 @Entity
@@ -77,7 +76,7 @@ public class GroupeMembre {
      */
     public GroupeMembre(MembreRole role, LocalDateTime dateAdhesion, Groupe groupe,
             Utilisateur utilisateur) {
-        this.id = new GroupeMembreId(utilisateur.getIdU(), groupe.getIdGroupe());
+        this.id = new GroupeMembreId(groupe.getIdGroupe(), utilisateur.getIdU());
         this.role = role;
         this.dateAdhesion = dateAdhesion;
         this.groupe = groupe;

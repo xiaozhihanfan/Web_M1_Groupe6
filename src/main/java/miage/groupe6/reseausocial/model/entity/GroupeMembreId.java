@@ -15,7 +15,6 @@ import jakarta.persistence.Embeddable;
  * Elle doit être marquée comme {@code Serializable} et redéfinir correctement 
  * les méthodes {@code equals} et {@code hashCode} pour fonctionner avec JPA.
  * 
- * Auteur : Mengyi YANG
  */
 
 @Embeddable
@@ -106,8 +105,5 @@ public class GroupeMembreId implements Serializable{
 
     
 
-    
-
-    
     
 }
